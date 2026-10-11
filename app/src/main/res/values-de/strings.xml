@@ -36,9 +36,9 @@
     <string name="indicator_text">Neue Benachrichtigungen werden beiseitegelegt, bis du sie aufweckst.</string>
 
     <string name="toast_snoozed_from_app">Benachrichtigung von %1$s schlummert</string>
-    <plurals name="toast_snoozed_count">
-        <item quantity="one">%d Benachrichtigung schlummert</item>
-        <item quantity="other">%d Benachrichtigungen schlummern</item>
+    <plurals name="toast_snoozed_apps">
+        <item quantity="one">Benachrichtigungen von %d App schlummern</item>
+        <item quantity="other">Benachrichtigungen von %d Apps schlummern</item>
     </plurals>
     <string name="feedback_snoozed">Benachrichtigungen schlummern</string>
     <string name="feedback_unsnoozed">Benachrichtigungen aufgeweckt</string>

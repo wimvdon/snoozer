@@ -36,10 +36,10 @@
     <string name="indicator_text">Las notificaciones nuevas se apartan hasta que reanudes.</string>
 
     <string name="toast_snoozed_from_app">Notificación de %1$s pospuesta</string>
-    <plurals name="toast_snoozed_count">
-        <item quantity="one">%d notificación pospuesta</item>
-        <item quantity="many">%d notificaciones pospuestas</item>
-        <item quantity="other">%d notificaciones pospuestas</item>
+    <plurals name="toast_snoozed_apps">
+        <item quantity="one">Notificaciones de %d app pospuestas</item>
+        <item quantity="many">Notificaciones de %d apps pospuestas</item>
+        <item quantity="other">Notificaciones de %d apps pospuestas</item>
     </plurals>
     <string name="feedback_snoozed">Notificaciones pospuestas</string>
     <string name="feedback_unsnoozed">Notificaciones reanudadas</string>

@@ -7,8 +7,9 @@ import io.github.impca201.snoozer.R
 
 /**
  * Shows "Notification from {app} snoozed" toasts. Bursts (for example when snoozing is switched
- * on with many notifications present) are merged into a single counting toast, which also keeps
- * us below the platform's toast rate limit.
+ * on with many notifications present) are merged into one toast, which also keeps us below the
+ * platform's toast rate limit: several notifications from one app still name that app, and
+ * notifications from several apps become "Notifications from N apps snoozed".
  *
  * Must be used from the main thread.
  */
@@ -16,19 +17,24 @@ class SnoozeToaster(
     private val context: Context,
 ) {
     private var toast: Toast? = null
-    private var burstCount = 0
+    private val burstPackages = LinkedHashSet<String>()
     private var lastShownAt = 0L
 
-    fun announce(appName: CharSequence) {
+    fun announce(
+        packageName: String,
+        appName: CharSequence,
+    ) {
         val now = SystemClock.elapsedRealtime()
-        burstCount = if (now - lastShownAt < BURST_WINDOW_MS) burstCount + 1 else 1
+        if (now - lastShownAt >= BURST_WINDOW_MS) burstPackages.clear()
+        burstPackages += packageName
         lastShownAt = now
 
+        val appCount = burstPackages.size
         val text =
-            if (burstCount == 1) {
+            if (appCount == 1) {
                 context.getString(R.string.toast_snoozed_from_app, appName)
             } else {
-                context.resources.getQuantityString(R.plurals.toast_snoozed_count, burstCount, burstCount)
+                context.resources.getQuantityString(R.plurals.toast_snoozed_apps, appCount, appCount)
             }
         toast?.cancel()
         toast = Toast.makeText(context, text, Toast.LENGTH_SHORT).also { it.show() }

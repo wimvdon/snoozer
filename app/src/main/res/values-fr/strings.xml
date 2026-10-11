@@ -36,10 +36,10 @@
     <string name="indicator_text">Les nouvelles notifications sont mises de côté jusqu\'à la reprise.</string>
 
     <string name="toast_snoozed_from_app">Notification de %1$s mise en pause</string>
-    <plurals name="toast_snoozed_count">
-        <item quantity="one">%d notification mise en pause</item>
-        <item quantity="many">%d notifications mises en pause</item>
-        <item quantity="other">%d notifications mises en pause</item>
+    <plurals name="toast_snoozed_apps">
+        <item quantity="one">Notifications de %d appli mises en pause</item>
+        <item quantity="many">Notifications de %d applis mises en pause</item>
+        <item quantity="other">Notifications de %d applis mises en pause</item>
     </plurals>
     <string name="feedback_snoozed">Notifications mises en pause</string>
     <string name="feedback_unsnoozed">Notifications réactivées</string>

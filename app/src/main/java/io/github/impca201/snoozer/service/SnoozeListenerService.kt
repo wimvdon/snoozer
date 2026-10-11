@@ -1,5 +1,6 @@
 package io.github.impca201.snoozer.service
 
+import android.app.Notification
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.os.Build
@@ -114,7 +115,10 @@ class SnoozeListenerService : NotificationListenerService() {
         if (firstTime) {
             // App scope: the write must finish even if the listener disconnects right now.
             snoozerApp.appScope.launch { repository.addSnoozedKey(key) }
-            if (repository.toastEnabled.value) toaster.announce(appLabel(sbn))
+            // Group summaries are invisible bookkeeping posted next to the real notification
+            // (e.g. one chat message = message + summary); announcing them doubled the count.
+            val isGroupSummary = sbn.notification.flags and Notification.FLAG_GROUP_SUMMARY != 0
+            if (repository.toastEnabled.value && !isGroupSummary) toaster.announce(sbn.packageName, appLabel(sbn))
         }
     }
 

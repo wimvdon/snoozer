@@ -36,9 +36,9 @@
     <string name="indicator_text">Nieuwe meldingen worden opzijgezet tot je stopt met snoozen.</string>
 
     <string name="toast_snoozed_from_app">Melding van %1$s gesnoozed</string>
-    <plurals name="toast_snoozed_count">
-        <item quantity="one">%d melding gesnoozed</item>
-        <item quantity="other">%d meldingen gesnoozed</item>
+    <plurals name="toast_snoozed_apps">
+        <item quantity="one">Meldingen van %d app gesnoozed</item>
+        <item quantity="other">Meldingen van %d apps gesnoozed</item>
     </plurals>
     <string name="feedback_snoozed">Meldingen gesnoozed</string>
     <string name="feedback_unsnoozed">Meldingen weer aan</string>

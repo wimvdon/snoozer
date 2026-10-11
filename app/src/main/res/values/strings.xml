@@ -42,9 +42,9 @@
 
     <!-- Toasts -->
     <string name="toast_snoozed_from_app">Notification from %1$s snoozed</string>
-    <plurals name="toast_snoozed_count">
-        <item quantity="one">%d notification snoozed</item>
-        <item quantity="other">%d notifications snoozed</item>
+    <plurals name="toast_snoozed_apps">
+        <item quantity="one">Notifications from %d app snoozed</item>
+        <item quantity="other">Notifications from %d apps snoozed</item>
     </plurals>
     <string name="feedback_snoozed">Notifications snoozed</string>
     <string name="feedback_unsnoozed">Notifications unsnoozed</string>
