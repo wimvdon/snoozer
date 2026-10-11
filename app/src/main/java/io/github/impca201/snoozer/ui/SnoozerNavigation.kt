@@ -67,10 +67,12 @@ fun SnoozerNavigation(
     val context = LocalContext.current
     var canPostNotifications by remember { mutableStateOf(SnoozeIndicator.canPost(context)) }
     var hasPolicyAccess by remember { mutableStateOf(SnoozeMode.hasAccess(context)) }
+    var bedtimeReady by remember { mutableStateOf(BedtimeMonitor.hasPermissions(context)) }
     LifecycleResumeEffect(Unit) {
         // Permission or access may have changed in Settings while we were away.
         canPostNotifications = SnoozeIndicator.canPost(context)
         hasPolicyAccess = SnoozeMode.hasAccess(context)
+        bedtimeReady = BedtimeMonitor.hasPermissions(context)
         app.refreshSnoozeCues()
         onPauseOrDispose { }
     }
@@ -164,6 +166,7 @@ fun SnoozerNavigation(
                             modeBlocked = modeEnabled && !hasPolicyAccess,
                             modeName = modeName,
                             followBedtime = followBedtime,
+                            bedtimeReady = bedtimeReady,
                             bedtimeStatus = bedtimeStatus,
                         ),
                     actions =
@@ -184,13 +187,17 @@ fun SnoozerNavigation(
                                     SnoozeMode.rename(app, name)
                                 }
                             },
+                            onOpenModeSettings = { SnoozeMode.openSettings(context) },
                             onFollowBedtimeChange = { enabled ->
                                 app.appScope.launch {
                                     repository.setFollowBedtime(enabled)
                                     BedtimeMonitor.read(app)
                                 }
                             },
-                            onBedtimeCheckNow = { app.appScope.launch { BedtimeMonitor.read(app) } },
+                            onBedtimeCheckNow = {
+                                bedtimeReady = BedtimeMonitor.hasPermissions(context)
+                                app.appScope.launch { BedtimeMonitor.read(app) }
+                            },
                         ),
                     onBack = ::pop,
                 )

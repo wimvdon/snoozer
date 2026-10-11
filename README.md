@@ -96,7 +96,7 @@ Calls, alarms, music controls, navigation and other notifications you can't swip
 
 ### The Settings page
 
-Everything else lives on one page. In Snoozer, tap the **cogwheel** icon at the top right. You see five sections; tap a section's title to open or close it.
+Everything else lives on one page. In Snoozer, tap the **cogwheel** icon at the top right. You see six sections; tap a section's title to open or close it.
 
 #### Toast notification
 
@@ -120,17 +120,17 @@ Note: if you use a Do Not Disturb profile that hides notifications, it hides thi
 Snoozer can switch on a mode of its own while snoozing, so you can attach Android's mode effects to snoozing: for example dim the wallpaper, dark theme, or who can still reach you. This is off by default.
 
 1. Open **Mode** and switch on **Turn on a mode while snoozing**.
-2. Snoozer adds a mode called **Snoozer** under **Settings** › **Modes**. It starts with Android's default settings and Snoozer never changes them.
-3. Open **Settings** › **Modes** › **Snoozer** on your phone and choose what it should do. It can be combined with your other modes.
+2. Snoozer adds a mode called **Snoozer** under **Settings** › **Modes**. Snoozer never changes what it does; that's up to you.
+3. Tap **Open mode settings** and choose what the mode should do. It can be combined with your other modes.
 4. Want a different name? Type it in the **Mode name** field in Snoozer and tap **Save**.
 5. If you see **Needs Do Not Disturb access. Tap to allow.**, tap it, switch on **Snoozer** in the list and go back.
 6. Switch the setting off again and Snoozer removes the mode, including your changes to it.
 
 On Android 14 and older this section says **Requires Android 15 or newer**.
 
-#### Follow Bedtime (experimental)
+#### Follow Bedtime
 
-On Pixel phones, Snoozer can snooze automatically while Bedtime mode is on, and unsnooze when it ends. If you snooze or unsnooze yourself during Bedtime, Snoozer leaves it that way. There is no background service: Snoozer only checks when Do Not Disturb or a mode changes and when you turn on the screen.
+Snoozer can snooze automatically while Bedtime mode is on, and unsnooze when it ends. If you snooze or unsnooze yourself during Bedtime, Snoozer leaves it that way. This is experimental: it is only tested on Pixel phones and may change in future versions.
 
 Android only shares which mode is on with apps that have two special permissions, and you can only grant those from a computer. You do this once:
 
@@ -139,7 +139,7 @@ Android only shares which mode is on with apps that have two special permissions
 3. Open **Settings** › **System** › **Developer options** and switch on **USB debugging**.
 4. Connect the phone to the PC with the USB cable. On the phone, tap **Allow** when it asks **Allow USB debugging?**
 5. On the PC, open the `platform-tools` folder in File Explorer, click the address bar, type `cmd` and press **Enter**.
-6. In Snoozer, open **Settings** › **Follow Bedtime (experimental)** › **One-time setup** and tap **Copy commands**. Send the two commands to your PC (for example by email), or type them over:
+6. In Snoozer, open **Settings** › **Follow Bedtime** › **One-time setup** and tap **Copy commands**. Send the two commands to your PC (for example by email), or type them over:
 
    ```
    adb shell pm grant io.github.impca201.snoozer android.permission.DUMP
@@ -147,7 +147,7 @@ Android only shares which mode is on with apps that have two special permissions
    ```
 
 7. Paste or type each command in the black window and press **Enter**. If nothing is printed, it worked.
-8. In Snoozer, switch on **Snooze during Bedtime** and tap **Check now**. It should say **Bedtime is off right now** (or on, if it is).
+8. In Snoozer, tap **Check now**, then switch on **Snooze during Bedtime** (the switch stays grey until the commands have run). It should say **Bedtime is off right now** (or on, if it is).
 
 If it says **Can't read the Bedtime status on this phone.**, this Android version stores the information differently. Please [open an issue](https://github.com/impca201/snoozer/issues) and mention your phone and Android version. You need to repeat the setup after reinstalling Snoozer, but not after updates.
 
@@ -157,11 +157,11 @@ Open **Shortcuts**. It has three parts:
 
 - **Quick Settings tile**: on Android 13 and newer, tap **Add tile** and then **Add tile** again in the confirmation. On older phones, follow the four steps on screen.
 - **Launcher shortcut**: touch and hold the Snoozer icon on your home screen and tap **Snooze on/off**.
-- **Gesture: tap the back of your phone**: on a Pixel phone, go to **Settings** › **System** › **Gestures** › **Quick Tap to start actions**, switch it on, choose **Open app**, tap the settings icon next to **Snoozer** and pick **Snooze on/off**. Now double-tapping the back of the phone switches snoozing on or off.
+- **Gesture: tap the back of your phone** (Pixel only): go to **Settings** › **System** › **Gestures** › **Quick Tap to start actions**, switch it on, choose **Open app**, tap the settings icon next to **Snoozer** and pick **Snooze on/off**. Now double-tapping the back of the phone switches snoozing on or off.
 
-#### Tasker automation
+#### Tasker plugin
 
-Open **Tasker automation**. Snoozer has no schedules or triggers of its own, so it needs no background service; the automation app Tasker does that part. The section explains how to add the Snoozer action and gives an example that snoozes every night from 22:00 to 07:00. Snoozer also works with MacroDroid, Automate and other apps that support Tasker plug-ins.
+Open **Tasker plugin**. Snoozer has no schedules or triggers of its own, so it needs no background service; the automation app Tasker does that part. The section explains how to add the Snoozer action to a Tasker task. Snoozer also works with MacroDroid, Automate and other apps that support Tasker plug-ins.
 
 ## Chapter 7: Prepare the app for the Google Play Store
 
@@ -205,7 +205,7 @@ Apps on Google Play must be signed with your personal **upload key**: a small fi
 2. Type `build.bat bundle` and press **Enter**.
 3. When you see `[OK] Done.`, open **app** › **build** › **outputs** › **bundle** › **release**. The file **app-release.aab** is what you upload to Google Play Console.
 
-Before publishing, read [AUDIT.md](AUDIT.md). Its last section is a checklist for the store listing and privacy policy.
+Before publishing, host [PRIVACY.md](PRIVACY.md) somewhere public (Google Play asks for its web address) and prepare the store listing.
 
 ## Chapter 8: Troubleshooting
 
@@ -231,8 +231,6 @@ Unlock the phone, then swipe down and choose **File transfer** again (Chapter 4,
 
 - **Stack**: Kotlin, Jetpack Compose, Material 3 (dynamic colour, Expressive shapes via `androidx.graphics:graphics-shapes`), DataStore. AGP 9.4.1 with built-in Kotlin 2.4, Gradle 9.8, compile/target SDK 37, min SDK 26.
 - **How snoozing works**: a `NotificationListenerService` snoozes every clearable notification in 7-day chunks and re-snoozes anything that resurfaces. Android has no public "unsnooze", so restoring re-snoozes each stored key for one second. All entry points (UI, tile, shortcut, Tasker) only write the DataStore switch; the listener observes it.
-- **CI**: `.github/workflows/android.yml` builds debug and release, runs unit tests and Android lint on every push.
-- **Quality**: see [AUDIT.md](AUDIT.md) for the pre-publication audit.
 
 ```
 app/src/main/java/io/github/impca201/snoozer/
