@@ -69,9 +69,7 @@ Signed APKs are built and published by GitHub Actions only.
 | `ANDROID_KEY_ALIAS` | Key alias, e.g. `upload` |
 | `ANDROID_KEY_PASSWORD` | Key password |
 
-**To release:** open **Actions › Release › Run workflow**, set **Release** to `patch` (1.0.1 → 1.0.2), `minor` (1.0.1 → 1.1.0) or `major` (1.0.1 → 2.0.0), and run it. It picks the next version after the latest tag and publishes the APK on the [Releases](https://github.com/impca201/snoozer/releases) page a few minutes later. Pushing a tag like `v1.2.0` works too. The version code is `major × 10000 + minor × 100 + patch`, so each new tag must be higher than the last.
-
-To try a build without publishing, leave **Release** at `none`; the APK appears under **Artifacts** on that run (a debug APK if the signing secrets are missing).
+**To release:** open **Actions › Release › Run workflow**, enter a version such as `1.0.1`, and run it. Pushing a tag like `v1.0.1` works too. A few minutes later the APK is on the [Releases](https://github.com/impca201/snoozer/releases) page. The version code increases automatically.
 
 ## How it works
 
