@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.CoroutineScope
@@ -60,19 +61,70 @@ class SnoozeRepository(
         dataStore.edit { it[INDICATOR_ENABLED] = enabled }
     }
 
-    /** Opt-in (Android 15+): run a Snoozer "mode" that only dims the wallpaper while snoozing. */
-    val dimEnabled: StateFlow<Boolean> =
+    /** Opt-in (Android 15+): turn on Snoozer's own mode (Settings › Modes) while snoozing. */
+    val modeEnabled: StateFlow<Boolean> =
         preferences
-            .map { it[DIM_ENABLED] ?: false }
+            .map { it[MODE_ENABLED] ?: false }
             .distinctUntilChanged()
             .stateIn(scope, SharingStarted.Eagerly, false)
 
-    suspend fun setDimEnabled(enabled: Boolean) {
-        dataStore.edit { it[DIM_ENABLED] = enabled }
+    suspend fun setModeEnabled(enabled: Boolean) {
+        dataStore.edit { it[MODE_ENABLED] = enabled }
     }
 
+    /** Custom name for Snoozer's mode; empty means the app name. */
+    val modeName: StateFlow<String> =
+        preferences
+            .map { it[MODE_NAME].orEmpty() }
+            .distinctUntilChanged()
+            .stateIn(scope, SharingStarted.Eagerly, "")
+
+    suspend fun setModeName(name: String) {
+        dataStore.edit { it[MODE_NAME] = name.trim() }
+    }
+
+    /** Experimental: snooze while Pixel Bedtime is on (needs adb-granted permissions). */
+    val followBedtime: StateFlow<Boolean> =
+        preferences
+            .map { it[FOLLOW_BEDTIME] ?: false }
+            .distinctUntilChanged()
+            .stateIn(scope, SharingStarted.Eagerly, false)
+
+    suspend fun setFollowBedtime(enabled: Boolean) {
+        dataStore.edit {
+            it[FOLLOW_BEDTIME] = enabled
+            // Start fresh: the first check after enabling counts as a change.
+            it.remove(BEDTIME_LAST_ACTIVE)
+            it.remove(BEDTIME_SNOOZED)
+        }
+    }
+
+    /**
+     * Applies a Bedtime reading. Acts only when Bedtime changes, so a manual snooze or
+     * unsnooze during Bedtime is respected, and only undoes a snooze the sync started itself.
+     */
+    suspend fun onBedtimeReading(active: Boolean) {
+        dataStore.edit {
+            val last = it[BEDTIME_LAST_ACTIVE]
+            it[BEDTIME_LAST_ACTIVE] = active
+            if (last == active) return@edit
+            val snoozed = it[SNOOZE_ENABLED] ?: false
+            if (active && !snoozed) {
+                it[SNOOZE_ENABLED] = true
+                it[BEDTIME_SNOOZED] = true
+            } else if (!active) {
+                if (it[BEDTIME_SNOOZED] == true && snoozed) it[SNOOZE_ENABLED] = false
+                it.remove(BEDTIME_SNOOZED)
+            }
+        }
+    }
+
+    /** A manual change (app, tile, shortcut, Tasker): the Bedtime sync no longer owns the snooze. */
     suspend fun setSnoozeEnabled(enabled: Boolean) {
-        dataStore.edit { it[SNOOZE_ENABLED] = enabled }
+        dataStore.edit {
+            it[SNOOZE_ENABLED] = enabled
+            it.remove(BEDTIME_SNOOZED)
+        }
     }
 
     /** Atomically flips the switch and returns the new value. */
@@ -81,6 +133,7 @@ class SnoozeRepository(
         dataStore.edit {
             newValue = !(it[SNOOZE_ENABLED] ?: false)
             it[SNOOZE_ENABLED] = newValue
+            it.remove(BEDTIME_SNOOZED)
         }
         return newValue
     }
@@ -114,7 +167,11 @@ class SnoozeRepository(
         val SNOOZE_ENABLED = booleanPreferencesKey("snooze_enabled")
         val TOAST_ENABLED = booleanPreferencesKey("toast_enabled")
         val INDICATOR_ENABLED = booleanPreferencesKey("indicator_enabled")
-        val DIM_ENABLED = booleanPreferencesKey("dim_enabled")
+        val MODE_ENABLED = booleanPreferencesKey("dim_enabled") // Historical key name.
+        val MODE_NAME = stringPreferencesKey("mode_name")
+        val FOLLOW_BEDTIME = booleanPreferencesKey("follow_bedtime")
+        val BEDTIME_LAST_ACTIVE = booleanPreferencesKey("bedtime_last_active")
+        val BEDTIME_SNOOZED = booleanPreferencesKey("bedtime_snoozed")
         val SNOOZED_KEYS = stringSetPreferencesKey("snoozed_keys")
 
         /** The platform caps concurrent snoozes well below this; it only bounds storage. */

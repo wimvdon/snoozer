@@ -31,6 +31,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import io.github.impca201.snoozer.bedtime.BedtimeMonitor
 import io.github.impca201.snoozer.service.NotificationAccess
 import io.github.impca201.snoozer.service.SnoozeIndicator
 import io.github.impca201.snoozer.service.SnoozeMode
@@ -58,7 +59,10 @@ fun SnoozerNavigation(
     val snoozed by repository.snoozeEnabled.collectAsStateWithLifecycle()
     val toastEnabled by repository.toastEnabled.collectAsStateWithLifecycle()
     val indicatorEnabled by repository.indicatorEnabled.collectAsStateWithLifecycle()
-    val dimEnabled by repository.dimEnabled.collectAsStateWithLifecycle()
+    val modeEnabled by repository.modeEnabled.collectAsStateWithLifecycle()
+    val modeName by repository.modeName.collectAsStateWithLifecycle()
+    val followBedtime by repository.followBedtime.collectAsStateWithLifecycle()
+    val bedtimeStatus by BedtimeMonitor.status.collectAsStateWithLifecycle()
     val accessGranted = rememberNotificationAccessGranted()
     val context = LocalContext.current
     var canPostNotifications by remember { mutableStateOf(SnoozeIndicator.canPost(context)) }
@@ -147,15 +151,20 @@ fun SnoozerNavigation(
             }
 
             Destination.Settings -> {
+                // One fresh Bedtime reading so the status line is current.
+                LaunchedEffect(Unit) { app.appScope.launch { BedtimeMonitor.read(app) } }
                 SettingsScreen(
                     state =
                         SettingsState(
                             toastEnabled = toastEnabled,
                             indicatorEnabled = indicatorEnabled,
                             indicatorBlocked = indicatorEnabled && !canPostNotifications,
-                            dimSupported = SnoozeMode.isSupported(),
-                            dimEnabled = dimEnabled,
-                            dimBlocked = dimEnabled && !hasPolicyAccess,
+                            modeSupported = SnoozeMode.isSupported(),
+                            modeEnabled = modeEnabled,
+                            modeBlocked = modeEnabled && !hasPolicyAccess,
+                            modeName = modeName,
+                            followBedtime = followBedtime,
+                            bedtimeStatus = bedtimeStatus,
                         ),
                     actions =
                         SettingsActions(
@@ -164,11 +173,24 @@ fun SnoozerNavigation(
                                 app.appScope.launch { repository.setIndicatorEnabled(enabled) }
                                 if (enabled) ensureCanPostNotifications(fromSettingsItem = true)
                             },
-                            onDimEnabledChange = { enabled ->
-                                app.appScope.launch { repository.setDimEnabled(enabled) }
+                            onModeEnabledChange = { enabled ->
+                                app.appScope.launch { repository.setModeEnabled(enabled) }
                                 // Normally already granted together with notification access.
                                 if (enabled && !SnoozeMode.hasAccess(context)) openPolicyAccessSettings(context)
                             },
+                            onModeNameSave = { name ->
+                                app.appScope.launch {
+                                    repository.setModeName(name)
+                                    SnoozeMode.rename(app, name)
+                                }
+                            },
+                            onFollowBedtimeChange = { enabled ->
+                                app.appScope.launch {
+                                    repository.setFollowBedtime(enabled)
+                                    BedtimeMonitor.read(app)
+                                }
+                            },
+                            onBedtimeCheckNow = { app.appScope.launch { BedtimeMonitor.read(app) } },
                         ),
                     onBack = ::pop,
                 )

@@ -113,18 +113,43 @@ While snoozing, Snoozer shows a silent notification called **Snoozing notificati
 
 If you see **Notifications are off for Snoozer. Tap to allow.**, tap it. Android either asks for permission again or opens Snoozer's notification settings: switch on **All Snoozer notifications** there, then go back.
 
-Note: if you use a Do Not Disturb profile that hides notifications, it hides this icon too. The Mode below doesn't have that problem.
+Note: if you use a Do Not Disturb profile that hides notifications, it hides this icon too. As an alternative signal, use the Mode below and give it an effect such as **Dim the wallpaper** in Android's Settings.
 
 #### Mode (Android 15 and newer)
 
-Snoozer can dim your wallpaper while snoozing, as a calm signal that snoozing is on. This is off by default.
+Snoozer can switch on a mode of its own while snoozing, so you can attach Android's mode effects to snoozing: for example dim the wallpaper, dark theme, or who can still reach you. This is off by default.
 
-1. Open **Mode** and switch on **Dim wallpaper while snoozing**.
-2. Snoozer adds its own mode, called **Snoozer**, under **Settings** › **Modes**. It lets every notification through and only dims the wallpaper, so it doesn't interfere with your own modes.
-3. If you see **Needs Do Not Disturb access. Tap to allow.**, tap it, switch on **Snoozer** in the list and go back.
-4. Switch the setting off again and Snoozer removes the mode.
+1. Open **Mode** and switch on **Turn on a mode while snoozing**.
+2. Snoozer adds a mode called **Snoozer** under **Settings** › **Modes**. It starts with Android's default settings and Snoozer never changes them.
+3. Open **Settings** › **Modes** › **Snoozer** on your phone and choose what it should do. It can be combined with your other modes.
+4. Want a different name? Type it in the **Mode name** field in Snoozer and tap **Save**.
+5. If you see **Needs Do Not Disturb access. Tap to allow.**, tap it, switch on **Snoozer** in the list and go back.
+6. Switch the setting off again and Snoozer removes the mode, including your changes to it.
 
 On Android 14 and older this section says **Requires Android 15 or newer**.
+
+#### Follow Bedtime (experimental)
+
+On Pixel phones, Snoozer can snooze automatically while Bedtime mode is on, and unsnooze when it ends. If you snooze or unsnooze yourself during Bedtime, Snoozer leaves it that way. There is no background service: Snoozer only checks when Do Not Disturb or a mode changes and when you turn on the screen.
+
+Android only shares which mode is on with apps that have two special permissions, and you can only grant those from a computer. You do this once:
+
+1. On your PC, download **SDK Platform-Tools** from **https://developer.android.com/tools/releases/platform-tools** and extract the ZIP. You get a folder called `platform-tools`.
+2. On your phone, turn on **Developer options**: open **Settings** › **About phone** and tap **Build number** seven times until it says you are a developer.
+3. Open **Settings** › **System** › **Developer options** and switch on **USB debugging**.
+4. Connect the phone to the PC with the USB cable. On the phone, tap **Allow** when it asks **Allow USB debugging?**
+5. On the PC, open the `platform-tools` folder in File Explorer, click the address bar, type `cmd` and press **Enter**.
+6. In Snoozer, open **Settings** › **Follow Bedtime (experimental)** › **One-time setup** and tap **Copy commands**. Send the two commands to your PC (for example by email), or type them over:
+
+   ```
+   adb shell pm grant io.github.impca201.snoozer android.permission.DUMP
+   adb shell pm grant io.github.impca201.snoozer android.permission.PACKAGE_USAGE_STATS
+   ```
+
+7. Paste or type each command in the black window and press **Enter**. If nothing is printed, it worked.
+8. In Snoozer, switch on **Snooze during Bedtime** and tap **Check now**. It should say **Bedtime is off right now** (or on, if it is).
+
+If it says **Can't read the Bedtime status on this phone.**, this Android version stores the information differently. Please [open an issue](https://github.com/impca201/snoozer/issues) and mention your phone and Android version. You need to repeat the setup after reinstalling Snoozer, but not after updates.
 
 #### Shortcuts
 
