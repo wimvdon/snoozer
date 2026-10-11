@@ -49,6 +49,17 @@ class SnoozeRepository(
             .distinctUntilChanged()
             .stateIn(scope, SharingStarted.Eagerly, false)
 
+    /** Whether to show the persistent "Snoozing notifications" notification while snoozing. */
+    val indicatorEnabled: StateFlow<Boolean> =
+        preferences
+            .map { it[INDICATOR_ENABLED] ?: true }
+            .distinctUntilChanged()
+            .stateIn(scope, SharingStarted.Eagerly, true)
+
+    suspend fun setIndicatorEnabled(enabled: Boolean) {
+        dataStore.edit { it[INDICATOR_ENABLED] = enabled }
+    }
+
     suspend fun setSnoozeEnabled(enabled: Boolean) {
         dataStore.edit { it[SNOOZE_ENABLED] = enabled }
     }
@@ -91,6 +102,7 @@ class SnoozeRepository(
     private companion object {
         val SNOOZE_ENABLED = booleanPreferencesKey("snooze_enabled")
         val TOAST_ENABLED = booleanPreferencesKey("toast_enabled")
+        val INDICATOR_ENABLED = booleanPreferencesKey("indicator_enabled")
         val SNOOZED_KEYS = stringSetPreferencesKey("snoozed_keys")
 
         /** The platform caps concurrent snoozes well below this; it only bounds storage. */

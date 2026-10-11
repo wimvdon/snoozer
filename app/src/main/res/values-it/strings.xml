@@ -27,6 +27,13 @@
     <string name="menu_settings">Impostazioni</string>
     <string name="setting_toast_title">Attiva messaggio toast</string>
     <string name="setting_toast_summary">Mostra per un attimo di quale app era la notifica posticipata</string>
+    <string name="setting_indicator_title">Mostra notifica persistente</string>
+    <string name="setting_indicator_summary">Una notifica silenziosa con un pulsante Riprendi mentre le notifiche sono posticipate</string>
+    <string name="setting_indicator_blocked">Le notifiche di Snoozer sono disattivate. Tocca per consentirle.</string>
+    <string name="indicator_channel_name">Stato posticipo</string>
+    <string name="indicator_channel_description">Indica che le notifiche sono posticipate</string>
+    <string name="indicator_title">Notifiche posticipate</string>
+    <string name="indicator_text">Le nuove notifiche vengono messe da parte finché non riprendi.</string>
 
     <string name="toast_snoozed_from_app">Notifica di %1$s posticipata</string>
     <plurals name="toast_snoozed_count">

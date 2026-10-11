@@ -27,6 +27,13 @@
     <string name="menu_settings">Paramètres</string>
     <string name="setting_toast_title">Activer le message toast</string>
     <string name="setting_toast_summary">Indique brièvement de quelle app provenait la notification mise en pause</string>
+    <string name="setting_indicator_title">Afficher une notification permanente</string>
+    <string name="setting_indicator_summary">Une notification silencieuse avec un bouton Reprendre pendant la pause</string>
+    <string name="setting_indicator_blocked">Les notifications de Snoozer sont désactivées. Appuyez pour les autoriser.</string>
+    <string name="indicator_channel_name">État de la pause</string>
+    <string name="indicator_channel_description">Indique que les notifications sont en pause</string>
+    <string name="indicator_title">Notifications en pause</string>
+    <string name="indicator_text">Les nouvelles notifications sont mises de côté jusqu\'à la reprise.</string>
 
     <string name="toast_snoozed_from_app">Notification de %1$s mise en pause</string>
     <plurals name="toast_snoozed_count">

@@ -8,12 +8,14 @@ import android.service.quicksettings.TileService
 import android.util.Log
 import io.github.impca201.snoozer.data.SnoozeRepository
 import io.github.impca201.snoozer.service.NotificationAccess
+import io.github.impca201.snoozer.service.SnoozeIndicator
 import io.github.impca201.snoozer.service.SnoozeListenerService
 import io.github.impca201.snoozer.tile.SnoozeTileService
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 
@@ -25,9 +27,28 @@ class SnoozerApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        SnoozeIndicator.createChannel(this)
         appScope.launch {
             repository.snoozeEnabled.filterNotNull().collect { onSnoozeStateChanged() }
         }
+        appScope.launch {
+            combine(repository.snoozeEnabled.filterNotNull(), repository.indicatorEnabled) { _, _ -> }
+                .collect { refreshIndicator() }
+        }
+    }
+
+    /** True while the persistent "Snoozing notifications" notification should be visible. */
+    fun indicatorWanted(): Boolean =
+        repository.snoozeEnabled.value == true &&
+            repository.indicatorEnabled.value &&
+            NotificationAccess.isGranted(this)
+
+    /**
+     * Shows or hides the persistent notification. Also called when the app resumes, because
+     * notification permission or access may have changed in Settings meanwhile.
+     */
+    fun refreshIndicator() {
+        SnoozeIndicator.update(this, indicatorWanted())
     }
 
     /** Keeps every surface (tile, listener) in sync no matter where the toggle came from. */

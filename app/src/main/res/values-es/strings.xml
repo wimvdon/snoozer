@@ -27,6 +27,13 @@
     <string name="menu_settings">Ajustes</string>
     <string name="setting_toast_title">Activar aviso emergente</string>
     <string name="setting_toast_summary">Muestra brevemente de qué app era la notificación pospuesta</string>
+    <string name="setting_indicator_title">Mostrar notificación persistente</string>
+    <string name="setting_indicator_summary">Una notificación silenciosa con un botón Reanudar mientras se pospone</string>
+    <string name="setting_indicator_blocked">Las notificaciones de Snoozer están desactivadas. Toca para permitirlas.</string>
+    <string name="indicator_channel_name">Estado de posposición</string>
+    <string name="indicator_channel_description">Indica que las notificaciones están pospuestas</string>
+    <string name="indicator_title">Notificaciones pospuestas</string>
+    <string name="indicator_text">Las notificaciones nuevas se apartan hasta que reanudes.</string>
 
     <string name="toast_snoozed_from_app">Notificación de %1$s pospuesta</string>
     <plurals name="toast_snoozed_count">
