@@ -1,6 +1,6 @@
 # Snoozer privacy policy
 
-_Last updated: 11 October 2026_
+_Last updated: 11 October 2026 (Follow Bedtime added)_
 
 Snoozer is designed to collect nothing.
 
@@ -29,6 +29,12 @@ uninstall the app.
 
 Nothing. Snoozer does not request the internet permission, contains no analytics, advertising or
 crash-reporting SDKs, and cannot send data anywhere.
+
+## Follow Bedtime (optional)
+
+If you grant the two permissions for **Follow Bedtime** with adb and switch it on, Snoozer asks
+Android, on your device, which modes are currently active. It only looks at that list to see
+whether Bedtime is on; nothing from it is stored or sent anywhere.
 
 ## Automation apps
 

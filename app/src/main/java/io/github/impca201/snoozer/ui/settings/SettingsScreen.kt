@@ -82,6 +82,7 @@ data class SettingsState(
     val modeBlocked: Boolean,
     val modeName: String,
     val followBedtime: Boolean,
+    val bedtimeReady: Boolean,
     val bedtimeStatus: BedtimeMonitor.Status?,
 )
 
@@ -90,6 +91,7 @@ class SettingsActions(
     val onIndicatorEnabledChange: (Boolean) -> Unit,
     val onModeEnabledChange: (Boolean) -> Unit,
     val onModeNameSave: (String) -> Unit,
+    val onOpenModeSettings: () -> Unit,
     val onFollowBedtimeChange: (Boolean) -> Unit,
     val onBedtimeCheckNow: () -> Unit,
 )
@@ -133,7 +135,6 @@ private fun IndicatorSection(
             warning = if (state.indicatorBlocked) stringResource(R.string.setting_indicator_blocked) else null,
             onWarningClick = { actions.onIndicatorEnabledChange(true) },
         )
-        SectionText(stringResource(R.string.setting_indicator_details))
     }
 }
 
@@ -165,6 +166,15 @@ private fun ModeSection(
         if (state.modeSupported) {
             ModeNameField(current = displayName, onSave = actions.onModeNameSave)
             SectionText(stringResource(R.string.setting_mode_details, appName, displayName))
+            if (state.modeEnabled && !state.modeBlocked) {
+                FilledTonalButton(onClick = actions.onOpenModeSettings, modifier = Modifier.fillMaxWidth()) {
+                    Icon(painterResource(R.drawable.ic_open_in_new), contentDescription = null)
+                    Text(
+                        text = stringResource(R.string.setting_mode_open),
+                        modifier = Modifier.padding(start = ButtonIconSpacing),
+                    )
+                }
+            }
         }
     }
 }
@@ -207,11 +217,14 @@ private fun BedtimeSection(
         summary = onOff(state.followBedtime),
         iconRes = R.drawable.ic_bedtime,
     ) {
+        InfoBanner(stringResource(R.string.bedtime_experimental))
         SwitchSetting(
             title = stringResource(R.string.setting_bedtime_title),
             summary = stringResource(R.string.setting_bedtime_summary),
             checked = state.followBedtime,
             onCheckedChange = actions.onFollowBedtimeChange,
+            // Needs the adb permissions first; switching off always stays possible.
+            enabled = state.bedtimeReady || state.followBedtime,
         )
         state.bedtimeStatus?.let { status ->
             Text(
@@ -228,9 +241,20 @@ private fun BedtimeSection(
         OutlinedButton(onClick = actions.onBedtimeCheckNow, modifier = Modifier.fillMaxWidth()) {
             Text(stringResource(R.string.bedtime_check_now))
         }
-        SectionText(stringResource(R.string.bedtime_details))
-        CollapsibleSubsection(key = "bedtime-setup", title = stringResource(R.string.bedtime_setup_title)) {
-            SectionText(stringResource(R.string.bedtime_setup))
+        CollapsibleSubsection(
+            key = "bedtime-setup",
+            title = stringResource(R.string.bedtime_setup_title),
+            initiallyExpanded = !state.bedtimeReady,
+        ) {
+            NumberedSteps(
+                listOf(
+                    stringResource(R.string.bedtime_step1),
+                    stringResource(R.string.bedtime_step2),
+                    stringResource(R.string.bedtime_step3),
+                    stringResource(R.string.bedtime_step4),
+                    stringResource(R.string.bedtime_step5),
+                ),
+            )
             SelectionContainer {
                 Text(
                     text = commands,
@@ -245,6 +269,7 @@ private fun BedtimeSection(
             FilledTonalButton(onClick = { copyToClipboard(context, commands) }, modifier = Modifier.fillMaxWidth()) {
                 Text(stringResource(R.string.bedtime_copy))
             }
+            SectionText(stringResource(R.string.bedtime_setup))
         }
     }
 }
@@ -319,6 +344,7 @@ private fun ShortcutsSection() {
             )
         }
         CollapsibleSubsection(key = "shortcuts-gesture", title = stringResource(R.string.guide_gesture_title)) {
+            InfoBanner(stringResource(R.string.guide_gesture_pixel_only))
             NumberedSteps(
                 listOf(
                     stringResource(R.string.guide_gesture_step1),
@@ -364,15 +390,6 @@ private fun TaskerSection() {
                     stringResource(R.string.guide_tasker_step2, appName),
                     stringResource(R.string.guide_tasker_step3),
                     stringResource(R.string.guide_tasker_step4),
-                ),
-            )
-        }
-        CollapsibleSubsection(key = "tasker-example", title = stringResource(R.string.guide_tasker_example_title)) {
-            NumberedSteps(
-                listOf(
-                    stringResource(R.string.guide_tasker_example_step1),
-                    stringResource(R.string.guide_tasker_example_step2, appName),
-                    stringResource(R.string.guide_tasker_example_step3, appName),
                 ),
             )
         }

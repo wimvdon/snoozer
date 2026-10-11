@@ -6,6 +6,7 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -82,9 +83,10 @@ fun CollapsibleSection(
 fun CollapsibleSubsection(
     key: String,
     title: String,
+    initiallyExpanded: Boolean = false,
     content: @Composable () -> Unit,
 ) {
-    var expanded by rememberSaveable(key) { mutableStateOf(false) }
+    var expanded by rememberSaveable(key) { mutableStateOf(initiallyExpanded) }
     Column {
         HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
         ExpandableHeader(
@@ -204,6 +206,31 @@ fun SwitchSetting(
                     },
             )
         }
+    }
+}
+
+/** A small highlighted note, e.g. "experimental" or "only on Pixel". */
+@Composable
+fun InfoBanner(text: String) {
+    Row(
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.secondaryContainer, RoundedCornerShape(16.dp))
+                .padding(horizontal = 16.dp, vertical = 12.dp),
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Icon(
+            painter = painterResource(R.drawable.ic_info),
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.onSecondaryContainer,
+        )
+        Text(
+            text = text,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSecondaryContainer,
+        )
     }
 }
 

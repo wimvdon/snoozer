@@ -2,10 +2,13 @@ package io.github.impca201.snoozer.service
 
 import android.app.AutomaticZenRule
 import android.app.NotificationManager
+import android.content.ActivityNotFoundException
 import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import android.provider.Settings
 import android.service.notification.Condition
 import android.util.Log
 import androidx.annotation.RequiresApi
@@ -75,6 +78,44 @@ object SnoozeMode {
         } catch (error: RuntimeException) {
             // OEM builds or user-managed modes can refuse changes; the mode is a nice-to-have.
             Log.w("Snoozer", "Could not update the Snoozer mode", error)
+        }
+    }
+
+    /** Opens this mode's own page in Android's settings, or the Modes overview as a fallback. */
+    fun openSettings(context: Context) {
+        val ruleId =
+            if (isSupported() && hasAccess(context)) {
+                try {
+                    context
+                        .getSystemService(NotificationManager::class.java)
+                        ?.automaticZenRules
+                        ?.keys
+                        ?.firstOrNull()
+                } catch (_: RuntimeException) {
+                    null
+                }
+            } else {
+                null
+            }
+        val candidates =
+            buildList {
+                if (ruleId != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+                    add(
+                        Intent(Settings.ACTION_AUTOMATIC_ZEN_RULE_SETTINGS)
+                            .putExtra(Settings.EXTRA_AUTOMATIC_ZEN_RULE_ID, ruleId),
+                    )
+                }
+                add(Intent(Settings.ACTION_ZEN_MODE_PRIORITY_SETTINGS))
+                add(Intent(Settings.ACTION_SETTINGS))
+            }
+        for (intent in candidates) {
+            try {
+                if (context !is android.app.Activity) intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                context.startActivity(intent)
+                return
+            } catch (_: ActivityNotFoundException) {
+                // Try the next, more general, screen.
+            }
         }
     }
 
