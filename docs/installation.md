@@ -1,0 +1,92 @@
+# Installation
+
+## Prerequisites
+
+| Requirement | Version | Notes |
+|---|---|---|
+| JDK | 17 or newer | Android Studio's bundled JBR works. CI uses Temurin 21. |
+| Android SDK | Platform 37 | `compileSdk` and `targetSdk` are 37. Install it via Android Studio › **SDK Manager**. |
+| Android device or emulator | Android 8.0+ (API 26) | Some features need newer versions: tile subtitle (10+), add-tile prompt (13+), mode (15+). |
+| Git | any | |
+| adb (Platform-Tools) | optional | Only for `installDebug` and the Follow Bedtime permissions |
+
+Gradle 9.8.1 is downloaded by the wrapper. No environment variables, database or external services are needed.
+
+## 1. Clone the repo
+
+```bash
+git clone https://github.com/impca201/snoozer.git
+cd snoozer
+```
+
+## 2. Point Gradle at the SDK
+
+Opening the project in Android Studio creates `local.properties` automatically. From the command line:
+
+```bash
+echo "sdk.dir=$HOME/Android/Sdk" > local.properties        # Linux; macOS: $HOME/Library/Android/sdk
+```
+
+On Windows, `build.bat` writes `local.properties` from `ANDROID_HOME`, `ANDROID_SDK_ROOT` or `%LOCALAPPDATA%\Android\Sdk`, and finds Android Studio's JDK if `JAVA_HOME` is unset.
+
+## 3. Build
+
+```bash
+./gradlew assembleDebug          # APK: app/build/outputs/apk/debug/app-debug.apk
+```
+
+```bat
+build.bat                        :: same, on Windows
+```
+
+Dependencies are resolved from Google Maven and Maven Central on the first build.
+
+## 4. Run on a device
+
+With USB debugging enabled:
+
+```bash
+./gradlew installDebug           # Windows: build.bat install
+```
+
+Or open the project in Android Studio and press **Run**.
+
+## 5. Grant notification access
+
+Open Snoozer and tap **Enable notification access**. On Android 13+ sideloaded installs can show the switch greyed out; enable **App info › ⋮ › Allow restricted settings** first. Debug builds installed from Android Studio or adb are usually not restricted.
+
+## Verify it works
+
+1. Post any test notification (for example a message to yourself).
+2. Tap **Snooze** in the app: the notification disappears from the shade.
+3. Tap **Unsnooze**: it returns within about a second.
+
+From a shell you can confirm the listener is bound:
+
+```bash
+adb shell cmd notification allowed_listeners | grep snoozer
+```
+
+## Optional: Follow Bedtime permissions
+
+```bash
+adb shell pm grant io.github.impca201.snoozer android.permission.DUMP
+adb shell pm grant io.github.impca201.snoozer android.permission.PACKAGE_USAGE_STATS
+```
+
+These survive updates but not reinstalls.
+
+## Release builds
+
+Release APKs are signed only in CI (`.github/workflows/release.yml`). The workflow restores the keystore from secrets, writes `keystore.properties` and runs `assembleRelease -PversionName=… -PversionCode=…`. A local `./gradlew assembleRelease` without `keystore.properties` produces an unsigned APK.
+
+One-time setup: add these repository secrets under **Settings › Secrets and variables › Actions**:
+
+| Secret | Value |
+|---|---|
+| `ANDROID_KEYSTORE_BASE64` | The `.jks` file as base64. PowerShell: `[Convert]::ToBase64String([IO.File]::ReadAllBytes("snoozer-upload.jks")) \| Set-Clipboard` |
+| `ANDROID_KEYSTORE_PASSWORD` | Keystore password |
+| `ANDROID_KEY_ALIAS` | Key alias |
+| `ANDROID_KEY_PASSWORD` | Key password |
+
+To release, open **Actions › Release › Run workflow** and pick `patch`, `minor` or `major`, or push a tag such as `v1.2.0`. With `none`, the run only uploads an APK as an artifact (a debug APK if the secrets are missing). The version code is `major × 10000 + minor × 100 + patch`.
