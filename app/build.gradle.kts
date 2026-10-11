@@ -5,7 +5,8 @@ plugins {
     alias(libs.plugins.kotlin.compose)
 }
 
-// Release signing is read from an untracked keystore.properties file in the project root:
+// Release signing: the GitHub release workflow writes keystore.properties (never committed)
+// from the repository secrets before building:
 //   storeFile=/path/to/release.jks
 //   storePassword=...
 //   keyAlias=...
