@@ -3,8 +3,8 @@
     <string name="action_back">Indietro</string>
     <string name="action_cancel">Annulla</string>
     <string name="action_save">Salva</string>
-    <string name="state_on">Attivo</string>
-    <string name="state_off">Disattivo</string>
+    <string name="toast_setting_on">Attivo</string>
+    <string name="toast_setting_off">Disattivo</string>
 
     <string name="toggle_snooze">Posticipa</string>
     <string name="toggle_unsnooze">Riprendi</string>
@@ -22,7 +22,7 @@
     <string name="banner_access_body">Snoozer non può posticipare nulla finché non lo consenti. Tocca per scoprire come.</string>
 
     <string name="menu_guides">Guide</string>
-    <string name="guide_tile_menu">Riquadro Impostazioni rapide</string>
+    <string name="guide_shortcuts_menu">Scorciatoie</string>
     <string name="guide_tasker_menu">Automazione con Tasker</string>
     <string name="menu_settings">Impostazioni</string>
     <string name="setting_toast_title">Attiva messaggio toast</string>
@@ -65,7 +65,8 @@
     <string name="guide_access_privacy_body">Snoozer usa questo accesso solo per posticipare e ripristinare le notifiche. Non legge, salva né condivide mai il loro contenuto e non ha accesso a Internet.</string>
 
     <string name="guide_tile_title">Riquadro Impostazioni rapide</string>
-    <string name="guide_tile_intro">Aggiungi il riquadro Posticipa alle Impostazioni rapide per posticipare o riprendere ovunque, senza aprire l\'app.</string>
+    <string name="guide_shortcuts_title">Scorciatoie</string>
+    <string name="guide_shortcuts_intro">Posticipa o riprendi senza aprire l\'app: dalle Impostazioni rapide, dalla schermata Home o con un gesto.</string>
     <string name="guide_tile_quick_add_title">Aggiungilo con un tocco</string>
     <string name="guide_tile_quick_add_body">Il telefono può aggiungere il riquadro per te. Tocca il pulsante e conferma.</string>
     <string name="guide_tile_quick_add_button">Aggiungi riquadro</string>
@@ -73,7 +74,6 @@
     <string name="guide_tile_result_already">Il riquadro è già nelle Impostazioni rapide.</string>
     <string name="guide_tile_result_not_added">Il riquadro non è stato aggiunto.</string>
     <string name="guide_tile_result_error">Il telefono non è riuscito ad aggiungere il riquadro automaticamente. Segui i passaggi qui sotto.</string>
-    <string name="guide_tile_manual_title">Aggiungilo tu</string>
     <string name="guide_tile_step1">Scorri due volte verso il basso dalla parte superiore dello schermo per aprire le Impostazioni rapide.</string>
     <string name="guide_tile_step2">Tocca il pulsante Modifica (matita).</string>
     <string name="guide_tile_step3">Trova il riquadro \"%1$s\" e trascinalo tra i riquadri attivi.</string>
@@ -82,6 +82,12 @@
     <string name="guide_shortcut_step1">Tieni premuta l\'icona dell\'app %1$s.</string>
     <string name="guide_shortcut_step2">Tocca \"%1$s\" per attivare o disattivare subito la funzione.</string>
     <string name="guide_shortcut_step3">Facoltativo: trascina la scorciatoia nella schermata Home per un accesso con un tocco.</string>
+    <string name="guide_gesture_title">Gesto: tocca il retro del telefono</string>
+    <string name="guide_gesture_step1">Apri Impostazioni › Sistema › Gesti › Quick Tap per avviare azioni.</string>
+    <string name="guide_gesture_step2">Attiva Quick Tap e scegli Apri app.</string>
+    <string name="guide_gesture_step3">Tocca l\'icona delle impostazioni accanto a %1$s e scegli la scorciatoia \"%2$s\".</string>
+    <string name="guide_gesture_step4">Tocca due volte il retro del telefono per posticipare o riprendere.</string>
+    <string name="guide_gesture_other">Funziona così sui telefoni Pixel. Su altri telefoni cerca una funzione di tocco sul retro o di gesti in grado di aprire una scorciatoia dell\'app, come RegiStar in Good Lock di Samsung.</string>
 
     <string name="guide_tasker_title">Automazione con Tasker</string>
     <string name="guide_tasker_intro">%1$s è un plug-in di Tasker. Lascia che Tasker posticipi le notifiche automaticamente, ad esempio quando vai a dormire, durante le riunioni o alla guida.</string>

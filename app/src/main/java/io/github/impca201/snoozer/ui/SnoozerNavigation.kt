@@ -24,8 +24,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.impca201.snoozer.service.NotificationAccess
 import io.github.impca201.snoozer.snoozerApp
 import io.github.impca201.snoozer.ui.guide.AccessGuideScreen
+import io.github.impca201.snoozer.ui.guide.ShortcutsGuideScreen
 import io.github.impca201.snoozer.ui.guide.TaskerGuideScreen
-import io.github.impca201.snoozer.ui.guide.TileGuideScreen
 import io.github.impca201.snoozer.ui.home.HomeScreen
 import kotlinx.coroutines.launch
 
@@ -87,7 +87,7 @@ fun SnoozerNavigation(
                     onSnoozeChange = { enabled -> app.appScope.launch { repository.setSnoozeEnabled(enabled) } },
                     onToastEnabledChange = { enabled -> app.appScope.launch { repository.setToastEnabled(enabled) } },
                     onOpenAccessGuide = { push(Destination.AccessGuide) },
-                    onOpenTileGuide = { push(Destination.TileGuide) },
+                    onOpenShortcutsGuide = { push(Destination.ShortcutsGuide) },
                     onOpenTaskerGuide = { push(Destination.TaskerGuide) },
                 )
             }
@@ -96,8 +96,8 @@ fun SnoozerNavigation(
                 AccessGuideScreen(accessGranted = accessGranted, onBack = ::pop)
             }
 
-            Destination.TileGuide -> {
-                TileGuideScreen(onBack = ::pop)
+            Destination.ShortcutsGuide -> {
+                ShortcutsGuideScreen(onBack = ::pop)
             }
 
             Destination.TaskerGuide -> {

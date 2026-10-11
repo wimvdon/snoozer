@@ -2,6 +2,7 @@ package io.github.impca201.snoozer.ui.home
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -62,6 +63,9 @@ import io.github.impca201.snoozer.R
 import io.github.impca201.snoozer.ui.components.rememberReducedMotion
 import io.github.impca201.snoozer.ui.theme.SnoozerTheme
 
+/** Slow cross-fade into and out of the snoozing look. */
+private const val GLOW_FADE_MS = 1_600
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
@@ -71,14 +75,15 @@ fun HomeScreen(
     onSnoozeChange: (Boolean) -> Unit,
     onToastEnabledChange: (Boolean) -> Unit,
     onOpenAccessGuide: () -> Unit,
-    onOpenTileGuide: () -> Unit,
+    onOpenShortcutsGuide: () -> Unit,
     onOpenTaskerGuide: () -> Unit,
 ) {
     val active = snoozed && accessGranted
     val animate = !rememberReducedMotion()
     val colors = MaterialTheme.colorScheme
     val background by animateColorAsState(
-        targetValue = if (active) lerp(colors.surface, colors.primaryContainer, 0.45f) else colors.surface,
+        targetValue = if (active) lerp(colors.surface, colors.primaryContainer, 0.35f) else colors.surface,
+        animationSpec = tween(GLOW_FADE_MS),
         label = "home-background",
     )
 
@@ -92,7 +97,7 @@ fun HomeScreen(
                 title = { Text(stringResource(R.string.app_name)) },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
                 actions = {
-                    GuidesMenu(onOpenTileGuide = onOpenTileGuide, onOpenTaskerGuide = onOpenTaskerGuide)
+                    GuidesMenu(onOpenShortcutsGuide = onOpenShortcutsGuide, onOpenTaskerGuide = onOpenTaskerGuide)
                     SettingsMenu(toastEnabled = toastEnabled, onToastEnabledChange = onToastEnabledChange)
                 },
             )
@@ -103,13 +108,18 @@ fun HomeScreen(
                 .fillMaxSize()
                 .onGloballyPositioned { boxOrigin = it.positionInRoot() },
         ) {
-            if (active) {
-                SnoozeRipples(
-                    color = colors.primary,
+            AnimatedVisibility(
+                visible = active,
+                modifier = Modifier.matchParentSize(),
+                enter = fadeIn(tween(GLOW_FADE_MS)),
+                exit = fadeOut(tween(GLOW_FADE_MS)),
+            ) {
+                SnoozeGlow(
+                    primary = colors.primary,
+                    secondary = colors.tertiary,
                     center = toggleCenter?.minus(boxOrigin),
-                    innerRadius = SnoozeToggleSize / 2,
                     animate = animate,
-                    modifier = Modifier.matchParentSize(),
+                    modifier = Modifier.fillMaxSize(),
                 )
             }
             BoxWithConstraints(
@@ -215,7 +225,7 @@ private fun AccessBanner(onClick: () -> Unit) {
 
 @Composable
 private fun GuidesMenu(
-    onOpenTileGuide: () -> Unit,
+    onOpenShortcutsGuide: () -> Unit,
     onOpenTaskerGuide: () -> Unit,
 ) {
     var expanded by rememberSaveable { mutableStateOf(false) }
@@ -226,11 +236,11 @@ private fun GuidesMenu(
         DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
             MenuHeader(stringResource(R.string.menu_guides))
             DropdownMenuItem(
-                text = { Text(stringResource(R.string.guide_tile_menu)) },
+                text = { Text(stringResource(R.string.guide_shortcuts_menu)) },
                 leadingIcon = { Icon(painterResource(R.drawable.ic_tile_grid), contentDescription = null) },
                 onClick = {
                     expanded = false
-                    onOpenTileGuide()
+                    onOpenShortcutsGuide()
                 },
             )
             DropdownMenuItem(
@@ -251,7 +261,7 @@ private fun SettingsMenu(
     onToastEnabledChange: (Boolean) -> Unit,
 ) {
     var expanded by rememberSaveable { mutableStateOf(false) }
-    val stateText = stringResource(if (toastEnabled) R.string.state_on else R.string.state_off)
+    val stateText = stringResource(if (toastEnabled) R.string.toast_setting_on else R.string.toast_setting_off)
     Box {
         IconButton(onClick = { expanded = true }) {
             Icon(painterResource(R.drawable.ic_settings), contentDescription = stringResource(R.string.menu_settings))
@@ -306,7 +316,7 @@ private fun HomeScreenPreview() {
             onSnoozeChange = {},
             onToastEnabledChange = {},
             onOpenAccessGuide = {},
-            onOpenTileGuide = {},
+            onOpenShortcutsGuide = {},
             onOpenTaskerGuide = {},
         )
     }
@@ -323,7 +333,7 @@ private fun HomeScreenNoAccessPreview() {
             onSnoozeChange = {},
             onToastEnabledChange = {},
             onOpenAccessGuide = {},
-            onOpenTileGuide = {},
+            onOpenShortcutsGuide = {},
             onOpenTaskerGuide = {},
         )
     }

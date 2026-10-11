@@ -30,19 +30,22 @@ import io.github.impca201.snoozer.tile.SnoozeTileService
 import android.graphics.drawable.Icon as PlatformIcon
 
 @Composable
-fun TileGuideScreen(onBack: () -> Unit) {
+fun ShortcutsGuideScreen(onBack: () -> Unit) {
     val context = LocalContext.current
     var addResult by rememberSaveable { mutableStateOf<Int?>(null) }
+    val appName = stringResource(R.string.app_name)
     val tileName = stringResource(R.string.tile_label)
     val shortcutName = stringResource(R.string.shortcut_toggle_short)
 
-    GuideScaffold(title = stringResource(R.string.guide_tile_title), onBack = onBack) {
+    GuideScaffold(title = stringResource(R.string.guide_shortcuts_title), onBack = onBack) {
         item(key = "intro") {
             GuideCallout(
-                text = stringResource(R.string.guide_tile_intro),
+                text = stringResource(R.string.guide_shortcuts_intro),
                 iconRes = R.drawable.ic_tile_grid,
             )
         }
+
+        // 1. Quick Settings tile
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             item(key = "quick-add") {
                 GuideCallout(
@@ -72,9 +75,9 @@ fun TileGuideScreen(onBack: () -> Unit) {
                 )
             }
         }
-        item(key = "manual") {
+        item(key = "tile") {
             GuideSection(
-                title = stringResource(R.string.guide_tile_manual_title),
+                title = stringResource(R.string.guide_tile_title),
                 steps =
                     listOf(
                         stringResource(R.string.guide_tile_step1),
@@ -84,15 +87,38 @@ fun TileGuideScreen(onBack: () -> Unit) {
                     ),
             )
         }
-        item(key = "shortcut") {
+
+        // 2. Launcher shortcut
+        item(key = "launcher") {
             GuideSection(
                 title = stringResource(R.string.guide_shortcut_title),
                 steps =
                     listOf(
-                        stringResource(R.string.guide_shortcut_step1, stringResource(R.string.app_name)),
+                        stringResource(R.string.guide_shortcut_step1, appName),
                         stringResource(R.string.guide_shortcut_step2, shortcutName),
                         stringResource(R.string.guide_shortcut_step3),
                     ),
+            )
+        }
+
+        // 3. Gesture (e.g. Pixel Quick Tap) that launches the launcher shortcut
+        item(key = "gesture") {
+            GuideSection(
+                title = stringResource(R.string.guide_gesture_title),
+                steps =
+                    listOf(
+                        stringResource(R.string.guide_gesture_step1),
+                        stringResource(R.string.guide_gesture_step2),
+                        stringResource(R.string.guide_gesture_step3, appName, shortcutName),
+                        stringResource(R.string.guide_gesture_step4),
+                    ),
+                footer = {
+                    Text(
+                        text = stringResource(R.string.guide_gesture_other),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                },
             )
         }
     }

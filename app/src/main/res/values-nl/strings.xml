@@ -3,8 +3,8 @@
     <string name="action_back">Terug</string>
     <string name="action_cancel">Annuleren</string>
     <string name="action_save">Opslaan</string>
-    <string name="state_on">Aan</string>
-    <string name="state_off">Uit</string>
+    <string name="toast_setting_on">Aan</string>
+    <string name="toast_setting_off">Uit</string>
 
     <string name="toggle_snooze">Snoozen</string>
     <string name="toggle_unsnooze">Stop snoozen</string>
@@ -22,7 +22,7 @@
     <string name="banner_access_body">Snoozer kan pas snoozen als je dit toestaat. Tik om te zien hoe.</string>
 
     <string name="menu_guides">Handleidingen</string>
-    <string name="guide_tile_menu">Snelle instellingen-tegel</string>
+    <string name="guide_shortcuts_menu">Snelkoppelingen</string>
     <string name="guide_tasker_menu">Tasker-automatisering</string>
     <string name="menu_settings">Instellingen</string>
     <string name="setting_toast_title">Toastmelding inschakelen</string>
@@ -64,7 +64,8 @@
     <string name="guide_access_privacy_body">Snoozer gebruikt deze toegang alleen om meldingen te snoozen en terug te zetten. De inhoud wordt nooit gelezen, opgeslagen of gedeeld, en de app heeft geen internettoegang.</string>
 
     <string name="guide_tile_title">Snelle instellingen-tegel</string>
-    <string name="guide_tile_intro">Voeg de Snooze-tegel toe aan je snelle instellingen om overal te snoozen of te stoppen, zonder de app te openen.</string>
+    <string name="guide_shortcuts_title">Snelkoppelingen</string>
+    <string name="guide_shortcuts_intro">Snooze of stop snoozen zonder de app te openen: via snelle instellingen, je startscherm of een gebaar.</string>
     <string name="guide_tile_quick_add_title">Toevoegen met één tik</string>
     <string name="guide_tile_quick_add_body">Je telefoon kan de tegel voor je toevoegen. Tik op de knop en bevestig.</string>
     <string name="guide_tile_quick_add_button">Tegel toevoegen</string>
@@ -72,7 +73,6 @@
     <string name="guide_tile_result_already">De tegel staat al in je snelle instellingen.</string>
     <string name="guide_tile_result_not_added">De tegel is niet toegevoegd.</string>
     <string name="guide_tile_result_error">Je telefoon kon de tegel niet automatisch toevoegen. Volg de stappen hieronder.</string>
-    <string name="guide_tile_manual_title">Zelf toevoegen</string>
     <string name="guide_tile_step1">Veeg twee keer omlaag vanaf de bovenkant van het scherm om de snelle instellingen te openen.</string>
     <string name="guide_tile_step2">Tik op de knop Bewerken (potlood).</string>
     <string name="guide_tile_step3">Zoek de tegel \"%1$s\" en sleep hem naar je actieve tegels.</string>
@@ -81,6 +81,12 @@
     <string name="guide_shortcut_step1">Houd het app-icoon van %1$s ingedrukt.</string>
     <string name="guide_shortcut_step2">Tik op \"%1$s\" om snoozen direct aan of uit te zetten.</string>
     <string name="guide_shortcut_step3">Optioneel: sleep de snelkoppeling naar je startscherm voor toegang met één tik.</string>
+    <string name="guide_gesture_title">Gebaar: tik op de achterkant van je telefoon</string>
+    <string name="guide_gesture_step1">Open Instellingen › Systeem › Gebaren › Quick Tap om acties te starten.</string>
+    <string name="guide_gesture_step2">Zet Quick Tap aan en kies App openen.</string>
+    <string name="guide_gesture_step3">Tik op het instellingenicoon naast %1$s en kies de snelkoppeling \"%2$s\".</string>
+    <string name="guide_gesture_step4">Tik twee keer op de achterkant van je telefoon om te snoozen of te stoppen.</string>
+    <string name="guide_gesture_other">Zo werkt het op Pixel-telefoons. Zoek op andere telefoons naar een functie voor tikken op de achterkant of gebaren die een app-snelkoppeling kan openen, zoals RegiStar in Good Lock van Samsung.</string>
 
     <string name="guide_tasker_title">Tasker-automatisering</string>
     <string name="guide_tasker_intro">%1$s is een Tasker-plug-in. Laat Tasker je meldingen automatisch snoozen, bijvoorbeeld bij het slapengaan, tijdens vergaderingen of onder het rijden.</string>

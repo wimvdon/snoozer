@@ -6,6 +6,7 @@ import android.os.Build
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
 import androidx.core.os.BundleCompat
+import io.github.impca201.snoozer.LoggingExceptionHandler
 import io.github.impca201.snoozer.snoozerApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -41,7 +42,7 @@ class SnoozeListenerService : NotificationListenerService() {
     override fun onListenerConnected() {
         super.onListenerConnected()
         scope?.cancel()
-        val connectedScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+        val connectedScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate + LoggingExceptionHandler)
         scope = connectedScope
         connectedScope.launch {
             trackedKeys.clear()
@@ -88,7 +89,8 @@ class SnoozeListenerService : NotificationListenerService() {
         val key = sbn.key
         try {
             snoozeNotification(key, SNOOZE_DURATION_MS)
-        } catch (_: SecurityException) {
+        } catch (_: RuntimeException) {
+            // SecurityException when access was just revoked; some OEM builds throw others.
             return
         }
         val firstTime = trackedKeys.add(key)
@@ -102,7 +104,15 @@ class SnoozeListenerService : NotificationListenerService() {
     private suspend fun restoreSnoozed() {
         val keys = repository.takeSnoozedKeys() + trackedKeys
         trackedKeys.clear()
-        for (key in keys) {
+        // A key can belong to a notification that is visible again (the app cancelled and
+        // re-posted it, or the phone restarted). Re-snoozing that one would hide and re-alert it.
+        val visible =
+            try {
+                activeNotifications?.mapTo(HashSet()) { it.key }.orEmpty()
+            } catch (_: SecurityException) {
+                emptySet()
+            }
+        for (key in keys - visible) {
             try {
                 snoozeNotification(key, RESTORE_DELAY_MS)
             } catch (_: SecurityException) {

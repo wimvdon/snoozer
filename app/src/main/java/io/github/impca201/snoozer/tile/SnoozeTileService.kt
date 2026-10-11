@@ -1,10 +1,12 @@
 package io.github.impca201.snoozer.tile
 
+import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.content.Intent
 import android.os.Build
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
+import io.github.impca201.snoozer.LoggingExceptionHandler
 import io.github.impca201.snoozer.R
 import io.github.impca201.snoozer.service.NotificationAccess
 import io.github.impca201.snoozer.snoozerApp
@@ -19,11 +21,20 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 
 class SnoozeTileService : TileService() {
-    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate + LoggingExceptionHandler)
     private var listeningJob: Job? = null
+
+    override fun onTileAdded() {
+        super.onTileAdded()
+        snoozerApp.repository.snoozeEnabled.value
+            ?.let(::render)
+    }
 
     override fun onStartListening() {
         super.onStartListening()
+        // Render the cached value immediately, then keep following changes while visible.
+        snoozerApp.repository.snoozeEnabled.value
+            ?.let(::render)
         listeningJob?.cancel()
         listeningJob =
             scope.launch {
@@ -45,8 +56,11 @@ class SnoozeTileService : TileService() {
             openApp(Destination.AccessGuide)
             return
         }
-        // Use the app scope so the write completes even if the tile is unbound right away.
+        // Show the new state right away instead of waiting for the write to round-trip.
         val app = snoozerApp
+        app.repository.snoozeEnabled.value
+            ?.let { render(!it) }
+        // Use the app scope so the write completes even if the tile is unbound right away.
         app.appScope.launch { app.repository.toggleSnooze() }
     }
 
@@ -75,6 +89,8 @@ class SnoozeTileService : TileService() {
         tile.updateTile()
     }
 
+    // The Intent overload is only reached below Android 14, where it is still supported.
+    @SuppressLint("StartActivityAndCollapseDeprecated")
     private fun openApp(destination: Destination) {
         val intent = MainActivity.intent(this, destination).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {

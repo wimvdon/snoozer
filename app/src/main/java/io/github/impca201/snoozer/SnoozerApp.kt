@@ -5,10 +5,12 @@ import android.content.ComponentName
 import android.content.Context
 import android.service.notification.NotificationListenerService
 import android.service.quicksettings.TileService
+import android.util.Log
 import io.github.impca201.snoozer.data.SnoozeRepository
 import io.github.impca201.snoozer.service.NotificationAccess
 import io.github.impca201.snoozer.service.SnoozeListenerService
 import io.github.impca201.snoozer.tile.SnoozeTileService
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -17,7 +19,7 @@ import kotlinx.coroutines.launch
 
 class SnoozerApp : Application() {
     /** Process-wide scope for work that must outlive a single screen, receiver or tile click. */
-    val appScope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+    val appScope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Default + LoggingExceptionHandler)
 
     val repository: SnoozeRepository by lazy { SnoozeRepository(this, appScope) }
 
@@ -46,6 +48,15 @@ class SnoozerApp : Application() {
         }
     }
 }
+
+/**
+ * Background work here is best effort (a failed preference write must not crash the app, e.g.
+ * when storage is full), so failures are logged instead of propagated.
+ */
+val LoggingExceptionHandler =
+    CoroutineExceptionHandler { _, error ->
+        Log.w("Snoozer", "Background task failed", error)
+    }
 
 val Context.snoozerApp: SnoozerApp
     get() = applicationContext as SnoozerApp
