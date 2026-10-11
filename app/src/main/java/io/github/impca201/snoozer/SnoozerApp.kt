@@ -10,6 +10,7 @@ import io.github.impca201.snoozer.data.SnoozeRepository
 import io.github.impca201.snoozer.service.NotificationAccess
 import io.github.impca201.snoozer.service.SnoozeIndicator
 import io.github.impca201.snoozer.service.SnoozeListenerService
+import io.github.impca201.snoozer.service.SnoozeMode
 import io.github.impca201.snoozer.tile.SnoozeTileService
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
@@ -32,8 +33,12 @@ class SnoozerApp : Application() {
             repository.snoozeEnabled.filterNotNull().collect { onSnoozeStateChanged() }
         }
         appScope.launch {
-            combine(repository.snoozeEnabled.filterNotNull(), repository.indicatorEnabled) { _, _ -> }
-                .collect { refreshIndicator() }
+            combine(
+                repository.snoozeEnabled.filterNotNull(),
+                repository.indicatorEnabled,
+                repository.dimEnabled,
+            ) { _, _, _ -> }
+                .collect { refreshSnoozeCues() }
         }
     }
 
@@ -44,11 +49,16 @@ class SnoozerApp : Application() {
             NotificationAccess.isGranted(this)
 
     /**
-     * Shows or hides the persistent notification. Also called when the app resumes, because
+     * Shows or hides the persistent notification and the optional dimming mode. Also called when the app resumes, because
      * notification permission or access may have changed in Settings meanwhile.
      */
-    fun refreshIndicator() {
+    fun refreshSnoozeCues() {
         SnoozeIndicator.update(this, indicatorWanted())
+        SnoozeMode.apply(
+            this,
+            enabled = repository.dimEnabled.value,
+            active = repository.snoozeEnabled.value == true && NotificationAccess.isGranted(this),
+        )
     }
 
     /** Keeps every surface (tile, listener) in sync no matter where the toggle came from. */

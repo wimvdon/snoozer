@@ -60,6 +60,17 @@ class SnoozeRepository(
         dataStore.edit { it[INDICATOR_ENABLED] = enabled }
     }
 
+    /** Opt-in (Android 15+): run a Snoozer "mode" that only dims the wallpaper while snoozing. */
+    val dimEnabled: StateFlow<Boolean> =
+        preferences
+            .map { it[DIM_ENABLED] ?: false }
+            .distinctUntilChanged()
+            .stateIn(scope, SharingStarted.Eagerly, false)
+
+    suspend fun setDimEnabled(enabled: Boolean) {
+        dataStore.edit { it[DIM_ENABLED] = enabled }
+    }
+
     suspend fun setSnoozeEnabled(enabled: Boolean) {
         dataStore.edit { it[SNOOZE_ENABLED] = enabled }
     }
@@ -103,6 +114,7 @@ class SnoozeRepository(
         val SNOOZE_ENABLED = booleanPreferencesKey("snooze_enabled")
         val TOAST_ENABLED = booleanPreferencesKey("toast_enabled")
         val INDICATOR_ENABLED = booleanPreferencesKey("indicator_enabled")
+        val DIM_ENABLED = booleanPreferencesKey("dim_enabled")
         val SNOOZED_KEYS = stringSetPreferencesKey("snoozed_keys")
 
         /** The platform caps concurrent snoozes well below this; it only bounds storage. */

@@ -20,13 +20,22 @@
 
     <string name="banner_access_title">Activer l\'accès aux notifications</string>
     <string name="banner_access_body">Snoozer ne peut rien mettre en pause sans votre autorisation. Appuyez pour savoir comment faire.</string>
-
-    <string name="menu_guides">Guides</string>
-    <string name="guide_shortcuts_menu">Raccourcis</string>
-    <string name="guide_tasker_menu">Automatisation Tasker</string>
     <string name="menu_settings">Paramètres</string>
     <string name="setting_toast_title">Activer le message toast</string>
     <string name="setting_toast_summary">Indique brièvement de quelle app provenait la notification mise en pause</string>
+    <string name="section_toast">Message toast</string>
+    <string name="section_indicator">Notification permanente</string>
+    <string name="section_mode">Mode</string>
+    <string name="section_expanded">Développé</string>
+    <string name="section_collapsed">Réduit</string>
+    <string name="setting_indicator_details">Pendant la pause, une notification silencieuse affiche l\'icône de Snoozer dans la barre d\'état, avec un bouton Reprendre. Si vous la balayez, elle revient aussitôt. Les profils qui masquent les notifications masquent aussi cette icône.</string>
+    <string name="setting_dim_title">Assombrir le fond d\'écran pendant la pause</string>
+    <string name="setting_dim_summary">Ajoute un mode Snoozer qui assombrit seulement le fond d\'écran</string>
+    <string name="setting_dim_blocked">Accès à Ne pas déranger requis. Appuyez pour l\'autoriser.</string>
+    <string name="setting_dim_unsupported">Nécessite Android 15 ou version ultérieure</string>
+    <string name="setting_dim_details">%1$s ajoute son propre mode dans Paramètres › Modes. Il laisse passer toutes les notifications et assombrit seulement le fond d\'écran pendant la pause, en parallèle de vos propres modes. Si vous désactivez cette option, le mode est supprimé.</string>
+    <string name="mode_trigger_description">Pendant que Snoozer met les notifications en pause</string>
+    <string name="guide_tasker_why">%1$s n\'a ni horaires ni déclencheurs, ce qui évite tout service en arrière-plan. Tasker les gère bien mieux.</string>
     <string name="setting_indicator_title">Afficher une notification permanente</string>
     <string name="setting_indicator_summary">Une notification silencieuse avec un bouton Reprendre pendant la pause</string>
     <string name="setting_indicator_blocked">Les notifications de Snoozer sont désactivées. Appuyez pour les autoriser.</string>
@@ -36,10 +45,10 @@
     <string name="indicator_text">Les nouvelles notifications sont mises de côté jusqu\'à la reprise.</string>
 
     <string name="toast_snoozed_from_app">Notification de %1$s mise en pause</string>
-    <plurals name="toast_snoozed_count">
-        <item quantity="one">%d notification mise en pause</item>
-        <item quantity="many">%d notifications mises en pause</item>
-        <item quantity="other">%d notifications mises en pause</item>
+    <plurals name="toast_snoozed_apps">
+        <item quantity="one">Notifications de %d appli mises en pause</item>
+        <item quantity="many">Notifications de %d applis mises en pause</item>
+        <item quantity="other">Notifications de %d applis mises en pause</item>
     </plurals>
     <string name="feedback_snoozed">Notifications mises en pause</string>
     <string name="feedback_unsnoozed">Notifications réactivées</string>
@@ -74,7 +83,6 @@
     <string name="guide_tile_title">Bloc Réglages rapides</string>
     <string name="guide_shortcuts_title">Raccourcis</string>
     <string name="guide_shortcuts_intro">Mettez en pause ou reprenez sans ouvrir l\'app : depuis les Réglages rapides, l\'écran d\'accueil ou un geste.</string>
-    <string name="guide_tile_quick_add_title">Ajout en un geste</string>
     <string name="guide_tile_quick_add_body">Votre téléphone peut ajouter le bloc pour vous. Appuyez sur le bouton et confirmez.</string>
     <string name="guide_tile_quick_add_button">Ajouter le bloc</string>
     <string name="guide_tile_result_added">Bloc ajouté. Balayez vers le bas pour le trouver.</string>

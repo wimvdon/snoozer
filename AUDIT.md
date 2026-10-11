@@ -30,6 +30,8 @@ performance and battery use, accessibility, localization and build hygiene.
 
 - **Permissions.** `POST_NOTIFICATIONS` (Android 13+, only for the optional persistent
   "Snoozing notifications" notification; snoozing works without it), plus
+  `ACCESS_NOTIFICATION_POLICY` (only for the opt-in Android 15+ "Snoozer" mode, which lets
+  everything through and only dims the wallpaper; it is removed again when switched off), plus
   `BIND_NOTIFICATION_LISTENER_SERVICE` and `BIND_QUICK_SETTINGS_TILE` as service guards.
   There's no `INTERNET` permission, so the app cannot send data anywhere.
 - **Exported components.**

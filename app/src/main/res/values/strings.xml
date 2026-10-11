@@ -26,12 +26,22 @@
     <string name="banner_access_body">Snoozer can\'t snooze anything until you allow it. Tap to see how.</string>
 
     <!-- Home: app bar menus -->
-    <string name="menu_guides">Guides</string>
-    <string name="guide_shortcuts_menu">Shortcuts</string>
-    <string name="guide_tasker_menu">Tasker automation</string>
     <string name="menu_settings">Settings</string>
     <string name="setting_toast_title">Enable toast notification</string>
     <string name="setting_toast_summary">Briefly show which app\'s notification was snoozed</string>
+    <string name="section_toast">Toast notification</string>
+    <string name="section_indicator">Persistent notification</string>
+    <string name="section_mode">Mode</string>
+    <string name="section_expanded">Expanded</string>
+    <string name="section_collapsed">Collapsed</string>
+    <string name="setting_indicator_details">While snoozing, a silent notification puts Snoozer\'s icon in the status bar and offers an Unsnooze button. If you swipe it away, it comes straight back. Profiles that hide notifications also hide this icon.</string>
+    <string name="setting_dim_title">Dim wallpaper while snoozing</string>
+    <string name="setting_dim_summary">Adds a Snoozer mode that only dims the wallpaper</string>
+    <string name="setting_dim_blocked">Needs Do Not Disturb access. Tap to allow.</string>
+    <string name="setting_dim_unsupported">Requires Android 15 or newer</string>
+    <string name="setting_dim_details">%1$s adds its own mode under Settings › Modes. It lets every notification through and only dims the wallpaper while snoozing, so it works alongside your own modes. Turning this off removes the mode again.</string>
+    <string name="mode_trigger_description">While Snoozer is snoozing notifications</string>
+    <string name="guide_tasker_why">%1$s has no schedules or triggers of its own, so it needs no background service. Tasker handles those much better.</string>
     <string name="setting_indicator_title">Show persistent notification</string>
     <string name="setting_indicator_summary">A silent notification with an Unsnooze button while snoozing</string>
     <string name="setting_indicator_blocked">Notifications are off for Snoozer. Tap to allow.</string>
@@ -42,9 +52,9 @@
 
     <!-- Toasts -->
     <string name="toast_snoozed_from_app">Notification from %1$s snoozed</string>
-    <plurals name="toast_snoozed_count">
-        <item quantity="one">%d notification snoozed</item>
-        <item quantity="other">%d notifications snoozed</item>
+    <plurals name="toast_snoozed_apps">
+        <item quantity="one">Notifications from %d app snoozed</item>
+        <item quantity="other">Notifications from %d apps snoozed</item>
     </plurals>
     <string name="feedback_snoozed">Notifications snoozed</string>
     <string name="feedback_unsnoozed">Notifications unsnoozed</string>
@@ -84,7 +94,6 @@
     <string name="guide_tile_title">Quick Settings tile</string>
     <string name="guide_shortcuts_title">Shortcuts</string>
     <string name="guide_shortcuts_intro">Snooze or unsnooze without opening the app: from Quick Settings, your home screen or a gesture.</string>
-    <string name="guide_tile_quick_add_title">Add it in one tap</string>
     <string name="guide_tile_quick_add_body">Your phone can add the tile for you. Tap the button and confirm.</string>
     <string name="guide_tile_quick_add_button">Add tile</string>
     <string name="guide_tile_result_added">Tile added. Swipe down to find it.</string>

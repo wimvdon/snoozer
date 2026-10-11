@@ -20,13 +20,22 @@
 
     <string name="banner_access_title">Activar acceso a las notificaciones</string>
     <string name="banner_access_body">Snoozer no puede posponer nada hasta que lo permitas. Toca para ver cómo.</string>
-
-    <string name="menu_guides">Guías</string>
-    <string name="guide_shortcuts_menu">Accesos directos</string>
-    <string name="guide_tasker_menu">Automatización con Tasker</string>
     <string name="menu_settings">Ajustes</string>
     <string name="setting_toast_title">Activar aviso emergente</string>
     <string name="setting_toast_summary">Muestra brevemente de qué app era la notificación pospuesta</string>
+    <string name="section_toast">Aviso emergente</string>
+    <string name="section_indicator">Notificación persistente</string>
+    <string name="section_mode">Modo</string>
+    <string name="section_expanded">Desplegado</string>
+    <string name="section_collapsed">Contraído</string>
+    <string name="setting_indicator_details">Mientras pospones, una notificación silenciosa muestra el icono de Snoozer en la barra de estado, con un botón Reanudar. Si la deslizas, vuelve al instante. Los perfiles que ocultan notificaciones también ocultan este icono.</string>
+    <string name="setting_dim_title">Atenuar el fondo de pantalla al posponer</string>
+    <string name="setting_dim_summary">Añade un modo Snoozer que solo atenúa el fondo de pantalla</string>
+    <string name="setting_dim_blocked">Necesita acceso a No molestar. Toca para permitirlo.</string>
+    <string name="setting_dim_unsupported">Requiere Android 15 o posterior</string>
+    <string name="setting_dim_details">%1$s añade su propio modo en Ajustes › Modos. Deja pasar todas las notificaciones y solo atenúa el fondo de pantalla al posponer, así que funciona junto a tus propios modos. Si lo desactivas, el modo se elimina.</string>
+    <string name="mode_trigger_description">Mientras Snoozer pospone las notificaciones</string>
+    <string name="guide_tasker_why">%1$s no tiene horarios ni activadores propios, así que no necesita un servicio en segundo plano. Tasker los gestiona mucho mejor.</string>
     <string name="setting_indicator_title">Mostrar notificación persistente</string>
     <string name="setting_indicator_summary">Una notificación silenciosa con un botón Reanudar mientras se pospone</string>
     <string name="setting_indicator_blocked">Las notificaciones de Snoozer están desactivadas. Toca para permitirlas.</string>
@@ -36,10 +45,10 @@
     <string name="indicator_text">Las notificaciones nuevas se apartan hasta que reanudes.</string>
 
     <string name="toast_snoozed_from_app">Notificación de %1$s pospuesta</string>
-    <plurals name="toast_snoozed_count">
-        <item quantity="one">%d notificación pospuesta</item>
-        <item quantity="many">%d notificaciones pospuestas</item>
-        <item quantity="other">%d notificaciones pospuestas</item>
+    <plurals name="toast_snoozed_apps">
+        <item quantity="one">Notificaciones de %d app pospuestas</item>
+        <item quantity="many">Notificaciones de %d apps pospuestas</item>
+        <item quantity="other">Notificaciones de %d apps pospuestas</item>
     </plurals>
     <string name="feedback_snoozed">Notificaciones pospuestas</string>
     <string name="feedback_unsnoozed">Notificaciones reanudadas</string>
@@ -74,7 +83,6 @@
     <string name="guide_tile_title">Icono de Ajustes rápidos</string>
     <string name="guide_shortcuts_title">Accesos directos</string>
     <string name="guide_shortcuts_intro">Pospón o reanuda sin abrir la app: desde Ajustes rápidos, la pantalla de inicio o un gesto.</string>
-    <string name="guide_tile_quick_add_title">Añádelo con un toque</string>
     <string name="guide_tile_quick_add_body">Tu teléfono puede añadir el icono por ti. Toca el botón y confirma.</string>
     <string name="guide_tile_quick_add_button">Añadir icono</string>
     <string name="guide_tile_result_added">Icono añadido. Desliza hacia abajo para encontrarlo.</string>
