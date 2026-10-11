@@ -223,11 +223,11 @@ GitHub keeps the key as four **secrets**: encrypted values that only the build c
    ```
 
 3. In your web browser, go to **https://github.com/impca201/snoozer/settings/secrets/actions** and click **New repository secret**.
-4. For **Name** type `KEYSTORE_BASE64`. Click in **Secret**, press **Ctrl+V** to paste, and click **Add secret**.
+4. For **Name** type `ANDROID_KEYSTORE_BASE64`. Click in **Secret**, press **Ctrl+V** to paste, and click **Add secret**.
 5. Repeat step 3 and 4 three more times:
-   - `KEYSTORE_PASSWORD`: the key store password from Chapter 7.
-   - `KEY_ALIAS`: `upload`.
-   - `KEY_PASSWORD`: the key password from Chapter 7.
+   - `ANDROID_KEYSTORE_PASSWORD`: the key store password from Chapter 7.
+   - `ANDROID_KEY_ALIAS`: `upload`.
+   - `ANDROID_KEY_PASSWORD`: the key password from Chapter 7.
 
 You now see four secrets in the list.
 
