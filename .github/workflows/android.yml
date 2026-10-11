@@ -30,16 +30,22 @@ jobs:
       - name: Build, unit test and lint
         run: ./gradlew --stacktrace assembleDebug assembleRelease testDebugUnitTest lintDebug
 
+      - name: List lint issues
+        if: always()
+        run: |
+          jq -r '.runs[].results[] | "\(.level) \(.ruleId): \(.locations[0].physicalLocation.artifactLocation.uri):\(.locations[0].physicalLocation.region.startLine // "-") \(.message.text)"' \
+            app/build/reports/lint-results-debug.sarif || true
+
       - name: Upload debug APK
         if: success()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: snoozer-debug-apk
           path: app/build/outputs/apk/debug/*.apk
 
       - name: Upload reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: reports
           path: |
