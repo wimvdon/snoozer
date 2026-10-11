@@ -87,7 +87,7 @@ class SnoozeListenerService : NotificationListenerService() {
         if (reason == REASON_CANCEL || reason == REASON_CANCEL_ALL) {
             scope?.launch {
                 delay(REPOST_DELAY_MS)
-                snoozerApp.refreshIndicator()
+                snoozerApp.refreshSnoozeCues()
             }
         }
     }

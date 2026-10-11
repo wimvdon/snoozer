@@ -20,13 +20,22 @@
 
     <string name="banner_access_title">Benachrichtigungszugriff aktivieren</string>
     <string name="banner_access_body">Snoozer kann erst etwas schlummern lassen, wenn du es erlaubst. Tippe hier für die Anleitung.</string>
-
-    <string name="menu_guides">Anleitungen</string>
-    <string name="guide_shortcuts_menu">Verknüpfungen</string>
-    <string name="guide_tasker_menu">Tasker-Automatisierung</string>
     <string name="menu_settings">Einstellungen</string>
     <string name="setting_toast_title">Toast-Hinweis aktivieren</string>
     <string name="setting_toast_summary">Kurz anzeigen, von welcher App eine Benachrichtigung schlummert</string>
+    <string name="section_toast">Toast-Hinweis</string>
+    <string name="section_indicator">Dauerhafte Benachrichtigung</string>
+    <string name="section_mode">Modus</string>
+    <string name="section_expanded">Ausgeklappt</string>
+    <string name="section_collapsed">Eingeklappt</string>
+    <string name="setting_indicator_details">Beim Schlummern zeigt eine lautlose Benachrichtigung das Snoozer-Symbol in der Statusleiste, mit einem Aufwecken-Button. Wischst du sie weg, kommt sie sofort zurück. Profile, die Benachrichtigungen ausblenden, blenden auch dieses Symbol aus.</string>
+    <string name="setting_dim_title">Hintergrund beim Schlummern abdunkeln</string>
+    <string name="setting_dim_summary">Fügt einen Snoozer-Modus hinzu, der nur den Hintergrund abdunkelt</string>
+    <string name="setting_dim_blocked">„Bitte nicht stören“-Zugriff nötig. Tippe, um ihn zu erlauben.</string>
+    <string name="setting_dim_unsupported">Erfordert Android 15 oder neuer</string>
+    <string name="setting_dim_details">%1$s fügt unter Einstellungen › Modi einen eigenen Modus hinzu. Er lässt alle Benachrichtigungen durch und dunkelt beim Schlummern nur den Hintergrund ab, funktioniert also neben deinen eigenen Modi. Schaltest du das aus, wird der Modus wieder entfernt.</string>
+    <string name="mode_trigger_description">Während Snoozer Benachrichtigungen schlummern lässt</string>
+    <string name="guide_tasker_why">%1$s hat keine eigenen Zeitpläne oder Auslöser und braucht daher keinen Hintergrunddienst. Tasker kann das viel besser.</string>
     <string name="setting_indicator_title">Dauerhafte Benachrichtigung anzeigen</string>
     <string name="setting_indicator_summary">Eine lautlose Benachrichtigung mit Aufwecken-Button, solange Benachrichtigungen schlummern</string>
     <string name="setting_indicator_blocked">Benachrichtigungen für Snoozer sind aus. Tippe, um sie zu erlauben.</string>
@@ -73,7 +82,6 @@
     <string name="guide_tile_title">Schnelleinstellungs-Kachel</string>
     <string name="guide_shortcuts_title">Verknüpfungen</string>
     <string name="guide_shortcuts_intro">Schlummern oder aufwecken, ohne die App zu öffnen: über die Schnelleinstellungen, den Startbildschirm oder eine Geste.</string>
-    <string name="guide_tile_quick_add_title">Mit einem Tippen hinzufügen</string>
     <string name="guide_tile_quick_add_body">Dein Smartphone kann die Kachel für dich hinzufügen. Tippe auf den Button und bestätige.</string>
     <string name="guide_tile_quick_add_button">Kachel hinzufügen</string>
     <string name="guide_tile_result_added">Kachel hinzugefügt. Wische nach unten, um sie zu finden.</string>

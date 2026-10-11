@@ -94,32 +94,49 @@ Snoozer needs **notification access**: Android's permission that lets an app see
 
 Calls, alarms, music controls, navigation and other notifications you can't swipe away are never snoozed, so you can't miss anything that matters right now.
 
-### See at a glance that snoozing is on
+### The Settings page
 
-While snoozing, Snoozer shows a silent notification called **Snoozing notifications**. Its bell-with-zz icon appears in the status bar (the strip at the very top of the screen with the clock), so you can always see that snoozing is on. Swipe down and tap **Unsnooze** in that notification to stop snoozing without opening the app.
+Everything else lives on one page. In Snoozer, tap the **cogwheel** icon at the top right. You see five sections; tap a section's title to open or close it.
+
+#### Toast notification
+
+1. Open **Toast notification** and switch on **Enable toast notification**.
+2. From now on, a short message such as "Notification from WhatsApp snoozed" appears at the bottom of the screen each time something is snoozed.
+
+#### Persistent notification
+
+While snoozing, Snoozer shows a silent notification called **Snoozing notifications**. Its bell-with-zz icon appears in the status bar (the strip at the very top of the screen with the clock), so you can see that snoozing is on. Swipe down and tap **Unsnooze** in that notification to stop snoozing without opening the app. This is on by default.
 
 1. The first time you tap **Snooze**, Android asks **Allow Snoozer to send you notifications?** Tap **Allow**. (Android 13 and newer only. If you tap **Don't allow**, snoozing still works, you just won't see the icon.)
 2. If you swipe the notification away, it comes straight back while snoozing is on. **Clear all** doesn't remove it either.
-3. Don't want it? Tap the **cogwheel** icon at the top right of Snoozer and switch off **Show persistent notification**.
+3. Don't want it? Open **Persistent notification** and switch off **Show persistent notification**.
 
-If the setting says **Notifications are off for Snoozer. Tap to allow.**, tap it. Android either asks for permission again or opens Snoozer's notification settings: switch on **All Snoozer notifications** there, then go back.
+If you see **Notifications are off for Snoozer. Tap to allow.**, tap it. Android either asks for permission again or opens Snoozer's notification settings: switch on **All Snoozer notifications** there, then go back.
 
-### See which app was snoozed (optional)
+Note: if you use a Do Not Disturb profile that hides notifications, it hides this icon too. The Mode below doesn't have that problem.
 
-1. In Snoozer, tap the **cogwheel** icon at the top right.
-2. Tap **Enable toast notification** so the switch turns on. From now on, a short message such as "Notification from WhatsApp snoozed" appears at the bottom of the screen each time something is snoozed.
+#### Mode (Android 15 and newer)
 
-### Quick Settings tile, launcher shortcut and gesture
+Snoozer can dim your wallpaper while snoozing, as a calm signal that snoozing is on. This is off by default.
 
-In Snoozer, tap the **book** icon at the top right and tap **Shortcuts**. The guide walks you through:
+1. Open **Mode** and switch on **Dim wallpaper while snoozing**.
+2. Snoozer adds its own mode, called **Snoozer**, under **Settings** › **Modes**. It lets every notification through and only dims the wallpaper, so it doesn't interfere with your own modes.
+3. If you see **Needs Do Not Disturb access. Tap to allow.**, tap it, switch on **Snoozer** in the list and go back.
+4. Switch the setting off again and Snoozer removes the mode.
+
+On Android 14 and older this section says **Requires Android 15 or newer**.
+
+#### Shortcuts
+
+Open **Shortcuts**. It has three parts:
 
 - **Quick Settings tile**: on Android 13 and newer, tap **Add tile** and then **Add tile** again in the confirmation. On older phones, follow the four steps on screen.
 - **Launcher shortcut**: touch and hold the Snoozer icon on your home screen and tap **Snooze on/off**.
-- **Gesture**: on a Pixel phone, go to **Settings** › **System** › **Gestures** › **Quick Tap to start actions**, switch it on, choose **Open app**, tap the settings icon next to **Snoozer** and pick **Snooze on/off**. Now double-tapping the back of the phone switches snoozing on or off.
+- **Gesture: tap the back of your phone**: on a Pixel phone, go to **Settings** › **System** › **Gestures** › **Quick Tap to start actions**, switch it on, choose **Open app**, tap the settings icon next to **Snoozer** and pick **Snooze on/off**. Now double-tapping the back of the phone switches snoozing on or off.
 
-### Automate with Tasker
+#### Tasker automation
 
-In Snoozer, tap the **book** icon and then **Tasker automation**. The guide explains how to snooze automatically, for example every night from 22:00 to 07:00. Snoozer also works with MacroDroid, Automate and other apps that support Tasker plug-ins.
+Open **Tasker automation**. Snoozer has no schedules or triggers of its own, so it needs no background service; the automation app Tasker does that part. The section explains how to add the Snoozer action and gives an example that snoozes every night from 22:00 to 07:00. Snoozer also works with MacroDroid, Automate and other apps that support Tasker plug-ins.
 
 ## Chapter 7: Prepare the app for the Google Play Store
 

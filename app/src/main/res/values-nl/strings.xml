@@ -20,13 +20,22 @@
 
     <string name="banner_access_title">Toegang tot meldingen inschakelen</string>
     <string name="banner_access_body">Snoozer kan pas snoozen als je dit toestaat. Tik om te zien hoe.</string>
-
-    <string name="menu_guides">Handleidingen</string>
-    <string name="guide_shortcuts_menu">Snelkoppelingen</string>
-    <string name="guide_tasker_menu">Tasker-automatisering</string>
     <string name="menu_settings">Instellingen</string>
     <string name="setting_toast_title">Toastmelding inschakelen</string>
     <string name="setting_toast_summary">Toon kort van welke app een melding is gesnoozed</string>
+    <string name="section_toast">Toastmelding</string>
+    <string name="section_indicator">Permanente melding</string>
+    <string name="section_mode">Modus</string>
+    <string name="section_expanded">Uitgevouwen</string>
+    <string name="section_collapsed">Ingevouwen</string>
+    <string name="setting_indicator_details">Tijdens het snoozen zet een stille melding het icoon van Snoozer in de statusbalk, met een knop Stop snoozen. Veeg je hem weg, dan komt hij meteen terug. Profielen die meldingen verbergen, verbergen ook dit icoon.</string>
+    <string name="setting_dim_title">Achtergrond dimmen tijdens snoozen</string>
+    <string name="setting_dim_summary">Voegt een Snoozer-modus toe die alleen de achtergrond dimt</string>
+    <string name="setting_dim_blocked">Toegang tot Niet storen nodig. Tik om toe te staan.</string>
+    <string name="setting_dim_unsupported">Vereist Android 15 of nieuwer</string>
+    <string name="setting_dim_details">%1$s voegt een eigen modus toe onder Instellingen › Modi. Die laat alle meldingen door en dimt alleen de achtergrond tijdens het snoozen, dus hij werkt naast je eigen modi. Zet je dit uit, dan wordt de modus weer verwijderd.</string>
+    <string name="mode_trigger_description">Terwijl Snoozer meldingen snoozet</string>
+    <string name="guide_tasker_why">%1$s heeft zelf geen schema\'s of triggers, zodat er geen achtergronddienst nodig is. Tasker kan dat veel beter.</string>
     <string name="setting_indicator_title">Permanente melding tonen</string>
     <string name="setting_indicator_summary">Een stille melding met een knop Stop snoozen zolang je snoozet</string>
     <string name="setting_indicator_blocked">Meldingen staan uit voor Snoozer. Tik om toe te staan.</string>
@@ -73,7 +82,6 @@
     <string name="guide_tile_title">Snelle instellingen-tegel</string>
     <string name="guide_shortcuts_title">Snelkoppelingen</string>
     <string name="guide_shortcuts_intro">Snooze of stop snoozen zonder de app te openen: via snelle instellingen, je startscherm of een gebaar.</string>
-    <string name="guide_tile_quick_add_title">Toevoegen met één tik</string>
     <string name="guide_tile_quick_add_body">Je telefoon kan de tegel voor je toevoegen. Tik op de knop en bevestig.</string>
     <string name="guide_tile_quick_add_button">Tegel toevoegen</string>
     <string name="guide_tile_result_added">Tegel toegevoegd. Veeg omlaag om hem te vinden.</string>

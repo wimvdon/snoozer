@@ -33,11 +33,13 @@ import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.impca201.snoozer.service.NotificationAccess
 import io.github.impca201.snoozer.service.SnoozeIndicator
+import io.github.impca201.snoozer.service.SnoozeMode
 import io.github.impca201.snoozer.snoozerApp
 import io.github.impca201.snoozer.ui.guide.AccessGuideScreen
-import io.github.impca201.snoozer.ui.guide.ShortcutsGuideScreen
-import io.github.impca201.snoozer.ui.guide.TaskerGuideScreen
 import io.github.impca201.snoozer.ui.home.HomeScreen
+import io.github.impca201.snoozer.ui.settings.SettingsActions
+import io.github.impca201.snoozer.ui.settings.SettingsScreen
+import io.github.impca201.snoozer.ui.settings.SettingsState
 import kotlinx.coroutines.launch
 
 private val BackStackSaver =
@@ -56,13 +58,16 @@ fun SnoozerNavigation(
     val snoozed by repository.snoozeEnabled.collectAsStateWithLifecycle()
     val toastEnabled by repository.toastEnabled.collectAsStateWithLifecycle()
     val indicatorEnabled by repository.indicatorEnabled.collectAsStateWithLifecycle()
+    val dimEnabled by repository.dimEnabled.collectAsStateWithLifecycle()
     val accessGranted = rememberNotificationAccessGranted()
     val context = LocalContext.current
     var canPostNotifications by remember { mutableStateOf(SnoozeIndicator.canPost(context)) }
+    var hasPolicyAccess by remember { mutableStateOf(SnoozeMode.hasAccess(context)) }
     LifecycleResumeEffect(Unit) {
         // Permission or access may have changed in Settings while we were away.
         canPostNotifications = SnoozeIndicator.canPost(context)
-        app.refreshIndicator()
+        hasPolicyAccess = SnoozeMode.hasAccess(context)
+        app.refreshSnoozeCues()
         onPauseOrDispose { }
     }
 
@@ -71,7 +76,7 @@ fun SnoozerNavigation(
     val permissionLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
             canPostNotifications = SnoozeIndicator.canPost(context)
-            app.refreshIndicator()
+            app.refreshSnoozeCues()
             // The system stops showing the dialog after two refusals; then only Settings can help.
             if (!granted && openSettingsIfDenied) openAppNotificationSettings(context)
         }
@@ -128,21 +133,12 @@ fun SnoozerNavigation(
                 HomeScreen(
                     snoozed = snoozed == true,
                     accessGranted = accessGranted,
-                    toastEnabled = toastEnabled,
-                    indicatorEnabled = indicatorEnabled,
-                    indicatorBlocked = indicatorEnabled && !canPostNotifications,
                     onSnoozeChange = { enabled ->
                         app.appScope.launch { repository.setSnoozeEnabled(enabled) }
                         if (enabled && indicatorEnabled) ensureCanPostNotifications(fromSettingsItem = false)
                     },
-                    onToastEnabledChange = { enabled -> app.appScope.launch { repository.setToastEnabled(enabled) } },
-                    onIndicatorEnabledChange = { enabled ->
-                        app.appScope.launch { repository.setIndicatorEnabled(enabled) }
-                        if (enabled) ensureCanPostNotifications(fromSettingsItem = true)
-                    },
                     onOpenAccessGuide = { push(Destination.AccessGuide) },
-                    onOpenShortcutsGuide = { push(Destination.ShortcutsGuide) },
-                    onOpenTaskerGuide = { push(Destination.TaskerGuide) },
+                    onOpenSettings = { push(Destination.Settings) },
                 )
             }
 
@@ -150,14 +146,42 @@ fun SnoozerNavigation(
                 AccessGuideScreen(accessGranted = accessGranted, onBack = ::pop)
             }
 
-            Destination.ShortcutsGuide -> {
-                ShortcutsGuideScreen(onBack = ::pop)
-            }
-
-            Destination.TaskerGuide -> {
-                TaskerGuideScreen(onBack = ::pop)
+            Destination.Settings -> {
+                SettingsScreen(
+                    state =
+                        SettingsState(
+                            toastEnabled = toastEnabled,
+                            indicatorEnabled = indicatorEnabled,
+                            indicatorBlocked = indicatorEnabled && !canPostNotifications,
+                            dimSupported = SnoozeMode.isSupported(),
+                            dimEnabled = dimEnabled,
+                            dimBlocked = dimEnabled && !hasPolicyAccess,
+                        ),
+                    actions =
+                        SettingsActions(
+                            onToastEnabledChange = { enabled -> app.appScope.launch { repository.setToastEnabled(enabled) } },
+                            onIndicatorEnabledChange = { enabled ->
+                                app.appScope.launch { repository.setIndicatorEnabled(enabled) }
+                                if (enabled) ensureCanPostNotifications(fromSettingsItem = true)
+                            },
+                            onDimEnabledChange = { enabled ->
+                                app.appScope.launch { repository.setDimEnabled(enabled) }
+                                // Normally already granted together with notification access.
+                                if (enabled && !SnoozeMode.hasAccess(context)) openPolicyAccessSettings(context)
+                            },
+                        ),
+                    onBack = ::pop,
+                )
             }
         }
+    }
+}
+
+private fun openPolicyAccessSettings(context: Context) {
+    try {
+        context.startActivity(Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS))
+    } catch (_: ActivityNotFoundException) {
+        NotificationAccess.openAppInfo(context)
     }
 }
 

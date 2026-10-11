@@ -4,6 +4,8 @@
 
     <!-- Android 13+: needed for the optional persistent "Snoozing notifications" notification. -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Optional Android 15+ "Snoozer" mode that dims the wallpaper while snoozing. -->
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
 
     <!-- Lets the Tasker guide show "Open Tasker" when it is installed (package visibility, API 30+). -->
     <queries>
@@ -31,6 +33,11 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <!-- Opened from Settings › Modes › Snoozer: shows Snoozer's settings. -->
+            <intent-filter>
+                <action android:name="android.app.action.AUTOMATIC_ZEN_RULE" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <!-- Long-pressing the Quick Settings tile opens the app. -->
             <intent-filter>

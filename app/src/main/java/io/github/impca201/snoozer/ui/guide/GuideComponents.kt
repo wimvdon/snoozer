@@ -96,6 +96,17 @@ fun GuideSection(
     }
 }
 
+/** Numbered steps without a surrounding card, for use inside other containers. */
+@Composable
+fun NumberedSteps(
+    steps: List<String>,
+    modifier: Modifier = Modifier,
+) {
+    Column(modifier, verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        steps.forEachIndexed { index, step -> GuideStep(number = index + 1, text = step) }
+    }
+}
+
 @Composable
 private fun GuideStep(
     number: Int,
