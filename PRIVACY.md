@@ -1,6 +1,6 @@
 # Snoozer privacy policy
 
-_Last updated: 11 October 2026 (Follow Bedtime added)_
+_Last updated: 11 October 2026 (stored settings listed in full)_
 
 Snoozer is designed to collect nothing.
 
@@ -18,7 +18,10 @@ this access only to:
 On your device only, Snoozer stores:
 
 - whether snoozing is switched on;
-- whether the optional toast message is switched on;
+- your settings: the toast message, the persistent notification, the optional mode and the
+  name you gave it, and Follow Bedtime;
+- for Follow Bedtime, whether Bedtime was on at the last check and whether Snoozer started the
+  current snooze because of it;
 - the system identifiers ("keys") of notifications it snoozed, so they can be restored. These
   keys contain the posting app's package name and a notification ID, never notification content.
 
