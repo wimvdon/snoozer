@@ -82,6 +82,9 @@ fun HomeScreen(
 
     Scaffold(
         containerColor = background,
+        // contentColorFor() can't match the blended background and falls back to black, which is
+        // unreadable in dark mode, so set the content color explicitly.
+        contentColor = colors.onSurface,
         topBar = {
             TopAppBar(
                 title = { Text(stringResource(R.string.app_name)) },
