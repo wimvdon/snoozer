@@ -22,7 +22,7 @@
     <string name="banner_access_body">Snoozer ne peut rien mettre en pause sans votre autorisation. Appuyez pour savoir comment faire.</string>
 
     <string name="menu_guides">Guides</string>
-    <string name="guide_tile_menu">Bloc Réglages rapides</string>
+    <string name="guide_shortcuts_menu">Raccourcis</string>
     <string name="guide_tasker_menu">Automatisation Tasker</string>
     <string name="menu_settings">Paramètres</string>
     <string name="setting_toast_title">Activer le message toast</string>
@@ -65,7 +65,8 @@
     <string name="guide_access_privacy_body">Snoozer utilise cet accès uniquement pour mettre en pause et restaurer les notifications. Il ne lit, ne stocke ni ne partage jamais leur contenu, et n\'a pas accès à Internet.</string>
 
     <string name="guide_tile_title">Bloc Réglages rapides</string>
-    <string name="guide_tile_intro">Ajoutez le bloc « Pause notifs » à vos Réglages rapides pour mettre en pause ou reprendre depuis n\'importe où, sans ouvrir l\'app.</string>
+    <string name="guide_shortcuts_title">Raccourcis</string>
+    <string name="guide_shortcuts_intro">Mettez en pause ou reprenez sans ouvrir l\'app : depuis les Réglages rapides, l\'écran d\'accueil ou un geste.</string>
     <string name="guide_tile_quick_add_title">Ajout en un geste</string>
     <string name="guide_tile_quick_add_body">Votre téléphone peut ajouter le bloc pour vous. Appuyez sur le bouton et confirmez.</string>
     <string name="guide_tile_quick_add_button">Ajouter le bloc</string>
@@ -73,7 +74,6 @@
     <string name="guide_tile_result_already">Le bloc est déjà dans vos Réglages rapides.</string>
     <string name="guide_tile_result_not_added">Le bloc n\'a pas été ajouté.</string>
     <string name="guide_tile_result_error">Votre téléphone n\'a pas pu ajouter le bloc automatiquement. Suivez les étapes ci-dessous.</string>
-    <string name="guide_tile_manual_title">L\'ajouter vous-même</string>
     <string name="guide_tile_step1">Balayez deux fois vers le bas depuis le haut de l\'écran pour ouvrir les Réglages rapides.</string>
     <string name="guide_tile_step2">Appuyez sur le bouton Modifier (crayon).</string>
     <string name="guide_tile_step3">Trouvez le bloc « %1$s » et faites-le glisser vers vos blocs actifs.</string>
@@ -82,6 +82,12 @@
     <string name="guide_shortcut_step1">Appuyez de manière prolongée sur l\'icône de %1$s.</string>
     <string name="guide_shortcut_step2">Appuyez sur « %1$s » pour activer ou désactiver la pause instantanément.</string>
     <string name="guide_shortcut_step3">Facultatif : faites glisser le raccourci sur l\'écran d\'accueil pour y accéder d\'un geste.</string>
+    <string name="guide_gesture_title">Geste : appuyez au dos du téléphone</string>
+    <string name="guide_gesture_step1">Ouvrez Paramètres › Système › Gestes › Quick Tap pour lancer des actions.</string>
+    <string name="guide_gesture_step2">Activez Quick Tap et choisissez Ouvrir une appli.</string>
+    <string name="guide_gesture_step3">Appuyez sur l\'icône des paramètres à côté de %1$s et choisissez le raccourci « %2$s ».</string>
+    <string name="guide_gesture_step4">Appuyez deux fois au dos du téléphone pour mettre en pause ou reprendre.</string>
+    <string name="guide_gesture_other">Ceci concerne les téléphones Pixel. Sur d\'autres téléphones, cherchez une fonction d\'appui au dos ou de gestes capable d\'ouvrir un raccourci d\'appli, comme RegiStar dans Good Lock de Samsung.</string>
 
     <string name="guide_tasker_title">Automatisation Tasker</string>
     <string name="guide_tasker_intro">%1$s est un plug-in Tasker. Laissez Tasker mettre vos notifications en pause automatiquement, par exemple au coucher, en réunion ou au volant.</string>

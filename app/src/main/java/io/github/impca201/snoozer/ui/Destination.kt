@@ -4,6 +4,6 @@ package io.github.impca201.snoozer.ui
 enum class Destination {
     Home,
     AccessGuide,
-    TileGuide,
+    ShortcutsGuide,
     TaskerGuide,
 }

@@ -22,7 +22,7 @@
     <string name="banner_access_body">Snoozer no puede posponer nada hasta que lo permitas. Toca para ver cómo.</string>
 
     <string name="menu_guides">Guías</string>
-    <string name="guide_tile_menu">Icono de Ajustes rápidos</string>
+    <string name="guide_shortcuts_menu">Accesos directos</string>
     <string name="guide_tasker_menu">Automatización con Tasker</string>
     <string name="menu_settings">Ajustes</string>
     <string name="setting_toast_title">Activar aviso emergente</string>
@@ -65,7 +65,8 @@
     <string name="guide_access_privacy_body">Snoozer solo usa este acceso para posponer y restaurar notificaciones. Nunca lee, guarda ni comparte su contenido, y no tiene acceso a Internet.</string>
 
     <string name="guide_tile_title">Icono de Ajustes rápidos</string>
-    <string name="guide_tile_intro">Añade el icono Posponer a tus Ajustes rápidos para posponer o reanudar desde cualquier lugar, sin abrir la app.</string>
+    <string name="guide_shortcuts_title">Accesos directos</string>
+    <string name="guide_shortcuts_intro">Pospón o reanuda sin abrir la app: desde Ajustes rápidos, la pantalla de inicio o un gesto.</string>
     <string name="guide_tile_quick_add_title">Añádelo con un toque</string>
     <string name="guide_tile_quick_add_body">Tu teléfono puede añadir el icono por ti. Toca el botón y confirma.</string>
     <string name="guide_tile_quick_add_button">Añadir icono</string>
@@ -73,7 +74,6 @@
     <string name="guide_tile_result_already">El icono ya está en tus Ajustes rápidos.</string>
     <string name="guide_tile_result_not_added">No se ha añadido el icono.</string>
     <string name="guide_tile_result_error">Tu teléfono no ha podido añadir el icono automáticamente. Sigue los pasos de abajo.</string>
-    <string name="guide_tile_manual_title">Añádelo tú mismo</string>
     <string name="guide_tile_step1">Desliza dos veces hacia abajo desde la parte superior de la pantalla para abrir los Ajustes rápidos.</string>
     <string name="guide_tile_step2">Toca el botón Editar (lápiz).</string>
     <string name="guide_tile_step3">Busca el icono «%1$s» y arrástralo a tus iconos activos.</string>
@@ -82,6 +82,12 @@
     <string name="guide_shortcut_step1">Mantén pulsado el icono de la app %1$s.</string>
     <string name="guide_shortcut_step2">Toca «%1$s» para activar o desactivar la función al instante.</string>
     <string name="guide_shortcut_step3">Opcional: arrastra el acceso directo a la pantalla de inicio para usarlo con un toque.</string>
+    <string name="guide_gesture_title">Gesto: toca la parte trasera del teléfono</string>
+    <string name="guide_gesture_step1">Abre Ajustes › Sistema › Gestos › Quick Tap para iniciar acciones.</string>
+    <string name="guide_gesture_step2">Activa Quick Tap y elige Abrir aplicación.</string>
+    <string name="guide_gesture_step3">Toca el icono de ajustes junto a %1$s y elige el acceso directo «%2$s».</string>
+    <string name="guide_gesture_step4">Toca dos veces la parte trasera del teléfono para posponer o reanudar.</string>
+    <string name="guide_gesture_other">Así funciona en los teléfonos Pixel. En otros teléfonos, busca una función de toque trasero o de gestos que pueda abrir un acceso directo de app, como RegiStar en Good Lock de Samsung.</string>
 
     <string name="guide_tasker_title">Automatización con Tasker</string>
     <string name="guide_tasker_intro">%1$s es un plugin de Tasker. Deja que Tasker posponga tus notificaciones automáticamente, por ejemplo al acostarte, en reuniones o mientras conduces.</string>

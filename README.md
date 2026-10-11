@@ -9,7 +9,8 @@ Turn it off and they all come back.
 ## Features
 
 - **One big toggle** on the home screen, shaped like a Material 3 Expressive cookie that morphs into a slowly turning flower, with a soft breathing glow while snoozing is active.
-- **Quick Settings tile** — snooze from anywhere; long-press the tile to open the app.
+- **Shortcuts** — a Quick Settings tile (long-press opens the app), a launcher shortcut, and a
+  guide for triggering it with a gesture such as Pixel's Quick Tap (double-tap the back).
   On Android 13+ the in-app guide can add the tile for you.
 - **Launcher shortcut** — long-press the app icon and tap *Snooze on/off* (can be pinned).
 - **Tasker plug-in** — actions *Snooze*, *Unsnooze* and *Toggle*. Works with any app that

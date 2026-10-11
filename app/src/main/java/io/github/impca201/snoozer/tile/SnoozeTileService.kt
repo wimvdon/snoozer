@@ -23,8 +23,17 @@ class SnoozeTileService : TileService() {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private var listeningJob: Job? = null
 
+    override fun onTileAdded() {
+        super.onTileAdded()
+        snoozerApp.repository.snoozeEnabled.value
+            ?.let(::render)
+    }
+
     override fun onStartListening() {
         super.onStartListening()
+        // Render the cached value immediately, then keep following changes while visible.
+        snoozerApp.repository.snoozeEnabled.value
+            ?.let(::render)
         listeningJob?.cancel()
         listeningJob =
             scope.launch {
@@ -46,8 +55,11 @@ class SnoozeTileService : TileService() {
             openApp(Destination.AccessGuide)
             return
         }
-        // Use the app scope so the write completes even if the tile is unbound right away.
+        // Show the new state right away instead of waiting for the write to round-trip.
         val app = snoozerApp
+        app.repository.snoozeEnabled.value
+            ?.let { render(!it) }
+        // Use the app scope so the write completes even if the tile is unbound right away.
         app.appScope.launch { app.repository.toggleSnooze() }
     }
 

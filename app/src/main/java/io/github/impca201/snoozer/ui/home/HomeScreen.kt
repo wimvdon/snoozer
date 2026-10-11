@@ -75,7 +75,7 @@ fun HomeScreen(
     onSnoozeChange: (Boolean) -> Unit,
     onToastEnabledChange: (Boolean) -> Unit,
     onOpenAccessGuide: () -> Unit,
-    onOpenTileGuide: () -> Unit,
+    onOpenShortcutsGuide: () -> Unit,
     onOpenTaskerGuide: () -> Unit,
 ) {
     val active = snoozed && accessGranted
@@ -97,7 +97,7 @@ fun HomeScreen(
                 title = { Text(stringResource(R.string.app_name)) },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
                 actions = {
-                    GuidesMenu(onOpenTileGuide = onOpenTileGuide, onOpenTaskerGuide = onOpenTaskerGuide)
+                    GuidesMenu(onOpenShortcutsGuide = onOpenShortcutsGuide, onOpenTaskerGuide = onOpenTaskerGuide)
                     SettingsMenu(toastEnabled = toastEnabled, onToastEnabledChange = onToastEnabledChange)
                 },
             )
@@ -225,7 +225,7 @@ private fun AccessBanner(onClick: () -> Unit) {
 
 @Composable
 private fun GuidesMenu(
-    onOpenTileGuide: () -> Unit,
+    onOpenShortcutsGuide: () -> Unit,
     onOpenTaskerGuide: () -> Unit,
 ) {
     var expanded by rememberSaveable { mutableStateOf(false) }
@@ -236,11 +236,11 @@ private fun GuidesMenu(
         DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
             MenuHeader(stringResource(R.string.menu_guides))
             DropdownMenuItem(
-                text = { Text(stringResource(R.string.guide_tile_menu)) },
+                text = { Text(stringResource(R.string.guide_shortcuts_menu)) },
                 leadingIcon = { Icon(painterResource(R.drawable.ic_tile_grid), contentDescription = null) },
                 onClick = {
                     expanded = false
-                    onOpenTileGuide()
+                    onOpenShortcutsGuide()
                 },
             )
             DropdownMenuItem(
@@ -316,7 +316,7 @@ private fun HomeScreenPreview() {
             onSnoozeChange = {},
             onToastEnabledChange = {},
             onOpenAccessGuide = {},
-            onOpenTileGuide = {},
+            onOpenShortcutsGuide = {},
             onOpenTaskerGuide = {},
         )
     }
@@ -333,7 +333,7 @@ private fun HomeScreenNoAccessPreview() {
             onSnoozeChange = {},
             onToastEnabledChange = {},
             onOpenAccessGuide = {},
-            onOpenTileGuide = {},
+            onOpenShortcutsGuide = {},
             onOpenTaskerGuide = {},
         )
     }
