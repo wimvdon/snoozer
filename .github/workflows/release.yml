@@ -55,12 +55,9 @@ jobs:
             echo "::error::Add the ANDROID_KEYSTORE_BASE64, ANDROID_KEYSTORE_PASSWORD, ANDROID_KEY_ALIAS and ANDROID_KEY_PASSWORD secrets first (see the README)."
             exit 1
           fi
-          # Tolerate how the key text was copied: line breaks, spaces, or the
-          # -----BEGIN/END----- lines that Windows' certutil adds.
-          printf '%s' "$KEYSTORE_BASE64" | sed '/-----/d' | tr -d ' \t\r\n' | base64 --decode > "$RUNNER_TEMP/release.jks" || {
-            echo "::error::ANDROID_KEYSTORE_BASE64 is not valid base64 text. Create it again as described in the README."
-            exit 1
-          }
+          # Written to a file so the secret never appears on a command line.
+          printf '%s' "$KEYSTORE_BASE64" > "$RUNNER_TEMP/keystore.b64"
+          python3 .github/scripts/restore_keystore.py "$RUNNER_TEMP/keystore.b64" "$RUNNER_TEMP/release.jks"
           if ! keytool -list -keystore "$RUNNER_TEMP/release.jks" -storepass "$KEYSTORE_PASSWORD" -alias "$KEY_ALIAS" > /dev/null 2>&1; then
             echo "::error::The key could not be opened: check ANDROID_KEYSTORE_PASSWORD and ANDROID_KEY_ALIAS (and that ANDROID_KEYSTORE_BASE64 is the whole .jks file)."
             exit 1
@@ -91,4 +88,4 @@ jobs:
 
       - name: Remove the signing key
         if: always()
-        run: rm -f "$RUNNER_TEMP/release.jks" keystore.properties
+        run: rm -f "$RUNNER_TEMP/release.jks" "$RUNNER_TEMP/keystore.b64" keystore.properties
