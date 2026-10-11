@@ -24,8 +24,9 @@ android {
         applicationId = "io.github.impca201.snoozer"
         minSdk = 26
         targetSdk = 37
-        versionCode = 1
-        versionName = "1.0.0"
+        // The release workflow passes -PversionName (from the tag) and -PversionCode (run number).
+        versionCode = providers.gradleProperty("versionCode").map(String::toInt).getOrElse(1)
+        versionName = providers.gradleProperty("versionName").getOrElse("1.0.0")
     }
 
     signingConfigs {

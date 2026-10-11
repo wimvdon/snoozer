@@ -55,7 +55,7 @@ Android Studio is Google's free program for making Android apps. You won't write
 5. When it finishes, the last lines say `[OK] Done.` and `APK: app\build\outputs\apk\debug\`. That means it worked.
 6. Go back to File Explorer and open the folders **app** › **build** › **outputs** › **apk** › **debug**. Inside is the file **app-debug.apk**: your app.
 
-If you see `[FAILED]` or `[ERROR]` instead, go to [Chapter 8: Troubleshooting](#chapter-8-troubleshooting).
+If you see `[FAILED]` or `[ERROR]` instead, go to [Chapter 9: Troubleshooting](#chapter-9-troubleshooting).
 
 ## Chapter 4: Install the app on your phone
 
@@ -207,7 +207,40 @@ Apps on Google Play must be signed with your personal **upload key**: a small fi
 
 Before publishing, host [PRIVACY.md](PRIVACY.md) somewhere public (Google Play asks for its web address) and prepare the store listing.
 
-## Chapter 8: Troubleshooting
+## Chapter 8: Publish an APK on GitHub
+
+GitHub can build the signed APK for you and publish it on the repository's **Releases** page, where anyone can download it. It uses the same upload key as Google Play, so first do [Create your upload key](#create-your-upload-key) in Chapter 7.
+
+### Give GitHub your key (once)
+
+GitHub keeps the key as four **secrets**: encrypted values that only the build can read, and that nobody (including you) can view again afterwards.
+
+1. On your PC, open File Explorer and go to the folder with `snoozer-upload.jks`. Click the address bar, type `powershell` and press **Enter**. A blue **PowerShell** window opens.
+2. Type this and press **Enter**. It turns the key file into text and copies that text to the clipboard (nothing is shown):
+
+   ```powershell
+   [Convert]::ToBase64String([IO.File]::ReadAllBytes("snoozer-upload.jks")) | Set-Clipboard
+   ```
+
+3. In your web browser, go to **https://github.com/impca201/snoozer/settings/secrets/actions** and click **New repository secret**.
+4. For **Name** type `KEYSTORE_BASE64`. Click in **Secret**, press **Ctrl+V** to paste, and click **Add secret**.
+5. Repeat step 3 and 4 three more times:
+   - `KEYSTORE_PASSWORD`: the key store password from Chapter 7.
+   - `KEY_ALIAS`: `upload`.
+   - `KEY_PASSWORD`: the key password from Chapter 7.
+
+You now see four secrets in the list.
+
+### Publish a release
+
+1. Go to **https://github.com/impca201/snoozer/actions/workflows/release.yml**.
+2. Click **Run workflow** on the right. Leave **Branch** on `main`, type the new version number (for example `1.0.1`) and click the green **Run workflow** button.
+3. After about five minutes the run gets a green tick. Go to **https://github.com/impca201/snoozer/releases**: the new release **Snoozer 1.0.1** is there, with the file `snoozer-1.0.1.apk` under **Assets**.
+4. On your phone, open that releases page, tap the APK to download it, and install it as in [Chapter 4](#chapter-4-install-the-app-on-your-phone), steps 5 to 8.
+
+Use a higher version number each time. Phones install the new APK over the old one and keep your settings, because both are signed with the same key. If you installed the debug APK from Chapter 3 before, uninstall that first: it is signed with a different key.
+
+## Chapter 9: Troubleshooting
 
 **`[ERROR] Java not found.`**
 Android Studio isn't installed, or was installed to a different folder. Repeat [Chapter 1](#chapter-1-install-android-studio-on-your-pc) with the default settings, then try again in a **new** Command Prompt window.
@@ -252,6 +285,8 @@ Other `build.bat` targets: `release`, `install` (needs USB debugging), `test`, `
 - Install Android Studio: https://developer.android.com/studio/install
 - Download Android Studio: https://developer.android.com/studio
 - Sign your app and create an upload key: https://developer.android.com/studio/publish/app-signing
+- GitHub Actions secrets: https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions
+- GitHub Releases: https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases
 - Notification listener (how Snoozer snoozes): https://developer.android.com/reference/android/service/notification/NotificationListenerService
 - Quick Settings tiles: https://developer.android.com/develop/ui/views/quicksettings-tiles
 - App shortcuts: https://developer.android.com/develop/ui/views/launch/shortcuts
