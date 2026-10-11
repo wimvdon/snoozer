@@ -94,6 +94,16 @@ Snoozer needs **notification access**: Android's permission that lets an app see
 
 Calls, alarms, music controls, navigation and other notifications you can't swipe away are never snoozed, so you can't miss anything that matters right now.
 
+### See at a glance that snoozing is on
+
+While snoozing, Snoozer shows a silent notification called **Snoozing notifications**. Its bell-with-zz icon appears in the status bar (the strip at the very top of the screen with the clock), so you can always see that snoozing is on. Swipe down and tap **Unsnooze** in that notification to stop snoozing without opening the app.
+
+1. The first time you tap **Snooze**, Android asks **Allow Snoozer to send you notifications?** Tap **Allow**. (Android 13 and newer only. If you tap **Don't allow**, snoozing still works, you just won't see the icon.)
+2. If you swipe the notification away, it comes straight back while snoozing is on. **Clear all** doesn't remove it either.
+3. Don't want it? Tap the **cogwheel** icon at the top right of Snoozer and switch off **Show persistent notification**.
+
+If the setting says **Notifications are off for Snoozer. Tap to allow.**, tap it. Android either asks for permission again or opens Snoozer's notification settings: switch on **All Snoozer notifications** there, then go back.
+
 ### See which app was snoozed (optional)
 
 1. In Snoozer, tap the **cogwheel** icon at the top right.

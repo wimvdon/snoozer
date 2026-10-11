@@ -32,6 +32,13 @@
     <string name="menu_settings">Settings</string>
     <string name="setting_toast_title">Enable toast notification</string>
     <string name="setting_toast_summary">Briefly show which app\'s notification was snoozed</string>
+    <string name="setting_indicator_title">Show persistent notification</string>
+    <string name="setting_indicator_summary">A silent notification with an Unsnooze button while snoozing</string>
+    <string name="setting_indicator_blocked">Notifications are off for Snoozer. Tap to allow.</string>
+    <string name="indicator_channel_name">Snoozing status</string>
+    <string name="indicator_channel_description">Shows that notifications are being snoozed</string>
+    <string name="indicator_title">Snoozing notifications</string>
+    <string name="indicator_text">New notifications are put aside until you unsnooze.</string>
 
     <!-- Toasts -->
     <string name="toast_snoozed_from_app">Notification from %1$s snoozed</string>

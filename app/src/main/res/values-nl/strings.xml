@@ -27,6 +27,13 @@
     <string name="menu_settings">Instellingen</string>
     <string name="setting_toast_title">Toastmelding inschakelen</string>
     <string name="setting_toast_summary">Toon kort van welke app een melding is gesnoozed</string>
+    <string name="setting_indicator_title">Permanente melding tonen</string>
+    <string name="setting_indicator_summary">Een stille melding met een knop Stop snoozen zolang je snoozet</string>
+    <string name="setting_indicator_blocked">Meldingen staan uit voor Snoozer. Tik om toe te staan.</string>
+    <string name="indicator_channel_name">Snoozestatus</string>
+    <string name="indicator_channel_description">Laat zien dat meldingen worden gesnoozed</string>
+    <string name="indicator_title">Meldingen worden gesnoozed</string>
+    <string name="indicator_text">Nieuwe meldingen worden opzijgezet tot je stopt met snoozen.</string>
 
     <string name="toast_snoozed_from_app">Melding van %1$s gesnoozed</string>
     <plurals name="toast_snoozed_count">

@@ -72,8 +72,11 @@ fun HomeScreen(
     snoozed: Boolean,
     accessGranted: Boolean,
     toastEnabled: Boolean,
+    indicatorEnabled: Boolean,
+    indicatorBlocked: Boolean,
     onSnoozeChange: (Boolean) -> Unit,
     onToastEnabledChange: (Boolean) -> Unit,
+    onIndicatorEnabledChange: (Boolean) -> Unit,
     onOpenAccessGuide: () -> Unit,
     onOpenShortcutsGuide: () -> Unit,
     onOpenTaskerGuide: () -> Unit,
@@ -98,7 +101,13 @@ fun HomeScreen(
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
                 actions = {
                     GuidesMenu(onOpenShortcutsGuide = onOpenShortcutsGuide, onOpenTaskerGuide = onOpenTaskerGuide)
-                    SettingsMenu(toastEnabled = toastEnabled, onToastEnabledChange = onToastEnabledChange)
+                    SettingsMenu(
+                        toastEnabled = toastEnabled,
+                        indicatorEnabled = indicatorEnabled,
+                        indicatorBlocked = indicatorBlocked,
+                        onToastEnabledChange = onToastEnabledChange,
+                        onIndicatorEnabledChange = onIndicatorEnabledChange,
+                    )
                 },
             )
         },
@@ -258,38 +267,73 @@ private fun GuidesMenu(
 @Composable
 private fun SettingsMenu(
     toastEnabled: Boolean,
+    indicatorEnabled: Boolean,
+    indicatorBlocked: Boolean,
     onToastEnabledChange: (Boolean) -> Unit,
+    onIndicatorEnabledChange: (Boolean) -> Unit,
 ) {
     var expanded by rememberSaveable { mutableStateOf(false) }
-    val stateText = stringResource(if (toastEnabled) R.string.toast_setting_on else R.string.toast_setting_off)
     Box {
         IconButton(onClick = { expanded = true }) {
             Icon(painterResource(R.drawable.ic_settings), contentDescription = stringResource(R.string.menu_settings))
         }
         DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
             MenuHeader(stringResource(R.string.menu_settings))
-            DropdownMenuItem(
-                text = {
-                    Column(Modifier.widthIn(max = 220.dp)) {
-                        Text(stringResource(R.string.setting_toast_title))
-                        Text(
-                            stringResource(R.string.setting_toast_summary),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        )
-                    }
-                },
-                leadingIcon = { Icon(painterResource(R.drawable.ic_toast), contentDescription = null) },
-                trailingIcon = { Switch(checked = toastEnabled, onCheckedChange = null) },
-                onClick = { onToastEnabledChange(!toastEnabled) },
-                modifier =
-                    Modifier.semantics {
-                        role = Role.Switch
-                        stateDescription = stateText
-                    },
+            SwitchMenuItem(
+                title = stringResource(R.string.setting_toast_title),
+                summary = stringResource(R.string.setting_toast_summary),
+                iconRes = R.drawable.ic_toast,
+                checked = toastEnabled,
+                onCheckedChange = onToastEnabledChange,
+            )
+            SwitchMenuItem(
+                title = stringResource(R.string.setting_indicator_title),
+                summary =
+                    stringResource(
+                        if (indicatorBlocked) R.string.setting_indicator_blocked else R.string.setting_indicator_summary,
+                    ),
+                summaryIsWarning = indicatorBlocked,
+                iconRes = R.drawable.ic_notifications_paused,
+                checked = indicatorEnabled,
+                onCheckedChange = onIndicatorEnabledChange,
+                // Tapping a blocked, enabled item asks for the permission again.
+                onClickOverride = if (indicatorBlocked) ({ onIndicatorEnabledChange(true) }) else null,
             )
         }
     }
+}
+
+@Composable
+private fun SwitchMenuItem(
+    title: String,
+    summary: String,
+    iconRes: Int,
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
+    summaryIsWarning: Boolean = false,
+    onClickOverride: (() -> Unit)? = null,
+) {
+    val stateText = stringResource(if (checked) R.string.toast_setting_on else R.string.toast_setting_off)
+    DropdownMenuItem(
+        text = {
+            Column(Modifier.widthIn(max = 220.dp)) {
+                Text(title)
+                Text(
+                    summary,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = if (summaryIsWarning) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+        },
+        leadingIcon = { Icon(painterResource(iconRes), contentDescription = null) },
+        trailingIcon = { Switch(checked = checked, onCheckedChange = null) },
+        onClick = onClickOverride ?: { onCheckedChange(!checked) },
+        modifier =
+            Modifier.semantics {
+                role = Role.Switch
+                stateDescription = stateText
+            },
+    )
 }
 
 @Composable
@@ -313,8 +357,11 @@ private fun HomeScreenPreview() {
             snoozed = true,
             accessGranted = true,
             toastEnabled = false,
+            indicatorEnabled = true,
+            indicatorBlocked = false,
             onSnoozeChange = {},
             onToastEnabledChange = {},
+            onIndicatorEnabledChange = {},
             onOpenAccessGuide = {},
             onOpenShortcutsGuide = {},
             onOpenTaskerGuide = {},
@@ -330,8 +377,11 @@ private fun HomeScreenNoAccessPreview() {
             snoozed = false,
             accessGranted = false,
             toastEnabled = true,
+            indicatorEnabled = true,
+            indicatorBlocked = true,
             onSnoozeChange = {},
             onToastEnabledChange = {},
+            onIndicatorEnabledChange = {},
             onOpenAccessGuide = {},
             onOpenShortcutsGuide = {},
             onOpenTaskerGuide = {},

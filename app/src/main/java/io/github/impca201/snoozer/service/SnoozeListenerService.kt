@@ -12,6 +12,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 
@@ -72,6 +73,22 @@ class SnoozeListenerService : NotificationListenerService() {
     ) {
         if (sbn == null || scope == null) return
         if (repository.snoozeEnabled.value == true) snooze(sbn)
+    }
+
+    override fun onNotificationRemoved(
+        sbn: StatusBarNotification?,
+        rankingMap: RankingMap?,
+        reason: Int,
+    ) {
+        if (sbn == null || sbn.packageName != packageName || sbn.id != SnoozeIndicator.NOTIFICATION_ID) return
+        // Android 14+ lets users swipe away ongoing notifications. While snoozing, put the
+        // indicator straight back; the short delay lets System UI finish its dismiss animation.
+        if (reason == REASON_CANCEL || reason == REASON_CANCEL_ALL) {
+            scope?.launch {
+                delay(REPOST_DELAY_MS)
+                snoozerApp.refreshIndicator()
+            }
+        }
     }
 
     private fun snoozeAllActive() {
@@ -156,6 +173,9 @@ class SnoozeListenerService : NotificationListenerService() {
 
         /** Re-snoozing for this short period is how notifications are brought back. */
         const val RESTORE_DELAY_MS = 1_000L
+
+        /** Gives System UI time to finish the swipe animation before the indicator returns. */
+        const val REPOST_DELAY_MS = 400L
 
         /** Notification.EXTRA_BUILDER_APPLICATION_INFO (hidden constant). */
         const val EXTRA_APP_INFO = "android.appInfo"

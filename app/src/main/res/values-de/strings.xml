@@ -27,6 +27,13 @@
     <string name="menu_settings">Einstellungen</string>
     <string name="setting_toast_title">Toast-Hinweis aktivieren</string>
     <string name="setting_toast_summary">Kurz anzeigen, von welcher App eine Benachrichtigung schlummert</string>
+    <string name="setting_indicator_title">Dauerhafte Benachrichtigung anzeigen</string>
+    <string name="setting_indicator_summary">Eine lautlose Benachrichtigung mit Aufwecken-Button, solange Benachrichtigungen schlummern</string>
+    <string name="setting_indicator_blocked">Benachrichtigungen für Snoozer sind aus. Tippe, um sie zu erlauben.</string>
+    <string name="indicator_channel_name">Schlummerstatus</string>
+    <string name="indicator_channel_description">Zeigt an, dass Benachrichtigungen schlummern</string>
+    <string name="indicator_title">Benachrichtigungen schlummern</string>
+    <string name="indicator_text">Neue Benachrichtigungen werden beiseitegelegt, bis du sie aufweckst.</string>
 
     <string name="toast_snoozed_from_app">Benachrichtigung von %1$s schlummert</string>
     <plurals name="toast_snoozed_count">

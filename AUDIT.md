@@ -28,8 +28,10 @@ performance and battery use, accessibility, localization and build hygiene.
 
 ## Security
 
-- **Permissions.** Only `BIND_NOTIFICATION_LISTENER_SERVICE` and `BIND_QUICK_SETTINGS_TILE`,
-  as service guards. There's no `INTERNET` permission, so the app cannot send data anywhere.
+- **Permissions.** `POST_NOTIFICATIONS` (Android 13+, only for the optional persistent
+  "Snoozing notifications" notification; snoozing works without it), plus
+  `BIND_NOTIFICATION_LISTENER_SERVICE` and `BIND_QUICK_SETTINGS_TILE` as service guards.
+  There's no `INTERNET` permission, so the app cannot send data anywhere.
 - **Exported components.**
   - `MainActivity` is the launcher. Its only extra picks which screen opens; it is validated
     against an enum.
@@ -39,6 +41,8 @@ performance and battery use, accessibility, localization and build hygiene.
     could therefore send it Snooze/Unsnooze/Toggle. The impact is limited to switching
     snoozing; no data is exposed. The bundle is parsed defensively (allow-list of three ids,
     unparcelling errors caught). **Accepted risk**, standard for Locale plug-ins.
+  - `UnsnoozeReceiver` (the persistent notification's Unsnooze button) is not exported; only
+    the app's own immutable `PendingIntent` can reach it.
   - `ShortcutActivity` is not exported. Launcher shortcuts start it with the app's own
     identity.
 - **PendingIntents** are `FLAG_IMMUTABLE` with explicit components.
@@ -78,7 +82,8 @@ performance and battery use, accessibility, localization and build hygiene.
 
 ## Battery
 
-- No foreground service, no wake locks, no alarms, no polling. Work happens only in
+- No foreground service, no wake locks, no alarms, no polling. The persistent notification is a
+  plain ongoing notification; when it's swiped away, the already-running listener reposts it. Work happens only in
   callbacks: the system-bound notification listener, tile clicks, the shortcut, Tasker
   broadcasts.
 - UI animations exist only while snoozing and the screen is visible, and run in the
