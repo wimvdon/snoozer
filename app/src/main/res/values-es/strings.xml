@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_back">Atrás</string>
+    <string name="action_cancel">Cancelar</string>
+    <string name="action_save">Guardar</string>
+    <string name="state_on">Activado</string>
+    <string name="state_off">Desactivado</string>
+
+    <string name="toggle_snooze">Posponer</string>
+    <string name="toggle_unsnooze">Reanudar</string>
+    <string name="state_snoozed">Pospuesto</string>
+    <string name="state_not_snoozed">Sin posponer</string>
+
+    <string name="status_active_title">Las notificaciones están activas</string>
+    <string name="status_active_body">Toca para posponer todas las notificaciones hasta que lo vuelvas a desactivar.</string>
+    <string name="status_snoozed_title">Todas las notificaciones pospuestas</string>
+    <string name="status_snoozed_body">Las notificaciones nuevas se apartan en silencio. Vuelven en cuanto reanudes.</string>
+    <string name="status_no_access_title">Se necesita acceso a las notificaciones</string>
+    <string name="status_no_access_body">Concede acceso a las notificaciones para empezar a posponer.</string>
+
+    <string name="banner_access_title">Activar acceso a las notificaciones</string>
+    <string name="banner_access_body">Snoozer no puede posponer nada hasta que lo permitas. Toca para ver cómo.</string>
+
+    <string name="menu_guides">Guías</string>
+    <string name="guide_tile_menu">Icono de Ajustes rápidos</string>
+    <string name="guide_tasker_menu">Automatización con Tasker</string>
+    <string name="menu_settings">Ajustes</string>
+    <string name="setting_toast_title">Activar aviso emergente</string>
+    <string name="setting_toast_summary">Muestra brevemente de qué app era la notificación pospuesta</string>
+
+    <string name="toast_snoozed_from_app">Notificación de %1$s pospuesta</string>
+    <plurals name="toast_snoozed_count">
+        <item quantity="one">%d notificación pospuesta</item>
+        <item quantity="many">%d notificaciones pospuestas</item>
+        <item quantity="other">%d notificaciones pospuestas</item>
+    </plurals>
+    <string name="feedback_snoozed">Notificaciones pospuestas</string>
+    <string name="feedback_unsnoozed">Notificaciones reanudadas</string>
+
+    <string name="tile_label">Posponer</string>
+    <string name="tile_subtitle_on">Activado</string>
+    <string name="tile_subtitle_off">Desactivado</string>
+    <string name="tile_subtitle_setup">Requiere configuración</string>
+
+    <string name="shortcut_toggle_short">Posponer sí/no</string>
+    <string name="shortcut_toggle_long">Posponer sí/no</string>
+
+    <string name="guide_how_title">Cómo activarlo</string>
+
+    <string name="guide_access_title">Acceso a las notificaciones</string>
+    <string name="guide_access_why_title">¿Por qué es necesario?</string>
+    <string name="guide_access_why_body">Android solo permite posponer notificaciones de otras apps a las apps con acceso a las notificaciones. Sin él, Snoozer no puede funcionar.</string>
+    <string name="guide_access_step1">Toca «Abrir ajustes» abajo.</string>
+    <string name="guide_access_step2">Busca %1$s en la lista y activa «Permitir acceso a las notificaciones».</string>
+    <string name="guide_access_step3">Confirma tocando «Permitir».</string>
+    <string name="guide_access_step4">Vuelve aquí. El botón para posponer ya está listo.</string>
+    <string name="guide_access_open_settings">Abrir ajustes</string>
+    <string name="guide_access_granted_title">Todo listo</string>
+    <string name="guide_access_granted_body">El acceso a las notificaciones está activado. Ya puedes posponer todas las notificaciones con un solo toque.</string>
+    <string name="guide_access_back_home">Volver a Snoozer</string>
+    <string name="guide_access_restricted_title">¿Interruptor en gris?</string>
+    <string name="guide_access_restricted_body">Si instalaste Snoozer fuera de una tienda de apps, Android bloquea este ajuste al principio. Abre Información de la app, toca el menú ⋮ de arriba, elige «Permitir ajustes restringidos» y vuelve a intentarlo.</string>
+    <string name="guide_access_open_app_info">Abrir información de la app</string>
+    <string name="guide_access_privacy_title">Tu privacidad</string>
+    <string name="guide_access_privacy_body">Snoozer solo usa este acceso para posponer y restaurar notificaciones. Nunca lee, guarda ni comparte su contenido, y no tiene acceso a Internet.</string>
+
+    <string name="guide_tile_title">Icono de Ajustes rápidos</string>
+    <string name="guide_tile_intro">Añade el icono Posponer a tus Ajustes rápidos para posponer o reanudar desde cualquier lugar, sin abrir la app.</string>
+    <string name="guide_tile_quick_add_title">Añádelo con un toque</string>
+    <string name="guide_tile_quick_add_body">Tu teléfono puede añadir el icono por ti. Toca el botón y confirma.</string>
+    <string name="guide_tile_quick_add_button">Añadir icono</string>
+    <string name="guide_tile_result_added">Icono añadido. Desliza hacia abajo para encontrarlo.</string>
+    <string name="guide_tile_result_already">El icono ya está en tus Ajustes rápidos.</string>
+    <string name="guide_tile_result_not_added">No se ha añadido el icono.</string>
+    <string name="guide_tile_result_error">Tu teléfono no ha podido añadir el icono automáticamente. Sigue los pasos de abajo.</string>
+    <string name="guide_tile_manual_title">Añádelo tú mismo</string>
+    <string name="guide_tile_step1">Desliza dos veces hacia abajo desde la parte superior de la pantalla para abrir los Ajustes rápidos.</string>
+    <string name="guide_tile_step2">Toca el botón Editar (lápiz).</string>
+    <string name="guide_tile_step3">Busca el icono «%1$s» y arrástralo a tus iconos activos.</string>
+    <string name="guide_tile_step4">Toca el icono para activar o desactivar la función. Mantenlo pulsado para abrir Snoozer.</string>
+    <string name="guide_shortcut_title">Acceso directo en la pantalla de inicio</string>
+    <string name="guide_shortcut_step1">Mantén pulsado el icono de la app %1$s.</string>
+    <string name="guide_shortcut_step2">Toca «%1$s» para activar o desactivar la función al instante.</string>
+    <string name="guide_shortcut_step3">Opcional: arrastra el acceso directo a la pantalla de inicio para usarlo con un toque.</string>
+
+    <string name="guide_tasker_title">Automatización con Tasker</string>
+    <string name="guide_tasker_intro">%1$s es un plugin de Tasker. Deja que Tasker posponga tus notificaciones automáticamente, por ejemplo al acostarte, en reuniones o mientras conduces.</string>
+    <string name="guide_tasker_open">Abrir Tasker</string>
+    <string name="guide_tasker_get">Conseguir Tasker</string>
+    <string name="guide_tasker_steps_title">Añadir la acción de Snoozer</string>
+    <string name="guide_tasker_step1">En Tasker, abre la pestaña Tareas y toca + para crear una tarea.</string>
+    <string name="guide_tasker_step2">Toca + para añadir una acción y elige Plugin › %1$s.</string>
+    <string name="guide_tasker_step3">Toca el lápiz junto a Configuración, elige Posponer, Reanudar o Alternar y toca Guardar.</string>
+    <string name="guide_tasker_step4">Vuelve atrás para guardar la acción. Ejecuta la tarea o úsala en un perfil.</string>
+    <string name="guide_tasker_example_title">Ejemplo: noches tranquilas</string>
+    <string name="guide_tasker_example_step1">En la pestaña Perfiles, toca + y elige Hora. Configúralo de 22:00 a 07:00.</string>
+    <string name="guide_tasker_example_step2">Como tarea de entrada, añade la acción %1$s › Posponer.</string>
+    <string name="guide_tasker_example_step3">Mantén pulsada la tarea, elige Añadir tarea de salida y añade %1$s › Reanudar.</string>
+    <string name="guide_tasker_other_title">Otras apps de automatización</string>
+    <string name="guide_tasker_other_body">Snoozer también funciona con MacroDroid, Automate y cualquier otra app compatible con plugins de Tasker/Locale.</string>
+
+    <string name="tasker_edit_title">Acción de Snoozer</string>
+    <string name="tasker_edit_description">Elige qué hace esta acción cuando se ejecuta la tarea.</string>
+    <string name="tasker_command_snooze">Posponer</string>
+    <string name="tasker_command_snooze_desc">Posponer todas las notificaciones hasta reanudar</string>
+    <string name="tasker_command_unsnooze">Reanudar</string>
+    <string name="tasker_command_unsnooze_desc">Dejar de posponer y recuperar todas las notificaciones</string>
+    <string name="tasker_command_toggle">Alternar</string>
+    <string name="tasker_command_toggle_desc">Cambiar entre posponer y reanudar</string>
+</resources>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_back">Terug</string>
+    <string name="action_cancel">Annuleren</string>
+    <string name="action_save">Opslaan</string>
+    <string name="state_on">Aan</string>
+    <string name="state_off">Uit</string>
+
+    <string name="toggle_snooze">Snoozen</string>
+    <string name="toggle_unsnooze">Stop snoozen</string>
+    <string name="state_snoozed">Snoozen actief</string>
+    <string name="state_not_snoozed">Snoozen uit</string>
+
+    <string name="status_active_title">Meldingen staan aan</string>
+    <string name="status_active_body">Tik om alle meldingen te snoozen totdat je het weer uitzet.</string>
+    <string name="status_snoozed_title">Alle meldingen gesnoozed</string>
+    <string name="status_snoozed_body">Nieuwe meldingen worden stil opzijgezet. Ze komen terug zodra je stopt met snoozen.</string>
+    <string name="status_no_access_title">Toegang tot meldingen nodig</string>
+    <string name="status_no_access_body">Geef toegang tot meldingen om te kunnen snoozen.</string>
+
+    <string name="banner_access_title">Toegang tot meldingen inschakelen</string>
+    <string name="banner_access_body">Snoozer kan pas snoozen als je dit toestaat. Tik om te zien hoe.</string>
+
+    <string name="menu_guides">Handleidingen</string>
+    <string name="guide_tile_menu">Snelle instellingen-tegel</string>
+    <string name="guide_tasker_menu">Tasker-automatisering</string>
+    <string name="menu_settings">Instellingen</string>
+    <string name="setting_toast_title">Toastmelding inschakelen</string>
+    <string name="setting_toast_summary">Toon kort van welke app een melding is gesnoozed</string>
+
+    <string name="toast_snoozed_from_app">Melding van %1$s gesnoozed</string>
+    <plurals name="toast_snoozed_count">
+        <item quantity="one">%d melding gesnoozed</item>
+        <item quantity="other">%d meldingen gesnoozed</item>
+    </plurals>
+    <string name="feedback_snoozed">Meldingen gesnoozed</string>
+    <string name="feedback_unsnoozed">Meldingen weer aan</string>
+
+    <string name="tile_label">Snooze</string>
+    <string name="tile_subtitle_on">Aan</string>
+    <string name="tile_subtitle_off">Uit</string>
+    <string name="tile_subtitle_setup">Instellen nodig</string>
+
+    <string name="shortcut_toggle_short">Snooze aan/uit</string>
+    <string name="shortcut_toggle_long">Snooze aan/uit</string>
+
+    <string name="guide_how_title">Zo zet je het aan</string>
+
+    <string name="guide_access_title">Toegang tot meldingen</string>
+    <string name="guide_access_why_title">Waarom is dit nodig?</string>
+    <string name="guide_access_why_body">Android laat alleen apps met toegang tot meldingen de meldingen van andere apps snoozen. Zonder deze toegang kan Snoozer zijn werk niet doen.</string>
+    <string name="guide_access_step1">Tik hieronder op \"Instellingen openen\".</string>
+    <string name="guide_access_step2">Zoek %1$s in de lijst en zet \"Toegang tot meldingen toestaan\" aan.</string>
+    <string name="guide_access_step3">Bevestig door op \"Toestaan\" te tikken.</string>
+    <string name="guide_access_step4">Kom hier terug. De snoozeknop is nu klaar voor gebruik.</string>
+    <string name="guide_access_open_settings">Instellingen openen</string>
+    <string name="guide_access_granted_title">Je bent er klaar voor</string>
+    <string name="guide_access_granted_body">Toegang tot meldingen staat aan. Je kunt nu met één tik alle meldingen snoozen.</string>
+    <string name="guide_access_back_home">Terug naar Snoozer</string>
+    <string name="guide_access_restricted_title">Schakelaar grijs?</string>
+    <string name="guide_access_restricted_body">Als je Snoozer buiten een appwinkel hebt geïnstalleerd, blokkeert Android deze instelling eerst. Open App-info, tik op het ⋮-menu in de hoek, kies \"Beperkte instellingen toestaan\" en probeer het opnieuw.</string>
+    <string name="guide_access_open_app_info">App-info openen</string>
+    <string name="guide_access_privacy_title">Je privacy</string>
+    <string name="guide_access_privacy_body">Snoozer gebruikt deze toegang alleen om meldingen te snoozen en terug te zetten. De inhoud wordt nooit gelezen, opgeslagen of gedeeld, en de app heeft geen internettoegang.</string>
+
+    <string name="guide_tile_title">Snelle instellingen-tegel</string>
+    <string name="guide_tile_intro">Voeg de Snooze-tegel toe aan je snelle instellingen om overal te snoozen of te stoppen, zonder de app te openen.</string>
+    <string name="guide_tile_quick_add_title">Toevoegen met één tik</string>
+    <string name="guide_tile_quick_add_body">Je telefoon kan de tegel voor je toevoegen. Tik op de knop en bevestig.</string>
+    <string name="guide_tile_quick_add_button">Tegel toevoegen</string>
+    <string name="guide_tile_result_added">Tegel toegevoegd. Veeg omlaag om hem te vinden.</string>
+    <string name="guide_tile_result_already">De tegel staat al in je snelle instellingen.</string>
+    <string name="guide_tile_result_not_added">De tegel is niet toegevoegd.</string>
+    <string name="guide_tile_result_error">Je telefoon kon de tegel niet automatisch toevoegen. Volg de stappen hieronder.</string>
+    <string name="guide_tile_manual_title">Zelf toevoegen</string>
+    <string name="guide_tile_step1">Veeg twee keer omlaag vanaf de bovenkant van het scherm om de snelle instellingen te openen.</string>
+    <string name="guide_tile_step2">Tik op de knop Bewerken (potlood).</string>
+    <string name="guide_tile_step3">Zoek de tegel \"%1$s\" en sleep hem naar je actieve tegels.</string>
+    <string name="guide_tile_step4">Tik op de tegel om snoozen aan of uit te zetten. Houd hem ingedrukt om Snoozer te openen.</string>
+    <string name="guide_shortcut_title">Snelkoppeling op het startscherm</string>
+    <string name="guide_shortcut_step1">Houd het app-icoon van %1$s ingedrukt.</string>
+    <string name="guide_shortcut_step2">Tik op \"%1$s\" om snoozen direct aan of uit te zetten.</string>
+    <string name="guide_shortcut_step3">Optioneel: sleep de snelkoppeling naar je startscherm voor toegang met één tik.</string>
+
+    <string name="guide_tasker_title">Tasker-automatisering</string>
+    <string name="guide_tasker_intro">%1$s is een Tasker-plug-in. Laat Tasker je meldingen automatisch snoozen, bijvoorbeeld bij het slapengaan, tijdens vergaderingen of onder het rijden.</string>
+    <string name="guide_tasker_open">Tasker openen</string>
+    <string name="guide_tasker_get">Tasker downloaden</string>
+    <string name="guide_tasker_steps_title">De Snoozer-actie toevoegen</string>
+    <string name="guide_tasker_step1">Open in Tasker het tabblad Taken en tik op + om een taak te maken.</string>
+    <string name="guide_tasker_step2">Tik op + om een actie toe te voegen en kies Plug-in › %1$s.</string>
+    <string name="guide_tasker_step3">Tik op het potlood naast Configuratie, kies Snoozen, Stop snoozen of Wisselen en tik op Opslaan.</string>
+    <string name="guide_tasker_step4">Ga terug om de actie op te slaan. Voer de taak uit of gebruik hem in een profiel.</string>
+    <string name="guide_tasker_example_title">Voorbeeld: rustige nachten</string>
+    <string name="guide_tasker_example_step1">Tik in het tabblad Profielen op + en kies Tijd. Stel in van 22:00 tot 07:00.</string>
+    <string name="guide_tasker_example_step2">Voeg als starttaak de actie %1$s › Snoozen toe.</string>
+    <string name="guide_tasker_example_step3">Houd de taak ingedrukt, kies Eindtaak toevoegen en voeg %1$s › Stop snoozen toe.</string>
+    <string name="guide_tasker_other_title">Andere automatiseringsapps</string>
+    <string name="guide_tasker_other_body">Snoozer werkt ook in MacroDroid, Automate en elke andere app die Tasker/Locale-plug-ins ondersteunt.</string>
+
+    <string name="tasker_edit_title">Snoozer-actie</string>
+    <string name="tasker_edit_description">Kies wat deze actie doet wanneer de taak wordt uitgevoerd.</string>
+    <string name="tasker_command_snooze">Snoozen</string>
+    <string name="tasker_command_snooze_desc">Alle meldingen snoozen tot je stopt</string>
+    <string name="tasker_command_unsnooze">Stop snoozen</string>
+    <string name="tasker_command_unsnooze_desc">Stoppen met snoozen en alle meldingen terugzetten</string>
+    <string name="tasker_command_toggle">Wisselen</string>
+    <string name="tasker_command_toggle_desc">Wisselen tussen wel en niet snoozen</string>
+</resources>
