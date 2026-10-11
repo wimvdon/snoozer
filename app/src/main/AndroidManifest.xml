@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <!-- Optional Android 15+ "Snoozer" mode that is switched on while snoozing. -->
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
-    <!-- Experimental "Follow Bedtime": read the active modes via `dumpsys notification --proto`.
+    <!-- Experimental "Follow Bedtime": read the active modes from the notification service dump (proto format).
          Both can only be granted by the user with adb; without them the feature stays off. -->
     <uses-permission
         android:name="android.permission.DUMP"
