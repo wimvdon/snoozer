@@ -6,8 +6,8 @@
     <string name="action_back">Back</string>
     <string name="action_cancel">Cancel</string>
     <string name="action_save">Save</string>
-    <string name="state_on">On</string>
-    <string name="state_off">Off</string>
+    <string name="toast_setting_on">On</string>
+    <string name="toast_setting_off">Off</string>
 
     <!-- Home: big toggle. Labels describe the action a tap performs. -->
     <string name="toggle_snooze">Snooze</string>

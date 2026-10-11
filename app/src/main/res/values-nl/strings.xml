@@ -3,8 +3,8 @@
     <string name="action_back">Terug</string>
     <string name="action_cancel">Annuleren</string>
     <string name="action_save">Opslaan</string>
-    <string name="state_on">Aan</string>
-    <string name="state_off">Uit</string>
+    <string name="toast_setting_on">Aan</string>
+    <string name="toast_setting_off">Uit</string>
 
     <string name="toggle_snooze">Snoozen</string>
     <string name="toggle_unsnooze">Stop snoozen</string>

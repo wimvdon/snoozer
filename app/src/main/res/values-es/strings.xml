@@ -3,8 +3,8 @@
     <string name="action_back">Atrás</string>
     <string name="action_cancel">Cancelar</string>
     <string name="action_save">Guardar</string>
-    <string name="state_on">Activado</string>
-    <string name="state_off">Desactivado</string>
+    <string name="toast_setting_on">Activado</string>
+    <string name="toast_setting_off">Desactivado</string>
 
     <string name="toggle_snooze">Posponer</string>
     <string name="toggle_unsnooze">Reanudar</string>

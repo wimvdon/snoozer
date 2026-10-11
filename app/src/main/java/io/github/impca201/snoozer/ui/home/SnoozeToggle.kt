@@ -1,7 +1,9 @@
 package io.github.impca201.snoozer.ui.home
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloat
@@ -18,12 +20,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.selection.toggleable
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -41,11 +43,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import io.github.impca201.snoozer.R
+import kotlin.math.roundToInt
 
-val SnoozeToggleSize: Dp = 220.dp
+val SnoozeToggleSize: Dp = 232.dp
+
+private const val ROTATION_PERIOD_MS = 60_000
+private const val BREATH_HALF_CYCLE_MS = 2_600
 
 /**
- * The big round snooze switch. Shows the action it will perform ("Snooze" / "Unsnooze") and
+ * The big snooze switch, shaped like a Material 3 Expressive cookie that morphs into a flower. Shows the action it will perform ("Snooze" / "Unsnooze") and
  * gently "breathes" while snoozing is active.
  */
 @Composable
@@ -88,13 +94,35 @@ fun SnoozeToggle(
             rememberInfiniteTransition(label = "breath")
                 .animateFloat(
                     initialValue = 1f,
-                    targetValue = 1.035f,
-                    animationSpec = infiniteRepeatable(tween(2_400, easing = FastOutSlowInEasing), RepeatMode.Reverse),
+                    targetValue = 1.03f,
+                    animationSpec = infiniteRepeatable(tween(BREATH_HALF_CYCLE_MS, easing = FastOutSlowInEasing), RepeatMode.Reverse),
                     label = "breath-scale",
                 ).value
         } else {
             1f
         }
+
+    // Expressive morph: cookie when awake, flower while snoozing, with a bouncy spring.
+    val morphProgress by animateFloatAsState(
+        targetValue = if (snoozed && enabled) 1f else 0f,
+        animationSpec = spring(dampingRatio = 0.55f, stiffness = Spring.StiffnessLow),
+        label = "toggle-morph",
+    )
+    // While snoozing the shape turns very slowly; when woken it settles on a resting angle.
+    val rotation = remember { Animatable(0f) }
+    LaunchedEffect(snoozed, enabled, animate) {
+        if (snoozed && enabled && animate) {
+            while (true) {
+                rotation.animateTo(rotation.value + 360f, tween(ROTATION_PERIOD_MS, easing = LinearEasing))
+                rotation.snapTo(rotation.value % 360f)
+            }
+        } else {
+            val step = ExpressiveShapes.COOKIE_SYMMETRY_DEGREES
+            rotation.animateTo((rotation.value / step).roundToInt() * step, spring(stiffness = Spring.StiffnessVeryLow))
+            rotation.snapTo(rotation.value % 360f)
+        }
+    }
+    val shape = MorphShape(ExpressiveShapes.CookieToFlower, morphProgress, rotation.value)
 
     val stateText = stringResource(if (snoozed) R.string.state_snoozed else R.string.state_not_snoozed)
 
@@ -106,8 +134,8 @@ fun SnoozeToggle(
                     val scale = pressScale * breathScale
                     scaleX = scale
                     scaleY = scale
-                }.shadow(elevation = if (enabled) 10.dp else 0.dp, shape = CircleShape)
-                .clip(CircleShape)
+                }.shadow(elevation = if (enabled) 10.dp else 0.dp, shape = shape)
+                .clip(shape)
                 .background(containerColor)
                 .toggleable(
                     value = snoozed,

@@ -8,7 +8,7 @@ Turn it off and they all come back.
 
 ## Features
 
-- **One big toggle** on the home screen, with a calm ripple animation while snoozing is active.
+- **One big toggle** on the home screen, shaped like a Material 3 Expressive cookie that morphs into a slowly turning flower, with a soft breathing glow while snoozing is active.
 - **Quick Settings tile** — snooze from anywhere; long-press the tile to open the app.
   On Android 13+ the in-app guide can add the tile for you.
 - **Launcher shortcut** — long-press the app icon and tap *Snooze on/off* (can be pinned).
@@ -58,7 +58,7 @@ app/src/main/java/io/github/impca201/snoozer/
 |---|---|
 | Min SDK | 26 (Android 8.0) |
 | Target / compile SDK | 37 (Android 17) |
-| Build | AGP 9.4, Gradle 9.8, Kotlin 2.4 (AGP built-in Kotlin), JDK 17+ |
+| Build | AGP 9.4.1, Gradle 9.8, Kotlin 2.4 (AGP built-in Kotlin), JDK 17+ |
 | UI | Jetpack Compose (BOM 2026.09.00), Material 3 |
 
 ## Building

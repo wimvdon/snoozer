@@ -3,8 +3,8 @@
     <string name="action_back">Zurück</string>
     <string name="action_cancel">Abbrechen</string>
     <string name="action_save">Speichern</string>
-    <string name="state_on">An</string>
-    <string name="state_off">Aus</string>
+    <string name="toast_setting_on">An</string>
+    <string name="toast_setting_off">Aus</string>
 
     <string name="toggle_snooze">Schlummern</string>
     <string name="toggle_unsnooze">Aufwecken</string>
