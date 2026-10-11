@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Snoozer</string>
+
+    <!-- Generic -->
+    <string name="action_back">Back</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_save">Save</string>
+    <string name="state_on">On</string>
+    <string name="state_off">Off</string>
+
+    <!-- Home: big toggle. Labels describe the action a tap performs. -->
+    <string name="toggle_snooze">Snooze</string>
+    <string name="toggle_unsnooze">Unsnooze</string>
+    <string name="state_snoozed">Snoozing</string>
+    <string name="state_not_snoozed">Not snoozing</string>
+
+    <string name="status_active_title">Notifications are on</string>
+    <string name="status_active_body">Tap to snooze all notifications until you turn it off again.</string>
+    <string name="status_snoozed_title">All notifications snoozed</string>
+    <string name="status_snoozed_body">New notifications are quietly put aside. They come back as soon as you unsnooze.</string>
+    <string name="status_no_access_title">Notification access needed</string>
+    <string name="status_no_access_body">Grant notification access to start snoozing.</string>
+
+    <string name="banner_access_title">Enable notification access</string>
+    <string name="banner_access_body">Snoozer can\'t snooze anything until you allow it. Tap to see how.</string>
+
+    <!-- Home: app bar menus -->
+    <string name="menu_guides">Guides</string>
+    <string name="guide_tile_menu">Quick Settings tile</string>
+    <string name="guide_tasker_menu">Tasker automation</string>
+    <string name="menu_settings">Settings</string>
+    <string name="setting_toast_title">Enable toast notification</string>
+    <string name="setting_toast_summary">Briefly show which app\'s notification was snoozed</string>
+
+    <!-- Toasts -->
+    <string name="toast_snoozed_from_app">Notification from %1$s snoozed</string>
+    <plurals name="toast_snoozed_count">
+        <item quantity="one">%d notification snoozed</item>
+        <item quantity="other">%d notifications snoozed</item>
+    </plurals>
+    <string name="feedback_snoozed">Notifications snoozed</string>
+    <string name="feedback_unsnoozed">Notifications unsnoozed</string>
+
+    <!-- Quick Settings tile -->
+    <string name="tile_label">Snooze</string>
+    <string name="tile_subtitle_on">On</string>
+    <string name="tile_subtitle_off">Off</string>
+    <string name="tile_subtitle_setup">Setup needed</string>
+
+    <!-- Launcher shortcut (keep short: launchers truncate long labels) -->
+    <string name="shortcut_toggle_short">Snooze on/off</string>
+    <string name="shortcut_toggle_long">Snooze on/off</string>
+
+    <!-- Shared guide strings -->
+    <string name="guide_how_title">How to enable it</string>
+
+    <!-- Guide: notification access -->
+    <string name="guide_access_title">Notification access</string>
+    <string name="guide_access_why_title">Why is this needed?</string>
+    <string name="guide_access_why_body">Android only lets apps with notification access snooze notifications from other apps. Without it, Snoozer can\'t do its job.</string>
+    <string name="guide_access_step1">Tap \"Open settings\" below.</string>
+    <string name="guide_access_step2">Find %1$s in the list and switch on \"Allow notification access\".</string>
+    <string name="guide_access_step3">Confirm by tapping \"Allow\" in the dialog.</string>
+    <string name="guide_access_step4">Come back here. The snooze button is now ready to use.</string>
+    <string name="guide_access_open_settings">Open settings</string>
+    <string name="guide_access_granted_title">You\'re all set</string>
+    <string name="guide_access_granted_body">Notification access is on. You can now snooze all notifications with one tap.</string>
+    <string name="guide_access_back_home">Back to Snoozer</string>
+    <string name="guide_access_restricted_title">Switch greyed out?</string>
+    <string name="guide_access_restricted_body">If you installed Snoozer from outside an app store, Android blocks this setting at first. Open App info, tap the ⋮ menu in the top corner, choose \"Allow restricted settings\", and try again.</string>
+    <string name="guide_access_open_app_info">Open App info</string>
+    <string name="guide_access_privacy_title">Your privacy</string>
+    <string name="guide_access_privacy_body">Snoozer only uses this access to snooze and restore notifications. It never reads, stores or shares their content, and it has no internet access.</string>
+
+    <!-- Guide: Quick Settings tile and launcher shortcut -->
+    <string name="guide_tile_title">Quick Settings tile</string>
+    <string name="guide_tile_intro">Add the Snooze tile to your Quick Settings to snooze or unsnooze from anywhere, without opening the app.</string>
+    <string name="guide_tile_quick_add_title">Add it in one tap</string>
+    <string name="guide_tile_quick_add_body">Your phone can add the tile for you. Tap the button and confirm.</string>
+    <string name="guide_tile_quick_add_button">Add tile</string>
+    <string name="guide_tile_result_added">Tile added. Swipe down to find it.</string>
+    <string name="guide_tile_result_already">The tile is already in your Quick Settings.</string>
+    <string name="guide_tile_result_not_added">The tile was not added.</string>
+    <string name="guide_tile_result_error">Your phone couldn\'t add the tile automatically. Please follow the steps below.</string>
+    <string name="guide_tile_manual_title">Add it yourself</string>
+    <string name="guide_tile_step1">Swipe down twice from the top of the screen to open Quick Settings.</string>
+    <string name="guide_tile_step2">Tap the edit (pencil) button.</string>
+    <string name="guide_tile_step3">Find the \"%1$s\" tile and drag it to your active tiles.</string>
+    <string name="guide_tile_step4">Tap the tile to switch snoozing on or off. Touch and hold it to open Snoozer.</string>
+    <string name="guide_shortcut_title">Home screen shortcut</string>
+    <string name="guide_shortcut_step1">Touch and hold the %1$s app icon.</string>
+    <string name="guide_shortcut_step2">Tap \"%1$s\" to switch snoozing on or off instantly.</string>
+    <string name="guide_shortcut_step3">Optional: drag the shortcut onto your home screen for one-tap access.</string>
+
+    <!-- Guide: Tasker -->
+    <string name="guide_tasker_title">Tasker automation</string>
+    <string name="guide_tasker_intro">%1$s is a Tasker plug-in. Let Tasker snooze your notifications automatically, for example at bedtime, during meetings or while driving.</string>
+    <string name="guide_tasker_open">Open Tasker</string>
+    <string name="guide_tasker_get">Get Tasker</string>
+    <string name="guide_tasker_steps_title">Add the Snoozer action</string>
+    <string name="guide_tasker_step1">In Tasker, open the Tasks tab and tap + to create a task.</string>
+    <string name="guide_tasker_step2">Tap + to add an action, then choose Plugin › %1$s.</string>
+    <string name="guide_tasker_step3">Tap the pencil next to Configuration, pick Snooze, Unsnooze or Toggle, and tap Save.</string>
+    <string name="guide_tasker_step4">Go back to save the action. Run the task, or use it in a profile.</string>
+    <string name="guide_tasker_example_title">Example: quiet nights</string>
+    <string name="guide_tasker_example_step1">In the Profiles tab, tap + and choose Time. Set it from 22:00 to 07:00.</string>
+    <string name="guide_tasker_example_step2">As the entry task, add the action %1$s › Snooze.</string>
+    <string name="guide_tasker_example_step3">Long-press the task, choose Add Exit Task and add %1$s › Unsnooze.</string>
+    <string name="guide_tasker_other_title">Other automation apps</string>
+    <string name="guide_tasker_other_body">Snoozer also works in MacroDroid, Automate and any other app that supports Tasker/Locale plug-ins.</string>
+
+    <!-- Tasker plug-in configuration screen -->
+    <string name="tasker_plugin_label" translatable="false">Snoozer</string>
+    <string name="tasker_edit_title">Snoozer action</string>
+    <string name="tasker_edit_description">Choose what this action does when the task runs.</string>
+    <string name="tasker_command_snooze">Snooze</string>
+    <string name="tasker_command_snooze_desc">Snooze all notifications until unsnoozed</string>
+    <string name="tasker_command_unsnooze">Unsnooze</string>
+    <string name="tasker_command_unsnooze_desc">Stop snoozing and bring all notifications back</string>
+    <string name="tasker_command_toggle">Toggle</string>
+    <string name="tasker_command_toggle_desc">Switch between snoozing and not snoozing</string>
+</resources>

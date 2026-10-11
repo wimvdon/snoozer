@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_back">Retour</string>
+    <string name="action_cancel">Annuler</string>
+    <string name="action_save">Enregistrer</string>
+    <string name="state_on">Activé</string>
+    <string name="state_off">Désactivé</string>
+
+    <string name="toggle_snooze">Mettre en pause</string>
+    <string name="toggle_unsnooze">Reprendre</string>
+    <string name="state_snoozed">En pause</string>
+    <string name="state_not_snoozed">Pas en pause</string>
+
+    <string name="status_active_title">Les notifications sont actives</string>
+    <string name="status_active_body">Appuyez pour mettre toutes les notifications en pause jusqu\'à ce que vous désactiviez la pause.</string>
+    <string name="status_snoozed_title">Toutes les notifications sont en pause</string>
+    <string name="status_snoozed_body">Les nouvelles notifications sont mises de côté en silence. Elles reviennent dès que vous reprenez.</string>
+    <string name="status_no_access_title">Accès aux notifications requis</string>
+    <string name="status_no_access_body">Autorisez l\'accès aux notifications pour commencer.</string>
+
+    <string name="banner_access_title">Activer l\'accès aux notifications</string>
+    <string name="banner_access_body">Snoozer ne peut rien mettre en pause sans votre autorisation. Appuyez pour savoir comment faire.</string>
+
+    <string name="menu_guides">Guides</string>
+    <string name="guide_tile_menu">Bloc Réglages rapides</string>
+    <string name="guide_tasker_menu">Automatisation Tasker</string>
+    <string name="menu_settings">Paramètres</string>
+    <string name="setting_toast_title">Activer le message toast</string>
+    <string name="setting_toast_summary">Indique brièvement de quelle app provenait la notification mise en pause</string>
+
+    <string name="toast_snoozed_from_app">Notification de %1$s mise en pause</string>
+    <plurals name="toast_snoozed_count">
+        <item quantity="one">%d notification mise en pause</item>
+        <item quantity="many">%d notifications mises en pause</item>
+        <item quantity="other">%d notifications mises en pause</item>
+    </plurals>
+    <string name="feedback_snoozed">Notifications mises en pause</string>
+    <string name="feedback_unsnoozed">Notifications réactivées</string>
+
+    <string name="tile_label">Pause notifs</string>
+    <string name="tile_subtitle_on">Activé</string>
+    <string name="tile_subtitle_off">Désactivé</string>
+    <string name="tile_subtitle_setup">Configuration requise</string>
+
+    <string name="shortcut_toggle_short">Pause on/off</string>
+    <string name="shortcut_toggle_long">Pause on/off</string>
+
+    <string name="guide_how_title">Comment l\'activer</string>
+
+    <string name="guide_access_title">Accès aux notifications</string>
+    <string name="guide_access_why_title">Pourquoi est-ce nécessaire ?</string>
+    <string name="guide_access_why_body">Android ne permet qu\'aux apps ayant accès aux notifications de mettre en pause celles des autres apps. Sans cet accès, Snoozer ne peut pas fonctionner.</string>
+    <string name="guide_access_step1">Appuyez sur « Ouvrir les paramètres » ci-dessous.</string>
+    <string name="guide_access_step2">Trouvez %1$s dans la liste et activez « Autoriser l\'accès aux notifications ».</string>
+    <string name="guide_access_step3">Confirmez en appuyant sur « Autoriser ».</string>
+    <string name="guide_access_step4">Revenez ici. Le bouton de pause est prêt à l\'emploi.</string>
+    <string name="guide_access_open_settings">Ouvrir les paramètres</string>
+    <string name="guide_access_granted_title">Tout est prêt</string>
+    <string name="guide_access_granted_body">L\'accès aux notifications est activé. Vous pouvez maintenant mettre toutes les notifications en pause d\'un seul geste.</string>
+    <string name="guide_access_back_home">Retour à Snoozer</string>
+    <string name="guide_access_restricted_title">Interrupteur grisé ?</string>
+    <string name="guide_access_restricted_body">Si vous avez installé Snoozer en dehors d\'une boutique d\'applications, Android bloque d\'abord ce paramètre. Ouvrez Infos sur l\'appli, appuyez sur le menu ⋮ en haut, choisissez « Autoriser les paramètres restreints », puis réessayez.</string>
+    <string name="guide_access_open_app_info">Ouvrir Infos sur l\'appli</string>
+    <string name="guide_access_privacy_title">Votre confidentialité</string>
+    <string name="guide_access_privacy_body">Snoozer utilise cet accès uniquement pour mettre en pause et restaurer les notifications. Il ne lit, ne stocke ni ne partage jamais leur contenu, et n\'a pas accès à Internet.</string>
+
+    <string name="guide_tile_title">Bloc Réglages rapides</string>
+    <string name="guide_tile_intro">Ajoutez le bloc « Pause notifs » à vos Réglages rapides pour mettre en pause ou reprendre depuis n\'importe où, sans ouvrir l\'app.</string>
+    <string name="guide_tile_quick_add_title">Ajout en un geste</string>
+    <string name="guide_tile_quick_add_body">Votre téléphone peut ajouter le bloc pour vous. Appuyez sur le bouton et confirmez.</string>
+    <string name="guide_tile_quick_add_button">Ajouter le bloc</string>
+    <string name="guide_tile_result_added">Bloc ajouté. Balayez vers le bas pour le trouver.</string>
+    <string name="guide_tile_result_already">Le bloc est déjà dans vos Réglages rapides.</string>
+    <string name="guide_tile_result_not_added">Le bloc n\'a pas été ajouté.</string>
+    <string name="guide_tile_result_error">Votre téléphone n\'a pas pu ajouter le bloc automatiquement. Suivez les étapes ci-dessous.</string>
+    <string name="guide_tile_manual_title">L\'ajouter vous-même</string>
+    <string name="guide_tile_step1">Balayez deux fois vers le bas depuis le haut de l\'écran pour ouvrir les Réglages rapides.</string>
+    <string name="guide_tile_step2">Appuyez sur le bouton Modifier (crayon).</string>
+    <string name="guide_tile_step3">Trouvez le bloc « %1$s » et faites-le glisser vers vos blocs actifs.</string>
+    <string name="guide_tile_step4">Appuyez sur le bloc pour activer ou désactiver la pause. Appuyez de manière prolongée pour ouvrir Snoozer.</string>
+    <string name="guide_shortcut_title">Raccourci sur l\'écran d\'accueil</string>
+    <string name="guide_shortcut_step1">Appuyez de manière prolongée sur l\'icône de %1$s.</string>
+    <string name="guide_shortcut_step2">Appuyez sur « %1$s » pour activer ou désactiver la pause instantanément.</string>
+    <string name="guide_shortcut_step3">Facultatif : faites glisser le raccourci sur l\'écran d\'accueil pour y accéder d\'un geste.</string>
+
+    <string name="guide_tasker_title">Automatisation Tasker</string>
+    <string name="guide_tasker_intro">%1$s est un plug-in Tasker. Laissez Tasker mettre vos notifications en pause automatiquement, par exemple au coucher, en réunion ou au volant.</string>
+    <string name="guide_tasker_open">Ouvrir Tasker</string>
+    <string name="guide_tasker_get">Obtenir Tasker</string>
+    <string name="guide_tasker_steps_title">Ajouter l\'action Snoozer</string>
+    <string name="guide_tasker_step1">Dans Tasker, ouvrez l\'onglet Tâches et appuyez sur + pour créer une tâche.</string>
+    <string name="guide_tasker_step2">Appuyez sur + pour ajouter une action, puis choisissez Plugin › %1$s.</string>
+    <string name="guide_tasker_step3">Appuyez sur le crayon à côté de Configuration, choisissez Mettre en pause, Reprendre ou Basculer, puis Enregistrer.</string>
+    <string name="guide_tasker_step4">Revenez en arrière pour enregistrer l\'action. Exécutez la tâche ou utilisez-la dans un profil.</string>
+    <string name="guide_tasker_example_title">Exemple : nuits tranquilles</string>
+    <string name="guide_tasker_example_step1">Dans l\'onglet Profils, appuyez sur + et choisissez Heure. Réglez de 22:00 à 07:00.</string>
+    <string name="guide_tasker_example_step2">Comme tâche d\'entrée, ajoutez l\'action %1$s › Mettre en pause.</string>
+    <string name="guide_tasker_example_step3">Appuyez longuement sur la tâche, choisissez Ajouter une tâche de sortie et ajoutez %1$s › Reprendre.</string>
+    <string name="guide_tasker_other_title">Autres apps d\'automatisation</string>
+    <string name="guide_tasker_other_body">Snoozer fonctionne aussi avec MacroDroid, Automate et toute autre app compatible avec les plug-ins Tasker/Locale.</string>
+
+    <string name="tasker_edit_title">Action Snoozer</string>
+    <string name="tasker_edit_description">Choisissez ce que fait cette action lorsque la tâche s\'exécute.</string>
+    <string name="tasker_command_snooze">Mettre en pause</string>
+    <string name="tasker_command_snooze_desc">Mettre toutes les notifications en pause jusqu\'à la reprise</string>
+    <string name="tasker_command_unsnooze">Reprendre</string>
+    <string name="tasker_command_unsnooze_desc">Arrêter la pause et rétablir toutes les notifications</string>
+    <string name="tasker_command_toggle">Basculer</string>
+    <string name="tasker_command_toggle_desc">Alterner entre pause et reprise</string>
+</resources>
