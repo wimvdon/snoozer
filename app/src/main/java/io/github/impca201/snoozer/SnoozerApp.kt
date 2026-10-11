@@ -36,7 +36,7 @@ class SnoozerApp : Application() {
             combine(
                 repository.snoozeEnabled.filterNotNull(),
                 repository.indicatorEnabled,
-                repository.dimEnabled,
+                repository.modeEnabled,
             ) { _, _, _ -> }
                 .collect { refreshSnoozeCues() }
         }
@@ -49,15 +49,16 @@ class SnoozerApp : Application() {
             NotificationAccess.isGranted(this)
 
     /**
-     * Shows or hides the persistent notification and the optional dimming mode. Also called when the app resumes, because
+     * Shows or hides the persistent notification and the optional Snoozer mode. Also called when the app resumes, because
      * notification permission or access may have changed in Settings meanwhile.
      */
     fun refreshSnoozeCues() {
         SnoozeIndicator.update(this, indicatorWanted())
         SnoozeMode.apply(
             this,
-            enabled = repository.dimEnabled.value,
+            enabled = repository.modeEnabled.value,
             active = repository.snoozeEnabled.value == true && NotificationAccess.isGranted(this),
+            name = repository.modeName.value,
         )
     }
 

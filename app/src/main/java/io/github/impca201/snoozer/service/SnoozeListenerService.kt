@@ -1,16 +1,24 @@
 package io.github.impca201.snoozer.service
 
 import android.app.Notification
+import android.app.NotificationManager
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.os.Build
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
+import androidx.core.content.ContextCompat
 import androidx.core.os.BundleCompat
 import io.github.impca201.snoozer.LoggingExceptionHandler
+import io.github.impca201.snoozer.bedtime.BedtimeMonitor
 import io.github.impca201.snoozer.snoozerApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
@@ -33,6 +41,9 @@ class SnoozeListenerService : NotificationListenerService() {
     private var scope: CoroutineScope? = null
     private lateinit var toaster: SnoozeToaster
 
+    private var bedtimeReceiver: BroadcastReceiver? = null
+    private var bedtimeCheck: Job? = null
+
     /** In-memory mirror of the persisted keys; used to avoid repeat toasts on re-snooze. */
     private val trackedKeys = HashSet<String>()
 
@@ -53,15 +64,22 @@ class SnoozeListenerService : NotificationListenerService() {
                 if (enabled) snoozeAllActive() else restoreSnoozed()
             }
         }
+        connectedScope.launch {
+            repository.followBedtime.collect { follow ->
+                if (follow) startBedtimeWatch() else stopBedtimeWatch()
+            }
+        }
     }
 
     override fun onListenerDisconnected() {
+        stopBedtimeWatch()
         scope?.cancel()
         scope = null
         super.onListenerDisconnected()
     }
 
     override fun onDestroy() {
+        stopBedtimeWatch()
         scope?.cancel()
         scope = null
         toaster.cancel()
@@ -74,6 +92,59 @@ class SnoozeListenerService : NotificationListenerService() {
     ) {
         if (sbn == null || scope == null) return
         if (repository.snoozeEnabled.value == true) snooze(sbn)
+    }
+
+    override fun onInterruptionFilterChanged(interruptionFilter: Int) {
+        if (bedtimeReceiver != null) scheduleBedtimeCheck()
+    }
+
+    /**
+     * Follow Bedtime: no polling. The already-running listener re-checks only when Do Not Disturb
+     * or a mode changes (including Bedtime starting while DND is already on, which changes the
+     * policy), when the screen turns on, and once when watching starts.
+     */
+    private fun startBedtimeWatch() {
+        if (bedtimeReceiver != null) return
+        val receiver =
+            object : BroadcastReceiver() {
+                override fun onReceive(
+                    context: Context,
+                    intent: Intent,
+                ) {
+                    scheduleBedtimeCheck()
+                }
+            }
+        val filter =
+            IntentFilter().apply {
+                addAction(NotificationManager.ACTION_INTERRUPTION_FILTER_CHANGED)
+                addAction(NotificationManager.ACTION_NOTIFICATION_POLICY_CHANGED)
+                addAction(ACTION_CONSOLIDATED_POLICY_CHANGED)
+                addAction(Intent.ACTION_SCREEN_ON)
+            }
+        ContextCompat.registerReceiver(this, receiver, filter, ContextCompat.RECEIVER_NOT_EXPORTED)
+        bedtimeReceiver = receiver
+        scheduleBedtimeCheck()
+    }
+
+    private fun stopBedtimeWatch() {
+        bedtimeCheck?.cancel()
+        bedtimeReceiver?.let { runCatching { unregisterReceiver(it) } }
+        bedtimeReceiver = null
+    }
+
+    /** Debounced: modes change in several steps, so read twice and act only if both agree. */
+    private fun scheduleBedtimeCheck() {
+        val currentScope = scope ?: return
+        bedtimeCheck?.cancel()
+        bedtimeCheck =
+            currentScope.launch {
+                delay(BEDTIME_SETTLE_MS)
+                val first = BedtimeMonitor.read(this@SnoozeListenerService)
+                if (first != BedtimeMonitor.Status.On && first != BedtimeMonitor.Status.Off) return@launch
+                delay(BEDTIME_SETTLE_MS)
+                val second = BedtimeMonitor.read(this@SnoozeListenerService)
+                if (second == first) repository.onBedtimeReading(active = first == BedtimeMonitor.Status.On)
+            }
     }
 
     override fun onNotificationRemoved(
@@ -177,6 +248,12 @@ class SnoozeListenerService : NotificationListenerService() {
 
         /** Re-snoozing for this short period is how notifications are brought back. */
         const val RESTORE_DELAY_MS = 1_000L
+
+        /** Wait between Bedtime readings; mode changes arrive as several quick updates. */
+        const val BEDTIME_SETTLE_MS = 1_500L
+
+        /** NotificationManager.ACTION_CONSOLIDATED_NOTIFICATION_POLICY_CHANGED (API 35). */
+        const val ACTION_CONSOLIDATED_POLICY_CHANGED = "android.app.action.CONSOLIDATED_NOTIFICATION_POLICY_CHANGED"
 
         /** Gives System UI time to finish the swipe animation before the indicator returns. */
         const val REPOST_DELAY_MS = 400L

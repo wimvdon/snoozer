@@ -30,8 +30,11 @@ performance and battery use, accessibility, localization and build hygiene.
 
 - **Permissions.** `POST_NOTIFICATIONS` (Android 13+, only for the optional persistent
   "Snoozing notifications" notification; snoozing works without it), plus
-  `ACCESS_NOTIFICATION_POLICY` (only for the opt-in Android 15+ "Snoozer" mode, which lets
-  everything through and only dims the wallpaper; it is removed again when switched off), plus
+  `ACCESS_NOTIFICATION_POLICY` (only for the opt-in Android 15+ "Snoozer" mode, created with
+  Android's defaults and removed again when switched off), `DUMP` and `PACKAGE_USAGE_STATS`
+  (only for the experimental "Follow Bedtime"; declared with `tools:ignore="ProtectedPermissions"`
+  because only the user can grant them, via adb; without them the feature reports "setup needed"
+  and does nothing), plus
   `BIND_NOTIFICATION_LISTENER_SERVICE` and `BIND_QUICK_SETTINGS_TILE` as service guards.
   There's no `INTERNET` permission, so the app cannot send data anywhere.
 - **Exported components.**
@@ -81,6 +84,16 @@ performance and battery use, accessibility, localization and build hygiene.
   simply show.
 - Ongoing / non-dismissible notifications (calls, media, navigation, alarms, foreground
   services) are intentionally never snoozed.
+
+## Follow Bedtime (experimental)
+
+- Reads `dumpsys notification --proto` and only looks at the active-modes list
+  (`ZenModeProto.enabled_active_conditions`), so notifications that mention Bedtime can't cause
+  false readings. An unexpected layout is reported as unreadable, never guessed.
+- Triggered only by Do Not Disturb/mode change broadcasts, `onInterruptionFilterChanged` and
+  screen-on, registered inside the already-running listener; reads twice 1.5 s apart and acts
+  only when both agree. It acts on changes only, and only undoes a snooze it started itself.
+- The dump format is internal to Android and may change in future versions.
 
 ## Battery
 
