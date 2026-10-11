@@ -63,6 +63,20 @@ app/src/main/java/io/github/impca201/snoozer/
 
 ## Building
 
+### Windows
+
+```bat
+build.bat            :: debug APK  -> app\build\outputs\apk\debug\
+build.bat install    :: build and install on a connected device
+build.bat bundle     :: release .aab for Google Play
+build.bat all        :: everything CI runs (build, tests, lint)
+```
+
+`build.bat` finds Java (`JAVA_HOME` or Android Studio's bundled JBR) and the Android SDK
+(`ANDROID_HOME` or `%LOCALAPPDATA%\Android\Sdk`) and creates `local.properties` if needed.
+
+### macOS / Linux
+
 ```bash
 ./gradlew assembleDebug          # debug APK
 ./gradlew testDebugUnitTest      # unit tests
