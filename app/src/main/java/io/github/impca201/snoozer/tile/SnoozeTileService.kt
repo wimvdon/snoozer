@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Build
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
+import io.github.impca201.snoozer.LoggingExceptionHandler
 import io.github.impca201.snoozer.R
 import io.github.impca201.snoozer.service.NotificationAccess
 import io.github.impca201.snoozer.snoozerApp
@@ -20,7 +21,7 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 
 class SnoozeTileService : TileService() {
-    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate + LoggingExceptionHandler)
     private var listeningJob: Job? = null
 
     override fun onTileAdded() {

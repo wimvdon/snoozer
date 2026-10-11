@@ -30,8 +30,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -51,8 +49,9 @@ private const val ROTATION_PERIOD_MS = 60_000
 private const val BREATH_HALF_CYCLE_MS = 2_600
 
 /**
- * The big snooze switch, shaped like a Material 3 Expressive cookie that morphs into a flower. Shows the action it will perform ("Snooze" / "Unsnooze") and
- * gently "breathes" while snoozing is active.
+ * The big snooze switch: a Material 3 Expressive cookie shape that morphs into a slowly turning
+ * flower while snoozing. It shows the action a tap performs ("Snooze" / "Unsnooze") and gently
+ * "breathes" while snoozing is active.
  */
 @Composable
 fun SnoozeToggle(
@@ -89,25 +88,27 @@ fun SnoozeToggle(
         animationSpec = spring(dampingRatio = Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessMediumLow),
         label = "toggle-press",
     )
+    // Animated values below are read inside graphicsLayer {} (layer phase), not during
+    // composition, so the running animations never recompose the toggle's content.
     val breathScale =
         if (animate && snoozed && enabled) {
-            rememberInfiniteTransition(label = "breath")
-                .animateFloat(
-                    initialValue = 1f,
-                    targetValue = 1.03f,
-                    animationSpec = infiniteRepeatable(tween(BREATH_HALF_CYCLE_MS, easing = FastOutSlowInEasing), RepeatMode.Reverse),
-                    label = "breath-scale",
-                ).value
+            rememberInfiniteTransition(label = "breath").animateFloat(
+                initialValue = 1f,
+                targetValue = 1.03f,
+                animationSpec = infiniteRepeatable(tween(BREATH_HALF_CYCLE_MS, easing = FastOutSlowInEasing), RepeatMode.Reverse),
+                label = "breath-scale",
+            )
         } else {
-            1f
+            null
         }
 
     // Expressive morph: cookie when awake, flower while snoozing, with a bouncy spring.
-    val morphProgress by animateFloatAsState(
-        targetValue = if (snoozed && enabled) 1f else 0f,
-        animationSpec = spring(dampingRatio = 0.55f, stiffness = Spring.StiffnessLow),
-        label = "toggle-morph",
-    )
+    val morphProgress =
+        animateFloatAsState(
+            targetValue = if (snoozed && enabled) 1f else 0f,
+            animationSpec = spring(dampingRatio = 0.55f, stiffness = Spring.StiffnessLow),
+            label = "toggle-morph",
+        )
     // While snoozing the shape turns very slowly; when woken it settles on a resting angle.
     val rotation = remember { Animatable(0f) }
     LaunchedEffect(snoozed, enabled, animate) {
@@ -122,8 +123,6 @@ fun SnoozeToggle(
             rotation.snapTo(rotation.value % 360f)
         }
     }
-    val shape = MorphShape(ExpressiveShapes.CookieToFlower, morphProgress, rotation.value)
-
     val stateText = stringResource(if (snoozed) R.string.state_snoozed else R.string.state_not_snoozed)
 
     Box(
@@ -131,12 +130,13 @@ fun SnoozeToggle(
             modifier
                 .size(SnoozeToggleSize)
                 .graphicsLayer {
-                    val scale = pressScale * breathScale
+                    val scale = pressScale * (breathScale?.value ?: 1f)
                     scaleX = scale
                     scaleY = scale
-                }.shadow(elevation = if (enabled) 10.dp else 0.dp, shape = shape)
-                .clip(shape)
-                .background(containerColor)
+                    shape = MorphShape(ExpressiveShapes.CookieToFlower, morphProgress.value, rotation.value)
+                    clip = true
+                    shadowElevation = if (enabled) 10.dp.toPx() else 0f
+                }.background(containerColor)
                 .toggleable(
                     value = snoozed,
                     interactionSource = interactionSource,

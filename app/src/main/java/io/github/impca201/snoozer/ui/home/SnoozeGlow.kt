@@ -34,20 +34,21 @@ fun SnoozeGlow(
     animate: Boolean,
     modifier: Modifier = Modifier,
 ) {
-    val phase =
+    // Read inside Canvas (draw phase) so the animation only redraws, never recomposes.
+    val animatedPhase =
         if (animate) {
-            rememberInfiniteTransition(label = "glow")
-                .animateFloat(
-                    initialValue = 0f,
-                    targetValue = TWO_PI,
-                    animationSpec = infiniteRepeatable(tween(DRIFT_CYCLE_MS, easing = LinearEasing)),
-                    label = "glow-phase",
-                ).value
+            rememberInfiniteTransition(label = "glow").animateFloat(
+                initialValue = 0f,
+                targetValue = TWO_PI,
+                animationSpec = infiniteRepeatable(tween(DRIFT_CYCLE_MS, easing = LinearEasing)),
+                label = "glow-phase",
+            )
         } else {
-            0f
+            null
         }
 
     Canvas(modifier) {
+        val phase = animatedPhase?.value ?: 0f
         val origin = center ?: this.center
         val maxDimension = maxOf(size.width, size.height)
         val drift = 36.dp.toPx()

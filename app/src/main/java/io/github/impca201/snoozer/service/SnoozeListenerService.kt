@@ -6,6 +6,7 @@ import android.os.Build
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
 import androidx.core.os.BundleCompat
+import io.github.impca201.snoozer.LoggingExceptionHandler
 import io.github.impca201.snoozer.snoozerApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -41,7 +42,7 @@ class SnoozeListenerService : NotificationListenerService() {
     override fun onListenerConnected() {
         super.onListenerConnected()
         scope?.cancel()
-        val connectedScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+        val connectedScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate + LoggingExceptionHandler)
         scope = connectedScope
         connectedScope.launch {
             trackedKeys.clear()
@@ -88,7 +89,8 @@ class SnoozeListenerService : NotificationListenerService() {
         val key = sbn.key
         try {
             snoozeNotification(key, SNOOZE_DURATION_MS)
-        } catch (_: SecurityException) {
+        } catch (_: RuntimeException) {
+            // SecurityException when access was just revoked; some OEM builds throw others.
             return
         }
         val firstTime = trackedKeys.add(key)
