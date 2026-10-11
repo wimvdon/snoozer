@@ -105,11 +105,10 @@ Everything else lives on one page. In Snoozer, tap the **cogwheel** icon at the 
 
 #### Persistent notification
 
-While snoozing, Snoozer shows a silent notification called **Snoozing notifications**. Its bell-with-zz icon appears in the status bar (the strip at the very top of the screen with the clock), so you can see that snoozing is on. Swipe down and tap **Unsnooze** in that notification to stop snoozing without opening the app. This is on by default.
+While snoozing, Snoozer shows a silent notification called **Snoozing notifications**. Its bell-with-zz icon appears in the status bar (the strip at the very top of the screen with the clock), so you can see that snoozing is on. Swipe down and tap **Unsnooze** in that notification to stop snoozing without opening the app. This is off by default.
 
-1. The first time you tap **Snooze**, Android asks **Allow Snoozer to send you notifications?** Tap **Allow**. (Android 13 and newer only. If you tap **Don't allow**, snoozing still works, you just won't see the icon.)
+1. Open **Persistent notification** and switch on **Show persistent notification**. On Android 13 and newer, Android asks **Allow Snoozer to send you notifications?** Tap **Allow**. (If you tap **Don't allow**, snoozing still works, you just won't see the icon.)
 2. If you swipe the notification away, it comes straight back while snoozing is on. **Clear all** doesn't remove it either.
-3. Don't want it? Open **Persistent notification** and switch off **Show persistent notification**.
 
 If you see **Notifications are off for Snoozer. Tap to allow.**, tap it. Android either asks for permission again or opens Snoozer's notification settings: switch on **All Snoozer notifications** there, then go back.
 
@@ -163,11 +162,11 @@ Open **Shortcuts**. It has three parts:
 
 Open **Tasker plugin**. Snoozer has no schedules or triggers of its own, so it needs no background service; the automation app Tasker does that part. The section explains how to add the Snoozer action to a Tasker task. Snoozer also works with MacroDroid, Automate and other apps that support Tasker plug-ins.
 
-## Chapter 7: Prepare the app for the Google Play Store
+## Chapter 7: Create your signing key
 
 Skip this chapter if you only want Snoozer on your own phone.
 
-Apps on Google Play must be signed with your personal **upload key**: a small file that proves updates come from you. You create it once and keep it safe for the lifetime of the app.
+Release APKs (and Google Play uploads) must be signed with your personal **upload key**: a small file that proves updates come from you. You create it once and keep it safe for the lifetime of the app. GitHub uses it to build releases ([Chapter 8](#chapter-8-publish-an-apk-on-github)).
 
 ### Create your upload key
 
@@ -185,31 +184,9 @@ Apps on Google Play must be signed with your personal **upload key**: a small fi
 6. Click **OK**, then click **Cancel** to close the wizard. Your key file now exists. Back it up (for example to a USB stick). If you lose it, you can't publish updates without contacting Google.
 7. Close Android Studio.
 
-### Tell the build where your key is
-
-1. In the project folder, right-click an empty area and click **New** › **Text Document**. Name it `keystore.properties` (replace the `.txt` part too) and confirm the warning about changing the extension with **Yes**. If you can't see `.txt` at the end of file names, first click **View** › **Show** › **File name extensions** in File Explorer.
-2. Right-click `keystore.properties`, click **Open with** › **Notepad**, and type these four lines. Use your own folder and password, and write the path with forward slashes:
-
-   ```properties
-   storeFile=C:/Users/YourName/Documents/snoozer-upload.jks
-   storePassword=your-password
-   keyAlias=upload
-   keyPassword=your-password
-   ```
-
-3. Click **File** › **Save** and close Notepad. This file stays on your PC only and is never uploaded to GitHub.
-
-### Build the Play Store file
-
-1. Open a Command Prompt in the project folder as in [Chapter 3](#chapter-3-build-the-app), steps 1 and 2.
-2. Type `build.bat bundle` and press **Enter**.
-3. When you see `[OK] Done.`, open **app** › **build** › **outputs** › **bundle** › **release**. The file **app-release.aab** is what you upload to Google Play Console.
-
-Before publishing, host [PRIVACY.md](PRIVACY.md) somewhere public (Google Play asks for its web address) and prepare the store listing.
-
 ## Chapter 8: Publish an APK on GitHub
 
-GitHub can build the signed APK for you and publish it on the repository's **Releases** page, where anyone can download it. It uses the same upload key as Google Play, so first do [Create your upload key](#create-your-upload-key) in Chapter 7.
+GitHub can build the signed APK for you and publish it on the repository's **Releases** page, where anyone can download it. This is the only way to build a signed release. First do [Create your upload key](#create-your-upload-key) in Chapter 7.
 
 ### Give GitHub your key (once)
 
@@ -235,7 +212,7 @@ You now see four secrets in the list.
 
 1. Go to **https://github.com/impca201/snoozer/actions/workflows/release.yml**.
 2. Click **Run workflow** on the right. Leave **Branch** on `main`, type the new version number (for example `1.0.1`) and click the green **Run workflow** button.
-3. After about five minutes the run gets a green tick. Go to **https://github.com/impca201/snoozer/releases**: the new release **Snoozer 1.0.1** is there, with the file `snoozer-1.0.1.apk` under **Assets**.
+3. After a few minutes the run gets a green tick. Go to **https://github.com/impca201/snoozer/releases**: the new release **Snoozer 1.0.1** is there, with the file `snoozer-1.0.1.apk` under **Assets**.
 4. On your phone, open that releases page, tap the APK to download it, and install it as in [Chapter 4](#chapter-4-install-the-app-on-your-phone), steps 5 to 8.
 
 Use a higher version number each time. Phones install the new APK over the old one and keep your settings, because both are signed with the same key. If you installed the debug APK from Chapter 3 before, uninstall that first: it is signed with a different key.
@@ -276,7 +253,7 @@ app/src/main/java/io/github/impca201/snoozer/
 └── ui/                        Compose UI: home, guides, theme
 ```
 
-Other `build.bat` targets: `release`, `install` (needs USB debugging), `test`, `lint`, `all`, `clean`. On macOS or Linux, use `./gradlew assembleDebug`.
+Other `build.bat` targets: `install` (needs USB debugging), `test`, `lint`, `all`, `clean`. On macOS or Linux, use `./gradlew assembleDebug`.
 
 </details>
 

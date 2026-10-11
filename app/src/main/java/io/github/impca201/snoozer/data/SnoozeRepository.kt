@@ -53,9 +53,9 @@ class SnoozeRepository(
     /** Whether to show the persistent "Snoozing notifications" notification while snoozing. */
     val indicatorEnabled: StateFlow<Boolean> =
         preferences
-            .map { it[INDICATOR_ENABLED] ?: true }
+            .map { it[INDICATOR_ENABLED] ?: false }
             .distinctUntilChanged()
-            .stateIn(scope, SharingStarted.Eagerly, true)
+            .stateIn(scope, SharingStarted.Eagerly, false)
 
     suspend fun setIndicatorEnabled(enabled: Boolean) {
         dataStore.edit { it[INDICATOR_ENABLED] = enabled }

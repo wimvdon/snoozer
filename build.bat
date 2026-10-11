@@ -3,16 +3,16 @@ setlocal EnableExtensions EnableDelayedExpansion
 rem ---------------------------------------------------------------------------
 rem  Snoozer build script for Windows
 rem
-rem  Usage:  build.bat [debug ^| release ^| bundle ^| install ^| test ^| lint ^| all ^| clean]
+rem  Usage:  build.bat [debug ^| install ^| test ^| lint ^| all ^| clean]
 rem
 rem    debug    (default) Build the debug APK
-rem    release  Build the release APK (signed if keystore.properties exists)
-rem    bundle   Build the release App Bundle (.aab) for Google Play
 rem    install  Build the debug APK and install it on a connected device (adb)
 rem    test     Run the unit tests
 rem    lint     Run Android lint
-rem    all      Debug + release build, unit tests and lint (same as CI)
+rem    all      Debug build, unit tests and lint
 rem    clean    Delete build outputs
+rem
+rem  Signed release APKs are built on GitHub (Actions > Release), not here.
 rem
 rem  Requires JDK 17+ and the Android SDK (both come with Android Studio).
 rem ---------------------------------------------------------------------------
@@ -56,16 +56,14 @@ if not exist "local.properties" (
 rem --- Gradle tasks ----------------------------------------------------------
 set "TASKS="
 if /i "%TARGET%"=="debug"   set "TASKS=assembleDebug"
-if /i "%TARGET%"=="release" set "TASKS=assembleRelease"
-if /i "%TARGET%"=="bundle"  set "TASKS=bundleRelease"
 if /i "%TARGET%"=="install" set "TASKS=installDebug"
 if /i "%TARGET%"=="test"    set "TASKS=testDebugUnitTest"
 if /i "%TARGET%"=="lint"    set "TASKS=lintDebug"
-if /i "%TARGET%"=="all"     set "TASKS=assembleDebug assembleRelease testDebugUnitTest lintDebug"
+if /i "%TARGET%"=="all"     set "TASKS=assembleDebug testDebugUnitTest lintDebug"
 if /i "%TARGET%"=="clean"   set "TASKS=clean"
 if not defined TASKS (
     echo [ERROR] Unknown target "%TARGET%".
-    echo Usage: build.bat [debug^|release^|bundle^|install^|test^|lint^|all^|clean]
+    echo Usage: build.bat [debug^|install^|test^|lint^|all^|clean]
     exit /b 1
 )
 
@@ -82,8 +80,6 @@ if errorlevel 1 (
 echo.
 echo [OK] Done.
 if /i "%TARGET%"=="debug"   echo APK: app\build\outputs\apk\debug\
-if /i "%TARGET%"=="all"     echo APKs: app\build\outputs\apk\
-if /i "%TARGET%"=="release" echo APK: app\build\outputs\apk\release\
-if /i "%TARGET%"=="bundle"  echo AAB: app\build\outputs\bundle\release\
+if /i "%TARGET%"=="all"     echo APK: app\build\outputs\apk\debug\
 if /i "%TARGET%"=="lint"    echo Report: app\build\reports\lint-results-debug.html
 exit /b 0
