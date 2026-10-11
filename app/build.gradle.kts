@@ -64,6 +64,12 @@ android {
         localeFilters += listOf("en", "nl", "fr", "de", "es", "it")
     }
 
+    lint {
+        // Print every issue to the console as well (CI logs).
+        textReport = true
+        textOutput = file("stdout")
+    }
+
     dependenciesInfo {
         // Not needed outside Google Play; keeps the APK free of an encrypted dependency blob.
         includeInApk = false

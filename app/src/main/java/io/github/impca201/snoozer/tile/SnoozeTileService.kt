@@ -1,5 +1,6 @@
 package io.github.impca201.snoozer.tile
 
+import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.content.Intent
 import android.os.Build
@@ -75,6 +76,8 @@ class SnoozeTileService : TileService() {
         tile.updateTile()
     }
 
+    // The Intent overload is only reached below Android 14, where it is still supported.
+    @SuppressLint("StartActivityAndCollapseDeprecated")
     private fun openApp(destination: Destination) {
         val intent = MainActivity.intent(this, destination).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
