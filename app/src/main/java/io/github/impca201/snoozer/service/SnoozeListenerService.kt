@@ -93,7 +93,8 @@ class SnoozeListenerService : NotificationListenerService() {
         }
         val firstTime = trackedKeys.add(key)
         if (firstTime) {
-            scope?.launch { repository.addSnoozedKey(key) }
+            // App scope: the write must finish even if the listener disconnects right now.
+            snoozerApp.appScope.launch { repository.addSnoozedKey(key) }
             if (repository.toastEnabled.value) toaster.announce(appLabel(sbn))
         }
     }
