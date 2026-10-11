@@ -1,59 +1,106 @@
 name: Release
 
-# Builds a signed release APK and publishes it as a GitHub Release.
-# Start it by pushing a tag such as v1.0.1, or from the Actions tab (Run workflow).
-# Needs four repository secrets: ANDROID_KEYSTORE_BASE64, ANDROID_KEYSTORE_PASSWORD,
+# Push a tag like v1.2.0 to build the APK and publish it as a GitHub Release.
+# "Run workflow" on the Actions tab with "Release" set to patch, minor or major
+# picks the next version after the latest v* tag, builds the APK and publishes
+# that release (creating the tag). With "Release" left at none, or on a pull
+# request that changes this workflow, it only builds a downloadable artifact.
+# Signing needs four repository secrets: ANDROID_KEYSTORE_BASE64, ANDROID_KEYSTORE_PASSWORD,
 # ANDROID_KEY_ALIAS and ANDROID_KEY_PASSWORD (the same names without ANDROID_ also work).
-
 on:
   push:
-    tags: ["v*"]
+    tags:
+      - "v*"
+  pull_request:
+    paths:
+      - .github/workflows/release.yml
+      - .github/scripts/restore_keystore.py
   workflow_dispatch:
     inputs:
-      version:
-        description: "Version number, for example 1.0.1"
-        required: true
+      bump:
+        description: Release (none = only build, patch = 1.0.0 -> 1.0.1, minor = 1.0.0 -> 1.1.0, major = 1.0.0 -> 2.0.0)
+        type: choice
+        options: [none, patch, minor, major]
+        default: none
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  release:
+  version:
+    runs-on: ubuntu-latest
+    outputs:
+      name: ${{ steps.v.outputs.name }}
+      code: ${{ steps.v.outputs.code }}
+      publish: ${{ steps.v.outputs.publish }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - id: v
+        shell: bash
+        env:
+          BUMP: ${{ inputs.bump || 'none' }}
+        run: |
+          publish=false
+          if [[ "$GITHUB_REF_TYPE" == "tag" ]]; then
+            name="${GITHUB_REF_NAME#v}"
+            publish=true
+          elif [[ "$BUMP" != "none" ]]; then
+            latest=$(git tag --list 'v[0-9]*.[0-9]*.[0-9]*' --sort=-v:refname | head -n1)
+            IFS=. read -r major minor patch <<< "${latest#v}"
+            major=${major:-0}; minor=${minor:-0}; patch=${patch:-0}
+            case "$BUMP" in
+              major) major=$((major + 1)); minor=0; patch=0 ;;
+              minor) minor=$((minor + 1)); patch=0 ;;
+              patch) patch=$((patch + 1)) ;;
+            esac
+            name="$major.$minor.$patch"
+            if git rev-parse -q --verify "refs/tags/v$name" >/dev/null; then
+              echo "::error::Tag v$name already exists"
+              exit 1
+            fi
+            echo "Latest tag ${latest:-none}, releasing v$name"
+            publish=true
+          else
+            name="1.0.0"
+          fi
+          if [[ ! "$name" =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
+            echo "::error::Tag must look like v1.2.3, got '$GITHUB_REF_NAME'"
+            exit 1
+          fi
+          code=$(( BASH_REMATCH[1] * 10000 + BASH_REMATCH[2] * 100 + BASH_REMATCH[3] ))
+          echo "name=$name" >> "$GITHUB_OUTPUT"
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          echo "publish=$publish" >> "$GITHUB_OUTPUT"
+
+  android:
+    needs: version
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v5
-
-      - name: Work out the version
-        id: version
-        env:
-          EVENT: ${{ github.event_name }}
-          TAG: ${{ github.ref_name }}
-          INPUT_VERSION: ${{ inputs.version }}
-        run: |
-          if [ "$EVENT" = "push" ]; then VERSION="${TAG#v}"; else VERSION="${INPUT_VERSION#v}"; fi
-          if ! printf '%s' "$VERSION" | grep -Eq '^[0-9]+(\.[0-9]+){1,2}([-.][0-9A-Za-z.]+)?$'; then
-            echo "::error::'$VERSION' is not a version number like 1.0.1"; exit 1
-          fi
-          echo "name=$VERSION" >> "$GITHUB_OUTPUT"
-
       - uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: 21
-
       - uses: gradle/actions/setup-gradle@v5
-
       - name: Restore the signing key
         env:
           KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 || secrets.KEYSTORE_BASE64 }}
           KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD || secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS || secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD || secrets.KEY_PASSWORD }}
+          PUBLISH: ${{ needs.version.outputs.publish }}
         run: |
           if [ -z "$KEYSTORE_BASE64" ] || [ -z "$KEYSTORE_PASSWORD" ] || [ -z "$KEY_ALIAS" ] || [ -z "$KEY_PASSWORD" ]; then
-            echo "::error::Add the ANDROID_KEYSTORE_BASE64, ANDROID_KEYSTORE_PASSWORD, ANDROID_KEY_ALIAS and ANDROID_KEY_PASSWORD secrets first (see the README)."
-            exit 1
+            if [ "$PUBLISH" = "true" ]; then
+              echo "::error::Add the ANDROID_KEYSTORE_BASE64, ANDROID_KEYSTORE_PASSWORD, ANDROID_KEY_ALIAS and ANDROID_KEY_PASSWORD secrets first (see the README)."
+              exit 1
+            fi
+            echo "::warning::No signing key secrets, so this run builds a debug APK instead."
+            echo "BUILD_TYPE=debug" >> "$GITHUB_ENV"
+            exit 0
           fi
           # Written to a file so the secret never appears on a command line.
           printf '%s' "$KEYSTORE_BASE64" > "$RUNNER_TEMP/keystore.b64"
@@ -68,24 +115,39 @@ jobs:
             echo "keyAlias=$KEY_ALIAS"
             echo "keyPassword=$KEY_PASSWORD"
           } > keystore.properties
-
-      - name: Build the release APK
-        env:
-          VERSION: ${{ steps.version.outputs.name }}
-          VERSION_CODE: ${{ github.run_number }}
+          echo "BUILD_TYPE=release" >> "$GITHUB_ENV"
+      - name: Build APK
         run: |
-          ./gradlew assembleRelease -PversionName="$VERSION" -PversionCode="$VERSION_CODE"
-          cp app/build/outputs/apk/release/app-release.apk "snoozer-$VERSION.apk"
-
-      - name: Publish the GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: v${{ steps.version.outputs.name }}
-          target_commitish: ${{ github.sha }}
-          name: Snoozer ${{ steps.version.outputs.name }}
-          files: snoozer-${{ steps.version.outputs.name }}.apk
-          generate_release_notes: true
-
+          task="assemble${BUILD_TYPE^}"
+          ./gradlew "$task" \
+            -PversionName=${{ needs.version.outputs.name }} \
+            -PversionCode=${{ needs.version.outputs.code }}
+          cp "app/build/outputs/apk/$BUILD_TYPE/app-$BUILD_TYPE.apk" \
+            "$RUNNER_TEMP/snoozer-${{ needs.version.outputs.name }}.apk"
       - name: Remove the signing key
         if: always()
         run: rm -f "$RUNNER_TEMP/release.jks" "$RUNNER_TEMP/keystore.b64" keystore.properties
+      - uses: actions/upload-artifact@v4
+        with:
+          name: android
+          path: ${{ runner.temp }}/snoozer-*.apk
+          if-no-files-found: error
+
+  release:
+    if: needs.version.outputs.publish == 'true'
+    needs: [version, android]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ needs.version.outputs.name }}
+          target_commitish: ${{ github.sha }}
+          name: Snoozer ${{ needs.version.outputs.name }}
+          files: dist/*
+          generate_release_notes: true
