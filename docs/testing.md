@@ -21,7 +21,7 @@ Android lint:
 ./gradlew lintDebug   # report: app/build/reports/lint-results-debug.html
 ```
 
-The release workflow does not run tests or lint. Run them locally before tagging a release.
+CI (`.github/workflows/ci.yml`) runs the unit tests and builds the debug and release APKs on every pull request and push to `main`. It does not run lint; run that locally before a release.
 
 ## What is covered
 

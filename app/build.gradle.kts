@@ -17,6 +17,15 @@ val keystoreProperties =
         if (file.exists()) file.inputStream().use { load(it) }
     }
 
+/** The checkout described from the latest v* tag, or "0.0.0-dev" without tags or git. */
+fun gitVersion(): String =
+    runCatching {
+        providers.exec {
+            commandLine("git", "describe", "--tags", "--match", "v[0-9]*", "--dirty")
+            isIgnoreExitValue = true
+        }.standardOutput.asText.get().trim().removePrefix("v")
+    }.getOrNull()?.ifBlank { null } ?: "0.0.0-dev"
+
 android {
     namespace = "io.github.impca201.snoozer"
     compileSdk = 37
@@ -25,9 +34,11 @@ android {
         applicationId = "io.github.impca201.snoozer"
         minSdk = 26
         targetSdk = 37
-        // The release workflow passes -PversionName (from the tag) and -PversionCode (major * 10000 + minor * 100 + patch).
+        // Releases: the release workflow passes -PversionName (from the tag) and -PversionCode
+        // (major * 10000 + minor * 100 + patch). Every other build describes its checkout instead
+        // (e.g. "1.0.0-3-gabc1234"), so a development build never looks like a release.
         versionCode = providers.gradleProperty("versionCode").map(String::toInt).getOrElse(1)
-        versionName = providers.gradleProperty("versionName").getOrElse("1.0.0")
+        versionName = providers.gradleProperty("versionName").getOrElse(gitVersion())
     }
 
     signingConfigs {
@@ -64,6 +75,8 @@ android {
 
     androidResources {
         localeFilters += listOf("en", "nl", "fr", "de", "es", "it")
+        // Lists the languages for Android 13+'s per-app language setting.
+        generateLocaleConfig = true
     }
 
     dependenciesInfo {

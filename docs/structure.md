@@ -6,7 +6,9 @@ snoozer/
 ├── .gitattributes                    *.bat → CRLF, gradlew → LF
 ├── .github/
 │   ├── scripts/restore_keystore.py   Decodes the keystore secret tolerantly, explains failures
-│   └── workflows/release.yml         Version → build APK → publish GitHub Release
+│   └── workflows/
+│       ├── ci.yml                    Unit tests, debug and release builds for PRs and main
+│       └── release.yml               Version → build APK → publish GitHub Release
 ├── PRIVACY.md                        Privacy policy
 ├── build.bat                         Windows helper: debug | install | test | lint | all | clean
 ├── build.gradle.kts                  Root build: plugin declarations, Kotlin Gradle plugin pin
@@ -57,7 +59,7 @@ snoozer/
         │       ├── mipmap-anydpi/             Adaptive launcher icons
         │       ├── values/ values-night/      Colours, themes, English strings
         │       ├── values-{nl,fr,de,es,it}/   Translations
-        │       └── xml/                       Shortcuts, locales, backup exclusion rules
+        │       └── xml/                       Shortcuts, backup exclusion rules (the locale list is generated)
         └── test/java/io/github/impca201/snoozer/
             ├── bedtime/BedtimeParserTest.kt
             └── tasker/TaskerContractTest.kt

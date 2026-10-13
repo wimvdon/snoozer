@@ -63,7 +63,7 @@ A single DataStore switch is the source of truth. Every control surface (app, ti
 
 ```
 snoozer/
-├── .github/            Release workflow and keystore restore script
+├── .github/            CI and release workflows, keystore restore script
 ├── app/src/main/java/io/github/impca201/snoozer/
 │   ├── SnoozerApp.kt   Application: app scope, repository, cross-surface sync
 │   ├── data/           DataStore repository (switch, settings, snoozed keys)
