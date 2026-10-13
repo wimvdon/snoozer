@@ -20,7 +20,6 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -53,8 +52,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.impca201.snoozer.R
-import io.github.impca201.snoozer.ui.components.rememberReducedMotion
+import io.github.impca201.snoozer.ui.theme.AppShapes
 import io.github.impca201.snoozer.ui.theme.SnoozerTheme
+import io.github.impca201.snoozer.ui.theme.rememberReducedMotion
 
 /** Slow cross-fade into and out of the snoozing look. */
 private const val GLOW_FADE_MS = 1_600
@@ -191,7 +191,7 @@ private fun StatusText(
 private fun AccessBanner(onClick: () -> Unit) {
     Card(
         onClick = onClick,
-        shape = RoundedCornerShape(24.dp),
+        shape = AppShapes.Group,
         colors =
             CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.errorContainer,
@@ -220,7 +220,7 @@ private fun AccessBanner(onClick: () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 private fun HomeScreenPreview() {
-    SnoozerTheme(dynamicColor = false) {
+    SnoozerTheme {
         HomeScreen(
             snoozed = true,
             accessGranted = true,
@@ -234,7 +234,7 @@ private fun HomeScreenPreview() {
 @Preview(showBackground = true)
 @Composable
 private fun HomeScreenNoAccessPreview() {
-    SnoozerTheme(dynamicColor = false) {
+    SnoozerTheme {
         HomeScreen(
             snoozed = false,
             accessGranted = false,

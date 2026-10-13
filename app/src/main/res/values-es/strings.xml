@@ -143,4 +143,13 @@
     <string name="tasker_command_unsnooze_desc">Dejar de posponer y recuperar todas las notificaciones</string>
     <string name="tasker_command_toggle">Alternar</string>
     <string name="tasker_command_toggle_desc">Cambiar entre posponer y reanudar</string>
+
+    <!-- Settings: appearance -->
+    <string name="section_appearance">Apariencia</string>
+    <string name="setting_theme_title">Tema</string>
+    <string name="theme_system">Sistema</string>
+    <string name="theme_light">Claro</string>
+    <string name="theme_dark">Oscuro</string>
+    <string name="setting_dynamic_color_title">Color dinámico</string>
+    <string name="setting_dynamic_color_summary">Usar los colores del fondo de pantalla en lugar del azul de la app</string>
 </resources>

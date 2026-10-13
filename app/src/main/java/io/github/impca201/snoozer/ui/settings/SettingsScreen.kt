@@ -25,6 +25,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -48,6 +51,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import io.github.impca201.snoozer.R
 import io.github.impca201.snoozer.bedtime.BedtimeMonitor
+import io.github.impca201.snoozer.data.Appearance
+import io.github.impca201.snoozer.data.ThemeMode
 import io.github.impca201.snoozer.tile.SnoozeTileService
 import io.github.impca201.snoozer.ui.guide.ButtonIconSpacing
 import io.github.impca201.snoozer.ui.guide.GuideScaffold
@@ -70,6 +75,7 @@ fun SettingsScreen(
         item(key = "bedtime") { BedtimeSection(state, actions) }
         item(key = "shortcuts") { ShortcutsSection() }
         item(key = "tasker") { TaskerSection() }
+        item(key = "appearance") { AppearanceSection(state, actions) }
     }
 }
 
@@ -84,6 +90,7 @@ data class SettingsState(
     val followBedtime: Boolean,
     val bedtimeReady: Boolean,
     val bedtimeStatus: BedtimeMonitor.Status?,
+    val appearance: Appearance,
 )
 
 class SettingsActions(
@@ -94,7 +101,49 @@ class SettingsActions(
     val onOpenModeSettings: () -> Unit,
     val onFollowBedtimeChange: (Boolean) -> Unit,
     val onBedtimeCheckNow: () -> Unit,
+    val onThemeModeChange: (ThemeMode) -> Unit,
+    val onDynamicColorChange: (Boolean) -> Unit,
 )
+
+@Composable
+private fun AppearanceSection(
+    state: SettingsState,
+    actions: SettingsActions,
+) {
+    CollapsibleSection(
+        key = "appearance",
+        title = stringResource(R.string.section_appearance),
+        summary = stringResource(state.appearance.themeMode.labelRes()),
+        iconRes = R.drawable.ic_palette,
+    ) {
+        Text(stringResource(R.string.setting_theme_title), style = MaterialTheme.typography.bodyLarge)
+        SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
+            ThemeMode.entries.forEachIndexed { index, mode ->
+                SegmentedButton(
+                    selected = state.appearance.themeMode == mode,
+                    onClick = { actions.onThemeModeChange(mode) },
+                    shape = SegmentedButtonDefaults.itemShape(index, ThemeMode.entries.size),
+                ) { Text(stringResource(mode.labelRes())) }
+            }
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            SwitchSetting(
+                title = stringResource(R.string.setting_dynamic_color_title),
+                summary = stringResource(R.string.setting_dynamic_color_summary),
+                checked = state.appearance.dynamicColor,
+                onCheckedChange = actions.onDynamicColorChange,
+            )
+        }
+    }
+}
+
+@StringRes
+private fun ThemeMode.labelRes(): Int =
+    when (this) {
+        ThemeMode.System -> R.string.theme_system
+        ThemeMode.Light -> R.string.theme_light
+        ThemeMode.Dark -> R.string.theme_dark
+    }
 
 @Composable
 private fun ToastSection(

@@ -142,4 +142,13 @@
     <string name="tasker_command_unsnooze_desc">Schlummern beenden und alle Benachrichtigungen zurückholen</string>
     <string name="tasker_command_toggle">Umschalten</string>
     <string name="tasker_command_toggle_desc">Zwischen Schlummern und Aufwecken wechseln</string>
+
+    <!-- Settings: appearance -->
+    <string name="section_appearance">Darstellung</string>
+    <string name="setting_theme_title">Design</string>
+    <string name="theme_system">System</string>
+    <string name="theme_light">Hell</string>
+    <string name="theme_dark">Dunkel</string>
+    <string name="setting_dynamic_color_title">Dynamische Farben</string>
+    <string name="setting_dynamic_color_summary">Farben deines Hintergrundbilds statt des App-Blaus verwenden</string>
 </resources>
