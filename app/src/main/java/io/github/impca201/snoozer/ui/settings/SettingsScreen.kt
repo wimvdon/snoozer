@@ -25,9 +25,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.SegmentedButton
-import androidx.compose.material3.SegmentedButtonDefaults
-import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -54,8 +51,14 @@ import io.github.impca201.snoozer.bedtime.BedtimeMonitor
 import io.github.impca201.snoozer.data.Appearance
 import io.github.impca201.snoozer.data.ThemeMode
 import io.github.impca201.snoozer.tile.SnoozeTileService
+import io.github.impca201.snoozer.ui.theme.AppearanceSettings
+import io.github.impca201.snoozer.ui.theme.CollapsibleSection
+import io.github.impca201.snoozer.ui.theme.CollapsibleSubsection
+import io.github.impca201.snoozer.ui.theme.SettingsFooter
+import io.github.impca201.snoozer.ui.theme.SettingsScaffold
+import io.github.impca201.snoozer.ui.theme.SwitchSetting
+import io.github.impca201.snoozer.ui.theme.rememberAppVersion
 import io.github.impca201.snoozer.ui.guide.ButtonIconSpacing
-import io.github.impca201.snoozer.ui.guide.GuideScaffold
 import io.github.impca201.snoozer.ui.guide.NumberedSteps
 import android.graphics.drawable.Icon as PlatformIcon
 
@@ -68,7 +71,11 @@ fun SettingsScreen(
     actions: SettingsActions,
     onBack: () -> Unit,
 ) {
-    GuideScaffold(title = stringResource(R.string.menu_settings), onBack = onBack) {
+    SettingsScaffold(
+        title = stringResource(R.string.menu_settings),
+        backLabel = stringResource(R.string.action_back),
+        onBack = onBack,
+    ) {
         item(key = "toast") { ToastSection(state, actions) }
         item(key = "indicator") { IndicatorSection(state, actions) }
         item(key = "mode") { ModeSection(state, actions) }
@@ -76,6 +83,9 @@ fun SettingsScreen(
         item(key = "shortcuts") { ShortcutsSection() }
         item(key = "tasker") { TaskerSection() }
         item(key = "appearance") { AppearanceSection(state, actions) }
+        item(key = "footer") {
+            SettingsFooter("${stringResource(R.string.app_name)} ${rememberAppVersion()}")
+        }
     }
 }
 
@@ -114,26 +124,19 @@ private fun AppearanceSection(
         key = "appearance",
         title = stringResource(R.string.section_appearance),
         summary = stringResource(state.appearance.themeMode.labelRes()),
-        iconRes = R.drawable.ic_palette,
+        icon = painterResource(R.drawable.ic_palette),
     ) {
-        Text(stringResource(R.string.setting_theme_title), style = MaterialTheme.typography.bodyLarge)
-        SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
-            ThemeMode.entries.forEachIndexed { index, mode ->
-                SegmentedButton(
-                    selected = state.appearance.themeMode == mode,
-                    onClick = { actions.onThemeModeChange(mode) },
-                    shape = SegmentedButtonDefaults.itemShape(index, ThemeMode.entries.size),
-                ) { Text(stringResource(mode.labelRes())) }
-            }
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            SwitchSetting(
-                title = stringResource(R.string.setting_dynamic_color_title),
-                summary = stringResource(R.string.setting_dynamic_color_summary),
-                checked = state.appearance.dynamicColor,
-                onCheckedChange = actions.onDynamicColorChange,
-            )
-        }
+        AppearanceSettings(
+            themeLabel = stringResource(R.string.setting_theme_title),
+            themeOptions = ThemeMode.entries.map { stringResource(it.labelRes()) },
+            selectedTheme = state.appearance.themeMode.ordinal,
+            onThemeSelect = { actions.onThemeModeChange(ThemeMode.entries[it]) },
+            dynamicColorTitle = stringResource(R.string.setting_dynamic_color_title),
+            dynamicColorSummary = stringResource(R.string.setting_dynamic_color_summary),
+            dynamicColor = state.appearance.dynamicColor,
+            onDynamicColorChange = actions.onDynamicColorChange,
+            dynamicColorSupported = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S,
+        )
     }
 }
 
@@ -154,7 +157,7 @@ private fun ToastSection(
         key = "toast",
         title = stringResource(R.string.section_toast),
         summary = onOff(state.toastEnabled),
-        iconRes = R.drawable.ic_toast,
+        icon = painterResource(R.drawable.ic_toast),
     ) {
         SwitchSetting(
             title = stringResource(R.string.setting_toast_title),
@@ -174,7 +177,7 @@ private fun IndicatorSection(
         key = "indicator",
         title = stringResource(R.string.section_indicator),
         summary = onOff(state.indicatorEnabled),
-        iconRes = R.drawable.ic_notifications_paused,
+        icon = painterResource(R.drawable.ic_notifications_paused),
     ) {
         SwitchSetting(
             title = stringResource(R.string.setting_indicator_title),
@@ -198,7 +201,7 @@ private fun ModeSection(
         key = "mode",
         title = stringResource(R.string.section_mode),
         summary = if (state.modeSupported) onOff(state.modeEnabled) else stringResource(R.string.setting_mode_unsupported),
-        iconRes = R.drawable.ic_mode,
+        icon = painterResource(R.drawable.ic_mode),
     ) {
         SwitchSetting(
             title = stringResource(R.string.setting_mode_title),
@@ -264,7 +267,7 @@ private fun BedtimeSection(
         key = "bedtime",
         title = stringResource(R.string.section_bedtime),
         summary = onOff(state.followBedtime),
-        iconRes = R.drawable.ic_bedtime,
+        icon = painterResource(R.drawable.ic_bedtime),
     ) {
         InfoBanner(stringResource(R.string.bedtime_experimental))
         SwitchSetting(
@@ -351,7 +354,7 @@ private fun ShortcutsSection() {
         key = "shortcuts",
         title = stringResource(R.string.guide_shortcuts_title),
         summary = stringResource(R.string.guide_shortcuts_intro),
-        iconRes = R.drawable.ic_tile_grid,
+        icon = painterResource(R.drawable.ic_tile_grid),
     ) {
         CollapsibleSubsection(key = "shortcuts-tile", title = stringResource(R.string.guide_tile_title)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -417,7 +420,7 @@ private fun TaskerSection() {
         key = "tasker",
         title = stringResource(R.string.guide_tasker_title),
         summary = stringResource(R.string.guide_tasker_intro, appName),
-        iconRes = R.drawable.ic_automation,
+        icon = painterResource(R.drawable.ic_automation),
     ) {
         SectionText(stringResource(R.string.guide_tasker_why, appName))
         FilledTonalButton(
