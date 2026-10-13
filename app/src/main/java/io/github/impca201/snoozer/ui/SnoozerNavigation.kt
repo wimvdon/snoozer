@@ -11,11 +11,6 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -28,10 +23,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.impca201.snoozer.bedtime.BedtimeMonitor
+import io.github.impca201.snoozer.data.Appearance
 import io.github.impca201.snoozer.service.NotificationAccess
 import io.github.impca201.snoozer.service.SnoozeIndicator
 import io.github.impca201.snoozer.service.SnoozeMode
@@ -41,6 +39,7 @@ import io.github.impca201.snoozer.ui.home.HomeScreen
 import io.github.impca201.snoozer.ui.settings.SettingsActions
 import io.github.impca201.snoozer.ui.settings.SettingsScreen
 import io.github.impca201.snoozer.ui.settings.SettingsState
+import io.github.impca201.snoozer.ui.theme.Motion
 import kotlinx.coroutines.launch
 
 private val BackStackSaver =
@@ -63,6 +62,7 @@ fun SnoozerNavigation(
     val modeName by repository.modeName.collectAsStateWithLifecycle()
     val followBedtime by repository.followBedtime.collectAsStateWithLifecycle()
     val bedtimeStatus by BedtimeMonitor.status.collectAsStateWithLifecycle()
+    val appearance by repository.appearance.collectAsStateWithLifecycle()
     val accessGranted = rememberNotificationAccessGranted()
     val context = LocalContext.current
     var canPostNotifications by remember { mutableStateOf(SnoozeIndicator.canPost(context)) }
@@ -125,12 +125,11 @@ fun SnoozerNavigation(
 
     BackHandler(enabled = backStack.size > 1) { pop() }
 
+    val axisOffset = with(LocalDensity.current) { 30.dp.roundToPx() }
     AnimatedContent(
         targetState = backStack.last(),
         transitionSpec = {
-            val forward = targetState.ordinal > initialState.ordinal
-            (slideInHorizontally { width -> if (forward) width / 4 else -width / 4 } + fadeIn())
-                .togetherWith(slideOutHorizontally { width -> if (forward) -width / 4 else width / 4 } + fadeOut())
+            Motion.sharedAxisX(forward = targetState.ordinal > initialState.ordinal, offsetPx = axisOffset)
         },
         label = "screen",
     ) { destination ->
@@ -168,6 +167,7 @@ fun SnoozerNavigation(
                             followBedtime = followBedtime,
                             bedtimeReady = bedtimeReady,
                             bedtimeStatus = bedtimeStatus,
+                            appearance = appearance ?: Appearance(),
                         ),
                     actions =
                         SettingsActions(
@@ -198,6 +198,8 @@ fun SnoozerNavigation(
                                 bedtimeReady = BedtimeMonitor.hasPermissions(context)
                                 app.appScope.launch { BedtimeMonitor.read(app) }
                             },
+                            onThemeModeChange = { mode -> app.appScope.launch { repository.setThemeMode(mode) } },
+                            onDynamicColorChange = { enabled -> app.appScope.launch { repository.setDynamicColor(enabled) } },
                         ),
                     onBack = ::pop,
                 )

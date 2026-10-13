@@ -7,7 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.mutableStateOf
-import io.github.impca201.snoozer.ui.theme.SnoozerTheme
+import io.github.impca201.snoozer.ui.theme.SnoozerAppTheme
 
 class MainActivity : ComponentActivity() {
     /** A screen requested through an intent (tile, shortcut), consumed by the UI once shown. */
@@ -19,7 +19,7 @@ class MainActivity : ComponentActivity() {
         if (savedInstanceState == null) requestedDestination.value = destinationFrom(intent)
 
         setContent {
-            SnoozerTheme {
+            SnoozerAppTheme {
                 SnoozerNavigation(
                     requested = requestedDestination.value,
                     onRequestHandled = { requestedDestination.value = null },

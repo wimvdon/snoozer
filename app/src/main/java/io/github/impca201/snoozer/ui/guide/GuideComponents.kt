@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -36,6 +35,7 @@ import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import io.github.impca201.snoozer.R
+import io.github.impca201.snoozer.ui.theme.AppShapes
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -80,7 +80,7 @@ fun GuideSection(
     footer: (@Composable () -> Unit)? = null,
 ) {
     Card(
-        shape = RoundedCornerShape(24.dp),
+        shape = AppShapes.Group,
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
         modifier = modifier.fillMaxWidth(),
     ) {
@@ -150,7 +150,7 @@ fun GuideCallout(
     actions: (@Composable () -> Unit)? = null,
 ) {
     Card(
-        shape = RoundedCornerShape(24.dp),
+        shape = AppShapes.Group,
         colors = CardDefaults.cardColors(containerColor = containerColor, contentColor = contentColor),
         modifier = modifier.fillMaxWidth(),
     ) {

@@ -41,7 +41,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import io.github.impca201.snoozer.R
 import io.github.impca201.snoozer.tasker.TaskerContract.Command
-import io.github.impca201.snoozer.ui.theme.SnoozerTheme
+import io.github.impca201.snoozer.ui.theme.SnoozerAppTheme
 
 /**
  * Configuration screen Tasker opens when the user adds or edits the Snoozer plug-in action.
@@ -60,7 +60,7 @@ class TaskerEditActivity : ComponentActivity() {
             }
 
         setContent {
-            SnoozerTheme {
+            SnoozerAppTheme {
                 TaskerEditScreen(
                     initial = previous ?: Command.SNOOZE,
                     onSave = ::saveAndFinish,

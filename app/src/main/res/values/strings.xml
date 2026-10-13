@@ -157,4 +157,13 @@
     <string name="tasker_command_unsnooze_desc">Stop snoozing and bring all notifications back</string>
     <string name="tasker_command_toggle">Toggle</string>
     <string name="tasker_command_toggle_desc">Switch between snoozing and not snoozing</string>
+
+    <!-- Settings: appearance -->
+    <string name="section_appearance">Appearance</string>
+    <string name="setting_theme_title">Theme</string>
+    <string name="theme_system">System</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="setting_dynamic_color_title">Dynamic color</string>
+    <string name="setting_dynamic_color_summary">Use colors from your wallpaper instead of the app’s blue</string>
 </resources>

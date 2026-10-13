@@ -142,4 +142,13 @@
     <string name="tasker_command_unsnooze_desc">Stoppen met snoozen en alle meldingen terugzetten</string>
     <string name="tasker_command_toggle">Wisselen</string>
     <string name="tasker_command_toggle_desc">Wisselen tussen wel en niet snoozen</string>
+
+    <!-- Settings: appearance -->
+    <string name="section_appearance">Weergave</string>
+    <string name="setting_theme_title">Thema</string>
+    <string name="theme_system">Systeem</string>
+    <string name="theme_light">Licht</string>
+    <string name="theme_dark">Donker</string>
+    <string name="setting_dynamic_color_title">Dynamische kleuren</string>
+    <string name="setting_dynamic_color_summary">Kleuren van je achtergrond gebruiken in plaats van het blauw van de app</string>
 </resources>

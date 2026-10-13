@@ -38,6 +38,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.dp
 import io.github.impca201.snoozer.R
+import io.github.impca201.snoozer.ui.theme.AppShapes
 
 /** A card whose header expands and collapses its content. Expanded state survives rotation. */
 @Composable
@@ -51,7 +52,7 @@ fun CollapsibleSection(
 ) {
     var expanded by rememberSaveable(key) { mutableStateOf(false) }
     Card(
-        shape = RoundedCornerShape(24.dp),
+        shape = AppShapes.Group,
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
         modifier = modifier.fillMaxWidth(),
     ) {

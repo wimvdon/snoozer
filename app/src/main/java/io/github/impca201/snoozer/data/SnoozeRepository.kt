@@ -138,6 +138,26 @@ class SnoozeRepository(
         return newValue
     }
 
+    /** Theme settings; `null` until read, so the first frame never shows the wrong theme. */
+    val appearance: StateFlow<Appearance?> =
+        preferences
+            .map { p ->
+                Appearance(
+                    themeMode = ThemeMode.entries.firstOrNull { it.name == p[THEME_MODE] } ?: ThemeMode.System,
+                    dynamicColor = p[DYNAMIC_COLOR] ?: false,
+                )
+            }.distinctUntilChanged()
+            .stateIn(scope, SharingStarted.Eagerly, null)
+
+    suspend fun setThemeMode(mode: ThemeMode) {
+        dataStore.edit { it[THEME_MODE] = mode.name }
+    }
+
+    /** Wallpaper colours (Android 12+) instead of the app's own palette. */
+    suspend fun setDynamicColor(enabled: Boolean) {
+        dataStore.edit { it[DYNAMIC_COLOR] = enabled }
+    }
+
     suspend fun setToastEnabled(enabled: Boolean) {
         dataStore.edit { it[TOAST_ENABLED] = enabled }
     }
@@ -173,6 +193,8 @@ class SnoozeRepository(
         val BEDTIME_LAST_ACTIVE = booleanPreferencesKey("bedtime_last_active")
         val BEDTIME_SNOOZED = booleanPreferencesKey("bedtime_snoozed")
         val SNOOZED_KEYS = stringSetPreferencesKey("snoozed_keys")
+        val THEME_MODE = stringPreferencesKey("theme_mode")
+        val DYNAMIC_COLOR = booleanPreferencesKey("dynamic_color")
 
         /** The platform caps concurrent snoozes well below this; it only bounds storage. */
         const val MAX_TRACKED_KEYS = 1000

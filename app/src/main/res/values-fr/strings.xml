@@ -143,4 +143,13 @@
     <string name="tasker_command_unsnooze_desc">Arrêter la pause et rétablir toutes les notifications</string>
     <string name="tasker_command_toggle">Basculer</string>
     <string name="tasker_command_toggle_desc">Alterner entre pause et reprise</string>
+
+    <!-- Settings: appearance -->
+    <string name="section_appearance">Apparence</string>
+    <string name="setting_theme_title">Thème</string>
+    <string name="theme_system">Système</string>
+    <string name="theme_light">Clair</string>
+    <string name="theme_dark">Sombre</string>
+    <string name="setting_dynamic_color_title">Couleurs dynamiques</string>
+    <string name="setting_dynamic_color_summary">Utiliser les couleurs du fond d\'écran au lieu du bleu de l\'app</string>
 </resources>
