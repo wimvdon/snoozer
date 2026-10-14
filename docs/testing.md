@@ -91,11 +91,11 @@ For each pull request, install the debug APK from the CI run and follow the step
 - [ ] Dark mode on and off: text stays readable.
 - [ ] Language: Settings › System › Languages › App languages › Snoozer › Nederlands. All text is translated.
 - [ ] Largest font size: nothing is cut off.
-- [ ] After a release: install the release APK over the previous one. It updates and keeps the settings and notification access.
+- [ ] After a release: update the app from the Play Store (internal testing). It updates and keeps the settings and notification access.
 
 ## Reading a crash from a release build
 
-Release builds are minified, so stack traces show short names. Download `snoozer-<version>-mapping.txt` from the matching GitHub Release and decode the trace with R8's `retrace` (Android SDK `cmdline-tools/latest/bin/retrace`):
+Release builds are minified, so stack traces show short names. Crashes reported through Google Play are decoded by Play (the workflow uploads the mapping file). For another trace, download `snoozer-<version>-mapping.txt` from the matching run of the Release workflow (**Actions › Release › Artifacts**, kept 90 days; older versions: the GitHub Release) and decode the trace with R8's `retrace` (Android SDK `cmdline-tools/latest/bin/retrace`):
 
 ```bash
 retrace snoozer-<version>-mapping.txt stacktrace.txt

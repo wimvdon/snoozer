@@ -27,7 +27,7 @@ Source available for reference; all rights reserved. See [LICENSE](LICENSE).
 
 ## Quick start
 
-Install the latest `snoozer-x.y.z.apk` from [Releases](https://github.com/impca201/snoozer/releases), open it, tap **Enable notification access** and tap **Snooze**.
+Snoozer is distributed through Google Play's internal testing track (invite only; see [Publishing through Google Play](docs/installation.md#publishing-through-google-play)). Install it from the Play Store, open it, tap **Enable notification access** and tap **Snooze**.
 
 To build and install a debug build from source on a connected phone:
 
@@ -46,7 +46,7 @@ cd snoozer
 | Storage | Jetpack DataStore (Preferences) |
 | Platform APIs | `NotificationListenerService`, `TileService`, `AutomaticZenRule` (modes), app shortcuts, Locale/Tasker plug-in intents |
 | Build | Gradle 9.8 (Kotlin DSL, version catalog), AGP 9.4, R8 |
-| CI/CD | GitHub Actions: tests, lint and an installable debug APK on every pull request; versioned, signed release APKs; Dependabot |
+| CI/CD | GitHub Actions: tests, lint and an installable debug APK on every pull request; versioned, signed releases to Google Play (internal testing); Dependabot |
 | Tests | JUnit 4 (JVM unit tests) |
 
 ## Quick installation
