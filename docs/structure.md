@@ -12,6 +12,7 @@ snoozer/
 │       └── release.yml               Release rules → verify signing key → build APK → publish GitHub Release
 ├── CLAUDE.md                         Rules for Claude Code sessions (workflow, never-dos, code rules)
 ├── DESIGN.md                         Visual design: colour, shape, motion
+├── LICENSE                           Copyright notice: all rights reserved, no open-source licence
 ├── PRIVACY.md                        Privacy policy
 ├── scripts/                          Release helpers, shared with the android-app template
 │   ├── release_version.py            Tag parsing, next version, versionCode, "is newer"
