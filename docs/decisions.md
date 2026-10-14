@@ -1,5 +1,14 @@
 # Technical decisions
 
+## 2026-10-14: Publish through Google Play instead of GitHub Releases
+
+The repository becomes public (free GitHub Actions minutes), and the app should not be freely downloadable as an APK. The Release workflow now builds a signed AAB and uploads it to Google Play's **internal testing** track; the owner installs from Play with automatic updates and no longer needs Obtainium. No GitHub Release is created any more; the `vX.Y.Z` tag is still created (after a successful upload), and the version rules (`scripts/release_version.py`) are unchanged. Same setup as the sibling apps Tracker for Simkl and Time Tracker for Notion.
+
+- **Upload with `r0adkll/upload-google-play`** (approved by the owner), a widely used action, pinned to the v1.1.5 commit. It runs in its own job with read-only GitHub access and only the Play service account secret; the tag is created by a separate job afterwards, so a failed upload leaves no tag and can be re-run. Rejected: a hand-written upload script against the Play Developer API (more code to maintain).
+- **A new Google-generated app signing key** (Play App Signing), not the key shared with the owner's other apps; the existing key is only the upload key. Cost: the GitHub-installed app must be uninstalled once, losing its settings and shortcuts. Rejected: giving Google the shared key, which keeps current installs updating but ties the three apps' signing together.
+- **The dry run (`none`) still produces an APK and an AAB as artifacts**, for checking the build and for the first upload by hand, with versionCode 1 so they can never update an installed app. The R8 mapping file stays an artifact and is also sent to Play.
+- Selling the app later would need Google's billing library (a new dependency); not part of this change.
+
 ## 2026-10-14: Aligned with the android-app template
 
 Snoozer now follows the same rules, layout and workflows as [impca201/android-app](https://github.com/impca201/android-app), so every app is built, checked and released the same way.
