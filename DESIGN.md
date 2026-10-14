@@ -1,8 +1,11 @@
 # Design
 
 Snoozer is one of three sibling Android apps (Tracker for Simkl, Time Tracker for Notion and
-Snoozer) that share one design language. This file is the same in each repository apart from
-the "This app" section; change the rules in all three together.
+Snoozer) that share one design language.
+
+The shared rules (every section except "This app") have their master copy in `DESIGN.md` of
+the android-app template (`wimvdon/android-app`). Change them there first, then copy them
+unchanged to all three apps. Only the "This app" section belongs to this repository.
 
 ## Icons
 
@@ -14,7 +17,7 @@ the "This app" section; change the rules in all three together.
 
 | App | Shape | Gradient |
 | --- | --- | --- |
-| Tracker for Simkl | TV with a play button | `#3D7BFF` → `#7A5CFF` → `#D15CE6` |
+| Tracker for Simkl | TV screen with a checkmark | `#3D7BFF` → `#7A5CFF` → `#D15CE6` |
 | Time Tracker for Notion | Stopwatch dial with a hand | `#FF8A3D` → `#F04438` → `#C81E5A` |
 | Snoozer | Nine-lobed "cookie" (the home screen toggle) with a bell | `#22C3B4` → `#3E7BDA` → `#4E5BB0` |
 
@@ -66,6 +69,16 @@ Built from `ui/theme/SettingsKit.kt`, so every app's settings look and behave th
 - Decorative animation is skipped when the user turned animations off
   (`rememberReducedMotion()`).
 
+## Loading
+
+- Content that loads over the network shows placeholders while it loads for the first time
+  (`ui/theme/Skeleton.kt`), shaped like what will appear: poster tiles, list rows, form fields,
+  lines of text. A soft highlight sweeps across them; with animations off they stay still.
+- Screen readers read the placeholders out as one "Loading…" element.
+- A refresh keeps the content on screen and shows pull-to-refresh or a small progress
+  indicator instead; a busy button shows a spinner in place of its icon.
+- An app with nothing to load (Snoozer) leaves `Skeleton.kt` out.
+
 ## Wording
 
 Shared settings and actions use the same words in every app and language (strings are kept in
@@ -90,12 +103,15 @@ English, Dutch, German, French, Spanish and Italian).
 
 ## Shared design kit
 
-These files are identical in the three apps apart from their package (and `R` import) lines. Copy a change to
-the other two repositories:
+These files live in each app (the template does not include them). They are identical in the
+three apps apart from their package (and `R` import) lines. Copy a change to the other two
+repositories:
 
 - `ui/theme/Motion.kt`: motion tokens, the shared-axis transition and `rememberReducedMotion()`.
 - `ui/theme/Shapes.kt`: `AppShapes`.
 - `ui/theme/SystemBars.kt`: `SystemBarsFollowTheme()`.
+- `ui/theme/Skeleton.kt`: loading placeholders (`Modifier.skeleton()`, `SkeletonLine`,
+  `SkeletonBlock`).
 - `ui/theme/SettingsKit.kt`: the settings screen components above. It also needs
   `drawable/ic_arrow_back`, `drawable/ic_expand_more` and the strings `section_expanded` and
   `section_collapsed`.
