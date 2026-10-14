@@ -23,6 +23,8 @@ Snoozer is an Android app that snoozes every notification on the phone with one 
 
 No internet permission, no analytics ([privacy policy](PRIVACY.md)). Android 8.0+, in English, Dutch, French, German, Spanish and Italian.
 
+Source available for reference; all rights reserved. See [LICENSE](LICENSE).
+
 ## Quick start
 
 Install the latest `snoozer-x.y.z.apk` from [Releases](https://github.com/impca201/snoozer/releases), open it, tap **Enable notification access** and tap **Snooze**.
