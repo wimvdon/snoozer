@@ -9,7 +9,7 @@ snoozer/
 │   ├── pull_request_template.md      Plain-language PR description + checklist
 │   └── workflows/
 │       ├── ci.yml                    Script tests, unit tests, lint, debug + release builds, debug APK artifact
-│       └── release.yml               Release rules → verify signing key → build AAB → Google Play internal testing → tag
+│       └── release.yml               Release rules → verify signing key → build APK → publish GitHub Release
 ├── CLAUDE.md                         Rules for Claude Code sessions (workflow, never-dos, code rules)
 ├── DESIGN.md                         Visual design: colour, shape, motion
 ├── LICENSE                           Copyright notice: all rights reserved, no open-source licence
