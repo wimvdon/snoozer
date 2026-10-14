@@ -32,7 +32,7 @@ Snoozer is distributed through Google Play's internal testing track (invite only
 To build and install a debug build from source on a connected phone:
 
 ```bash
-git clone https://github.com/impca201/snoozer.git
+git clone https://github.com/wimvdon/snoozer.git
 cd snoozer
 ./gradlew installDebug        # Windows: build.bat install
 ```

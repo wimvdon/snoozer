@@ -15,7 +15,7 @@ The repository becomes public so GitHub Actions minutes are free, but the code i
 
 ## 2026-10-14: Aligned with the android-app template
 
-Snoozer now follows the same rules, layout and workflows as [impca201/android-app](https://github.com/impca201/android-app), so every app is built, checked and released the same way.
+Snoozer now follows the same rules, layout and workflows as [wimvdon/android-app](https://github.com/wimvdon/android-app), so every app is built, checked and released the same way.
 
 - **Rules for Claude Code sessions** in `CLAUDE.md`; a plain-language pull request template; weekly Dependabot updates for Gradle and GitHub Actions.
 - **CI** now also runs lint (errors fail the build) and the release-script tests, cancels outdated runs, and uploads `snoozer-<version>-debug.apk` unzipped so it installs straight from the download.

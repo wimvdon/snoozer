@@ -46,4 +46,4 @@ configured (Snooze, Unsnooze or Toggle). No other data is exchanged.
 
 ## Contact
 
-Questions? Open an issue at https://github.com/impca201/snoozer/issues.
+Questions? Open an issue at https://github.com/wimvdon/snoozer/issues.
