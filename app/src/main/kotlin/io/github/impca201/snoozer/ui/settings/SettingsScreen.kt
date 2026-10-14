@@ -262,7 +262,7 @@ private fun BedtimeSection(
     actions: SettingsActions,
 ) {
     val context = LocalContext.current
-    val commands = BedtimeMonitor.ADB_COMMANDS.joinToString("\n")
+    val commands = BedtimeMonitor.adbCommands(context.packageName).joinToString("\n")
     CollapsibleSection(
         key = "bedtime",
         title = stringResource(R.string.section_bedtime),

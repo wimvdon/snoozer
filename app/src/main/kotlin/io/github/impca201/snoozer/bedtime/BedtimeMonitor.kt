@@ -22,10 +22,11 @@ import java.util.concurrent.TimeUnit
 object BedtimeMonitor {
     enum class Status { NeedsSetup, Unreadable, On, Off }
 
-    val ADB_COMMANDS: List<String> =
+    /** The adb commands that grant the two permissions to [packageName] (".debug" for test builds). */
+    fun adbCommands(packageName: String): List<String> =
         listOf(
-            "adb shell pm grant io.github.impca201.snoozer android.permission.DUMP",
-            "adb shell pm grant io.github.impca201.snoozer android.permission.PACKAGE_USAGE_STATS",
+            "adb shell pm grant $packageName android.permission.DUMP",
+            "adb shell pm grant $packageName android.permission.PACKAGE_USAGE_STATS",
         )
 
     private const val DUMPSYS_TIMEOUT_SECONDS = 8L
