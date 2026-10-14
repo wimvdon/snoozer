@@ -44,7 +44,7 @@ cd snoozer
 | Storage | Jetpack DataStore (Preferences) |
 | Platform APIs | `NotificationListenerService`, `TileService`, `AutomaticZenRule` (modes), app shortcuts, Locale/Tasker plug-in intents |
 | Build | Gradle 9.8 (Kotlin DSL, version catalog), AGP 9.4, R8 |
-| CI/CD | GitHub Actions: versioned, signed release APKs |
+| CI/CD | GitHub Actions: tests, lint and an installable debug APK on every pull request; versioned, signed release APKs; Dependabot |
 | Tests | JUnit 4 (JVM unit tests) |
 
 ## Quick installation
@@ -63,8 +63,10 @@ A single DataStore switch is the source of truth. Every control surface (app, ti
 
 ```
 snoozer/
-├── .github/            CI and release workflows, keystore restore script
-├── app/src/main/java/io/github/impca201/snoozer/
+├── .github/            CI and release workflows, PR template, Dependabot
+├── CLAUDE.md           Rules for Claude Code sessions
+├── scripts/            Release helpers (versioning, keystore secret) with tests
+├── app/src/main/kotlin/io/github/impca201/snoozer/
 │   ├── SnoozerApp.kt   Application: app scope, repository, cross-surface sync
 │   ├── data/           DataStore repository (switch, settings, snoozed keys)
 │   ├── service/        Notification listener, persistent notification, mode, toasts
@@ -73,6 +75,7 @@ snoozer/
 │   ├── shortcut/       Launcher shortcut trampoline
 │   ├── tasker/         Tasker/Locale plug-in
 │   └── ui/             Compose screens (home, access guide, settings)
+├── app/src/debug/      Debug-only resources (shortcut for the .debug app ID)
 ├── app/src/test/       JVM unit tests
 └── build.bat           Windows helper for local debug builds
 ```

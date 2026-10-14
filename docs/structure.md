@@ -3,13 +3,21 @@
 ```
 snoozer/
 ├── .editorconfig                     ktlint/editor rules (4 spaces, 140 cols, ktlint_official)
-├── .gitattributes                    *.bat → CRLF, gradlew → LF
+├── .gitattributes                    LF everywhere; *.bat → CRLF; keystores/images binary
 ├── .github/
-│   ├── scripts/restore_keystore.py   Decodes the keystore secret tolerantly, explains failures
+│   ├── dependabot.yml                Weekly Gradle and GitHub Actions update PRs
+│   ├── pull_request_template.md      Plain-language PR description + checklist
 │   └── workflows/
-│       ├── ci.yml                    Unit tests, debug and release builds for PRs and main
-│       └── release.yml               Version → build APK → publish GitHub Release
+│       ├── ci.yml                    Script tests, unit tests, lint, debug + release builds, debug APK artifact
+│       └── release.yml               Release rules → verify signing key → build APK → publish GitHub Release
+├── CLAUDE.md                         Rules for Claude Code sessions (workflow, never-dos, code rules)
+├── DESIGN.md                         Visual design: colour, shape, motion
 ├── PRIVACY.md                        Privacy policy
+├── scripts/                          Release helpers, shared with the android-app template
+│   ├── release_version.py            Tag parsing, next version, versionCode, "is newer"
+│   ├── decode_keystore.py            Decodes the keystore secret tolerantly, explains failures
+│   ├── VerifySigningKey.java         Checks the key password before the build
+│   └── tests/                        unittest suites for both Python scripts
 ├── build.bat                         Windows helper: debug | install | test | lint | all | clean
 ├── build.gradle.kts                  Root build: plugin declarations, Kotlin Gradle plugin pin
 ├── settings.gradle.kts               Repositories, single :app module
@@ -18,18 +26,20 @@ snoozer/
 │   ├── libs.versions.toml            Version catalog (all dependency versions)
 │   └── wrapper/                      Gradle 9.8.1 wrapper
 └── app/
-    ├── build.gradle.kts              Android config, signing, versioning, dependencies
+    ├── build.gradle.kts              App ID, versioning, signing, lint, dependencies, printApkBaseName
     ├── proguard-rules.pro            Empty by design (no reflection)
     └── src/
+        ├── debug/res/                    Debug build only: "Snoozer Dev" name, shortcut for the .debug ID
         ├── main/
         │   ├── AndroidManifest.xml
-        │   ├── java/io/github/impca201/snoozer/
+        │   ├── kotlin/io/github/impca201/snoozer/
         │   │   ├── SnoozerApp.kt
         │   │   ├── bedtime/
         │   │   │   ├── BedtimeMonitor.kt      Runs dumpsys, publishes status
         │   │   │   ├── BedtimeParser.kt       Finds the Bedtime rule in the zen proto
         │   │   │   └── ProtoReader.kt         Minimal protobuf wire-format reader
         │   │   ├── data/
+        │   │   │   ├── Appearance.kt          Theme choice (system / light / dark)
         │   │   │   └── SnoozeRepository.kt
         │   │   ├── service/
         │   │   │   ├── NotificationAccess.kt
@@ -49,18 +59,18 @@ snoozer/
         │   │       ├── Destination.kt         Home | AccessGuide | Settings
         │   │       ├── MainActivity.kt        Intent → destination routing
         │   │       ├── SnoozerNavigation.kt   Back stack, permission requests, screen wiring
-        │   │       ├── components/            Shared motion specs
         │   │       ├── guide/                 Notification access guide + shared guide widgets
         │   │       ├── home/                  Snooze toggle, glow, expressive shapes
         │   │       ├── settings/              Settings screen and its collapsible sections
-        │   │       └── theme/                 Material 3 theme, dynamic colour
+        │   │       └── theme/                 Material 3 theme, dynamic colour, shapes, motion, settings kit
         │   └── res/
         │       ├── drawable/                  Vector icons (launcher, tile, settings)
         │       ├── mipmap-anydpi/             Adaptive launcher icons
         │       ├── values/ values-night/      Colours, themes, English strings
         │       ├── values-{nl,fr,de,es,it}/   Translations
         │       └── xml/                       Shortcuts, backup exclusion rules (the locale list is generated)
-        └── test/java/io/github/impca201/snoozer/
+        └── test/kotlin/io/github/impca201/snoozer/
+            ├── bedtime/BedtimeMonitorTest.kt
             ├── bedtime/BedtimeParserTest.kt
             └── tasker/TaskerContractTest.kt
 ```
@@ -81,4 +91,6 @@ The app has three layers, enforced by convention rather than modules:
 - **Entry points:** don't call `SnoozeListenerService` or `snoozeNotification`. Write the switch and let the listener converge.
 - **`bedtime/`:** `BedtimeParser` and `ProtoReader` stay free of Android types so they remain JVM-testable. Process execution and permissions live in `BedtimeMonitor`.
 - **`proguard-rules.pro`:** only add rules if reflection is introduced. Manifest entry points are kept automatically.
+- **`scripts/`:** release tooling only, never app code. Every change runs `python3 -m unittest discover -s scripts/tests`.
+- **`src/debug/`:** only what must differ for the `.debug` application ID. Keep it in sync with `src/main/`.
 - **`ui/`:** no navigation library. New screens are added to the `Destination` enum and `SnoozerNavigation`.

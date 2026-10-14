@@ -1,5 +1,17 @@
 # Technical decisions
 
+## 2026-10-14: Aligned with the android-app template
+
+Snoozer now follows the same rules, layout and workflows as [impca201/android-app](https://github.com/impca201/android-app), so every app is built, checked and released the same way.
+
+- **Rules for Claude Code sessions** in `CLAUDE.md`; a plain-language pull request template; weekly Dependabot updates for Gradle and GitHub Actions.
+- **CI** now also runs lint (errors fail the build) and the release-script tests, cancels outdated runs, and uploads `snoozer-<version>-debug.apk` unzipped so it installs straight from the download.
+- **Release workflow** from the template: version maths in `scripts/release_version.py` (unit tested), the signing key checked before the build (`scripts/VerifySigningKey.java`), tests and lint before a signed build, and the R8 mapping file attached to each release. It publishes with `gh release create` instead of a third-party action, one fewer dependency with write access. The old secret names without `ANDROID_` keep working.
+- **Debug builds get `applicationIdSuffix = ".debug"` and the name "Snoozer Dev"** (`src/debug/res/values/strings.xml`), so a pull request's APK installs next to the released app and can be told apart in the launcher and the notification access list. Two things name the package and follow it: the static launcher shortcut (a copy in `src/debug/res/xml/`, because `shortcuts.xml` cannot use placeholders) and the Follow Bedtime adb commands (now built from the installed package name).
+- **Sources moved from `src/*/java/` to `src/*/kotlin/`**, the template's layout. No code changed.
+- **Kept on purpose, unlike the template:** `minSdk` 26 (Android 8.0) instead of 31. Snoozer is released and supports Android 8.0+; raising it would stop updates for users on older phones. Also kept: the ktlint settings in `.editorconfig` (140 columns), `build.bat`, six languages instead of two, and the existing `docs/` set.
+
+
 ## Snooze instead of cancel or Do Not Disturb
 
 **Decision:** use `NotificationListenerService.snoozeNotification` rather than `cancelNotification` or an interruption filter.
@@ -72,7 +84,7 @@ Signed APKs come only from GitHub Actions:
 
 - **Signing key:** `keystore.properties` is written at build time from secrets and never committed.
 - **Versioning:** versions come from tags (`major × 10000 + minor × 100 + patch`), so version codes always increase with semver.
-- **Secret decoding:** `restore_keystore.py` tolerates common copy-paste damage (line breaks, quotes, URL-safe alphabet, double encoding) and reports what's wrong without printing the secret, because a broken secret was the most common release failure.
+- **Secret decoding:** `scripts/decode_keystore.py` tolerates common copy-paste damage (line breaks, quotes, URL-safe alphabet, double encoding) and reports what's wrong without printing the secret, because a broken secret was the most common release failure.
 
 ## Navigation without a library
 

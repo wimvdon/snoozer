@@ -20,5 +20,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Snoozer"
+// Also used as the APK file name prefix: <rootProject.name>-<version>.apk
+rootProject.name = "snoozer"
 include(":app")

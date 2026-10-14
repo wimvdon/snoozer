@@ -32,7 +32,7 @@ On Windows, `build.bat` writes `local.properties` from `ANDROID_HOME`, `ANDROID_
 ## 3. Build
 
 ```bash
-./gradlew assembleDebug          # APK: app/build/outputs/apk/debug/app-debug.apk
+./gradlew assembleDebug          # APK: app/build/outputs/apk/debug/app-debug.apk (ID io.github.impca201.snoozer.debug)
 ```
 
 ```bat
@@ -50,6 +50,10 @@ With USB debugging enabled:
 ```
 
 Or open the project in Android Studio and press **Run**.
+
+Debug builds use the application ID `io.github.impca201.snoozer.debug` and the name **Snoozer Dev**, so they install **next to** a released Snoozer with their own data and their own notification access (grant it to "Snoozer Dev"). Uninstall it when you are done.
+
+To test a pull request without building, open it on GitHub › **Checks** › **CI** › **Artifacts** and install `snoozer-<version>-debug.apk`.
 
 ## 5. Grant notification access
 
@@ -74,11 +78,11 @@ adb shell pm grant io.github.impca201.snoozer android.permission.DUMP
 adb shell pm grant io.github.impca201.snoozer android.permission.PACKAGE_USAGE_STATS
 ```
 
-These survive updates but not reinstalls.
+For a debug build, use `io.github.impca201.snoozer.debug`; the Settings screen shows the right commands for the installed build. These survive updates but not reinstalls.
 
 ## Release builds
 
-Release APKs are signed only in CI (`.github/workflows/release.yml`). The workflow restores the keystore from secrets, writes `keystore.properties` and runs `assembleRelease -PversionName=… -PversionCode=…`. A local `./gradlew assembleRelease` without `keystore.properties` produces an unsigned APK.
+Release APKs are signed only in CI (`.github/workflows/release.yml`). The workflow decodes the keystore secret (`scripts/decode_keystore.py`), checks the keystore password, alias and key password before building, writes `keystore.properties`, runs the unit tests and lint, and builds with `assembleRelease -PappVersionName=… -PappVersionCode=…`. A local `./gradlew assembleRelease` without `keystore.properties` produces an unsigned APK.
 
 One-time setup: add these repository secrets under **Settings › Secrets and variables › Actions**:
 
@@ -89,4 +93,10 @@ One-time setup: add these repository secrets under **Settings › Secrets and va
 | `ANDROID_KEY_ALIAS` | Key alias |
 | `ANDROID_KEY_PASSWORD` | Key password |
 
-To release, open **Actions › Release › Run workflow** and pick `patch`, `minor` or `major`, or push a tag such as `v1.2.0`. With `none`, the run only uploads an APK as an artifact (a debug APK if the secrets are missing). The version code is `major × 10000 + minor × 100 + patch`.
+The same names without the `ANDROID_` prefix are also accepted, because earlier releases used them.
+
+## Making a release
+
+Open **Actions › Release › Run workflow** on `main` and pick `patch`, `minor` or `major`, or push a tag such as `v1.2.0`. With `none`, the run only uploads an APK as an artifact (a debug APK if the secrets are missing). The version code is `major × 10000 + minor × 100 + patch`, so minor and patch stay below 100.
+
+The workflow refuses to publish when it is not on `main`, when the tag or release already exists, when the version is not higher than the previous release, or when nothing changed since the previous release. Each release has `snoozer-<version>.apk` and `snoozer-<version>-mapping.txt` (R8's name map, to read crash stack traces from release builds).
