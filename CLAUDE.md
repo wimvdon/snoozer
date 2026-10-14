@@ -19,7 +19,7 @@ time.
    what changed and why, in words a non-developer understands, and **exactly what to tap on the
    phone to test it** (step by step, with what they should see). The owner tests by installing
    the debug APK from the pull request's CI run (Checks → CI → Artifacts). It installs as a
-   separate app (`io.github.impca201.snoozer.debug`) next to the released one.
+   separate app, "Snoozer Dev" (`io.github.impca201.snoozer.debug`), next to the released one.
 
 ## Never do these without asking first (and saying why)
 - Delete, skip, `@Ignore`, or weaken tests, lint checks, CI steps or workflows to make something

@@ -51,7 +51,7 @@ With USB debugging enabled:
 
 Or open the project in Android Studio and press **Run**.
 
-Debug builds use the application ID `io.github.impca201.snoozer.debug`, so they install **next to** a released Snoozer with their own data and their own notification access. You will see two Snoozer icons; uninstall the debug one when you are done.
+Debug builds use the application ID `io.github.impca201.snoozer.debug` and the name **Snoozer Dev**, so they install **next to** a released Snoozer with their own data and their own notification access (grant it to "Snoozer Dev"). Uninstall it when you are done.
 
 To test a pull request without building, open it on GitHub › **Checks** › **CI** › **Artifacts** and install `snoozer-<version>-debug.apk`.
 

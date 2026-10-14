@@ -29,7 +29,7 @@ snoozer/
     ├── build.gradle.kts              App ID, versioning, signing, lint, dependencies, printApkBaseName
     ├── proguard-rules.pro            Empty by design (no reflection)
     └── src/
-        ├── debug/res/xml/shortcuts.xml   Launcher shortcut for the .debug application ID
+        ├── debug/res/                    Debug build only: "Snoozer Dev" name, shortcut for the .debug ID
         ├── main/
         │   ├── AndroidManifest.xml
         │   ├── kotlin/io/github/impca201/snoozer/
