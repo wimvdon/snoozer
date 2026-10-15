@@ -1,6 +1,6 @@
 # Snoozer privacy policy
 
-_Last updated: 11 October 2026 (stored settings listed in full)_
+_Last updated: 15 October 2026 (settings are included in Android's backup)_
 
 Snoozer is designed to collect nothing.
 
@@ -25,8 +25,11 @@ On your device only, Snoozer stores:
 - the system identifiers ("keys") of notifications it snoozed, so they can be restored. These
   keys contain the posting app's package name and a notification ID, never notification content.
 
-This data is excluded from cloud backups and device-to-device transfers and is deleted when you
-uninstall the app.
+Your settings (theme, toast message, persistent notification, mode and its name) are included in
+Android's own backup to your Google account, if you turned that on, and in a transfer to a new
+phone, so they come back after a reset or on a new phone. Everything else above (whether snoozing
+is on, Follow Bedtime and the notification keys) is excluded from backups and transfers. All of it
+is deleted from the phone when you uninstall the app.
 
 ## What the app shares
 

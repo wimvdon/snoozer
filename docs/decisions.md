@@ -1,5 +1,9 @@
 # Technical decisions
 
+## 2026-10-15: Settings are backed up, device state is not
+
+Backups were switched off completely, so a new or reset phone started Snoozer from scratch. Now Android's own backup (to the Google account) and phone-to-phone transfer copy the settings: theme, wallpaper colours, the toast message, the persistent notification, the mode and its name. They live in their own DataStore file, `backed_up_settings`, and the backup rules list only that file, so anything added to another file is never backed up by accident. The switch, the snoozed notification keys and Follow Bedtime stay on the phone (meaningless or surprising on another device; Bedtime needs adb set-up per phone). Existing settings are moved over once by a DataStore migration. Rejected: backing up the whole old file (would restore "snoozing on" and stale keys) and excluding single keys (Android's rules work per file, not per key).
+
 ## 2026-10-15: Phone testing doesn't block merging
 
 The owner can't review code and can't always test a pull request on the device right away, so pull requests waited for a manual test that adds little over CI. Green CI (unit tests, lint, builds) is now enough to merge; the owner tests afterwards with the steps from the pull request and always before a release, and problems are fixed in a new pull request. Merging to `main` does not reach users: releases stay manual. Rejected: keeping the phone test as a merge gate (pull requests pile up and go stale).
@@ -101,7 +105,7 @@ Android exposes no API for "which mode is active" to third-party apps. The only 
 
 ## Privacy by construction
 
-There is no `INTERNET` permission, no analytics SDK, and backups and device transfers are fully excluded. `dependenciesInfo.includeInApk = false` drops the Google Play dependency blob. Notification content is never read; only the posting app's label is read, for the optional toast.
+There is no `INTERNET` permission and no analytics SDK. Backups and device transfers copy only the settings (see "Settings are backed up" above). `dependenciesInfo.includeInApk = false` drops the Google Play dependency blob. Notification content is never read; only the posting app's label is read, for the optional toast.
 
 ## Release signing only in CI
 
