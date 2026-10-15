@@ -85,7 +85,7 @@ There is no coverage tool configured.
 
 ## Manual checks on the phone
 
-For each pull request, install the debug APK from the CI run and follow the steps in the pull request description. Before a release, also check:
+For each pull request (before or after it is merged: merging only waits for green CI), install the debug APK from the CI run and follow the steps in the pull request description. Before a release, also check:
 
 - [ ] Snooze and Unsnooze from the app, the Quick Settings tile and the launcher shortcut.
 - [ ] Dark mode on and off: text stays readable.
