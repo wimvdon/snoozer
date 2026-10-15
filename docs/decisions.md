@@ -1,5 +1,9 @@
 # Technical decisions
 
+## 2026-10-15: Settings screens make room for the keyboard
+
+The app targets Android 15+ and draws edge to edge, so the system no longer shrinks the screen when the keyboard opens. `SettingsScaffold` (shared design kit, same change in every app) now adds the keyboard to its content insets, so a focused text field scrolls into view instead of hiding behind the keyboard. Rejected: opting out of edge-to-edge (not possible for apps targeting Android 15+).
+
 ## 2026-10-15: Settings are backed up, device state is not
 
 Backups were switched off completely, so a new or reset phone started Snoozer from scratch. Now Android's own backup (to the Google account) and phone-to-phone transfer copy the settings: theme, wallpaper colours, the toast message, the persistent notification, the mode and its name. They live in their own DataStore file, `backed_up_settings`, and the backup rules list only that file, so anything added to another file is never backed up by accident. The switch, the snoozed notification keys and Follow Bedtime stay on the phone (meaningless or surprising on another device; Bedtime needs adb set-up per phone). Existing settings are moved over once by a DataStore migration. Rejected: backing up the whole old file (would restore "snoozing on" and stale keys) and excluding single keys (Android's rules work per file, not per key).
