@@ -69,7 +69,7 @@ snoozer/
         │       ├── mipmap-anydpi/             Adaptive launcher icons
         │       ├── values/ values-night/      Colours, themes, English strings
         │       ├── values-{nl,fr,de,es,it}/   Translations
-        │       └── xml/                       Shortcuts, backup exclusion rules (the locale list is generated)
+        │       └── xml/                       Shortcuts, backup rules (the locale list is generated)
         └── test/kotlin/io/github/impca201/snoozer/
             ├── bedtime/BedtimeMonitorTest.kt
             ├── bedtime/BedtimeParserTest.kt

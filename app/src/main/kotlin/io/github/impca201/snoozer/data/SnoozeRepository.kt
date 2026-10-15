@@ -20,22 +20,33 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import java.io.IOException
 
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "snoozer")
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = DataFiles.DEVICE_STATE)
+
+private val Context.settingsStore: DataStore<Preferences> by preferencesDataStore(
+    name = DataFiles.BACKED_UP_SETTINGS,
+    // Settings used to live in the device-state file; move them over once.
+    produceMigrations = { context -> listOf(MoveKeysMigration(context.dataStore, SnoozeRepository.SETTINGS_KEYS)) },
+)
 
 /**
  * Single source of truth for the snooze switch, user settings and the keys of notifications
  * this app has snoozed (needed to bring them back after the process was killed).
+ *
+ * The settings live in their own file, which Android backs up; the rest stays on this phone
+ * (see [DataFiles]).
  */
 class SnoozeRepository(
     context: Context,
     scope: CoroutineScope,
 ) {
     private val dataStore = context.applicationContext.dataStore
+    private val settingsStore = context.applicationContext.settingsStore
 
-    private val preferences: Flow<Preferences> =
-        dataStore.data.catch { error ->
-            if (error is IOException) emit(emptyPreferences()) else throw error
-        }
+    private val preferences: Flow<Preferences> = dataStore.data.ignoringReadErrors()
+    private val settings: Flow<Preferences> = settingsStore.data.ignoringReadErrors()
+
+    private fun Flow<Preferences>.ignoringReadErrors() =
+        catch { error -> if (error is IOException) emit(emptyPreferences()) else throw error }
 
     /** `null` until the stored value has been read for the first time. */
     val snoozeEnabled: StateFlow<Boolean?> =
@@ -45,42 +56,42 @@ class SnoozeRepository(
             .stateIn(scope, SharingStarted.Eagerly, null)
 
     val toastEnabled: StateFlow<Boolean> =
-        preferences
+        settings
             .map { it[TOAST_ENABLED] ?: false }
             .distinctUntilChanged()
             .stateIn(scope, SharingStarted.Eagerly, false)
 
     /** Whether to show the persistent "Snoozing notifications" notification while snoozing. */
     val indicatorEnabled: StateFlow<Boolean> =
-        preferences
+        settings
             .map { it[INDICATOR_ENABLED] ?: false }
             .distinctUntilChanged()
             .stateIn(scope, SharingStarted.Eagerly, false)
 
     suspend fun setIndicatorEnabled(enabled: Boolean) {
-        dataStore.edit { it[INDICATOR_ENABLED] = enabled }
+        settingsStore.edit { it[INDICATOR_ENABLED] = enabled }
     }
 
     /** Opt-in (Android 15+): turn on Snoozer's own mode (Settings › Modes) while snoozing. */
     val modeEnabled: StateFlow<Boolean> =
-        preferences
+        settings
             .map { it[MODE_ENABLED] ?: false }
             .distinctUntilChanged()
             .stateIn(scope, SharingStarted.Eagerly, false)
 
     suspend fun setModeEnabled(enabled: Boolean) {
-        dataStore.edit { it[MODE_ENABLED] = enabled }
+        settingsStore.edit { it[MODE_ENABLED] = enabled }
     }
 
     /** Custom name for Snoozer's mode; empty means the app name. */
     val modeName: StateFlow<String> =
-        preferences
+        settings
             .map { it[MODE_NAME].orEmpty() }
             .distinctUntilChanged()
             .stateIn(scope, SharingStarted.Eagerly, "")
 
     suspend fun setModeName(name: String) {
-        dataStore.edit { it[MODE_NAME] = name.trim() }
+        settingsStore.edit { it[MODE_NAME] = name.trim() }
     }
 
     /** Experimental: snooze while Pixel Bedtime is on (needs adb-granted permissions). */
@@ -140,7 +151,7 @@ class SnoozeRepository(
 
     /** Theme settings; `null` until read, so the first frame never shows the wrong theme. */
     val appearance: StateFlow<Appearance?> =
-        preferences
+        settings
             .map { p ->
                 Appearance(
                     themeMode = ThemeMode.entries.firstOrNull { it.name == p[THEME_MODE] } ?: ThemeMode.System,
@@ -150,16 +161,16 @@ class SnoozeRepository(
             .stateIn(scope, SharingStarted.Eagerly, null)
 
     suspend fun setThemeMode(mode: ThemeMode) {
-        dataStore.edit { it[THEME_MODE] = mode.name }
+        settingsStore.edit { it[THEME_MODE] = mode.name }
     }
 
     /** Wallpaper colours (Android 12+) instead of the app's own palette. */
     suspend fun setDynamicColor(enabled: Boolean) {
-        dataStore.edit { it[DYNAMIC_COLOR] = enabled }
+        settingsStore.edit { it[DYNAMIC_COLOR] = enabled }
     }
 
     suspend fun setToastEnabled(enabled: Boolean) {
-        dataStore.edit { it[TOAST_ENABLED] = enabled }
+        settingsStore.edit { it[TOAST_ENABLED] = enabled }
     }
 
     suspend fun snoozedKeys(): Set<String> = preferences.first()[SNOOZED_KEYS].orEmpty()
@@ -183,20 +194,24 @@ class SnoozeRepository(
         return taken
     }
 
-    private companion object {
-        val SNOOZE_ENABLED = booleanPreferencesKey("snooze_enabled")
-        val TOAST_ENABLED = booleanPreferencesKey("toast_enabled")
-        val INDICATOR_ENABLED = booleanPreferencesKey("indicator_enabled")
-        val MODE_ENABLED = booleanPreferencesKey("dim_enabled") // Historical key name.
-        val MODE_NAME = stringPreferencesKey("mode_name")
-        val FOLLOW_BEDTIME = booleanPreferencesKey("follow_bedtime")
-        val BEDTIME_LAST_ACTIVE = booleanPreferencesKey("bedtime_last_active")
-        val BEDTIME_SNOOZED = booleanPreferencesKey("bedtime_snoozed")
-        val SNOOZED_KEYS = stringSetPreferencesKey("snoozed_keys")
-        val THEME_MODE = stringPreferencesKey("theme_mode")
-        val DYNAMIC_COLOR = booleanPreferencesKey("dynamic_color")
+    companion object {
+        private val SNOOZE_ENABLED = booleanPreferencesKey("snooze_enabled")
+        private val TOAST_ENABLED = booleanPreferencesKey("toast_enabled")
+        private val INDICATOR_ENABLED = booleanPreferencesKey("indicator_enabled")
+        private val MODE_ENABLED = booleanPreferencesKey("dim_enabled") // Historical key name.
+        private val MODE_NAME = stringPreferencesKey("mode_name")
+        private val FOLLOW_BEDTIME = booleanPreferencesKey("follow_bedtime")
+        private val BEDTIME_LAST_ACTIVE = booleanPreferencesKey("bedtime_last_active")
+        private val BEDTIME_SNOOZED = booleanPreferencesKey("bedtime_snoozed")
+        private val SNOOZED_KEYS = stringSetPreferencesKey("snoozed_keys")
+        private val THEME_MODE = stringPreferencesKey("theme_mode")
+        private val DYNAMIC_COLOR = booleanPreferencesKey("dynamic_color")
 
         /** The platform caps concurrent snoozes well below this; it only bounds storage. */
-        const val MAX_TRACKED_KEYS = 1000
+        private const val MAX_TRACKED_KEYS = 1000
+
+        /** Moved to the backed-up settings file. Follow Bedtime stays: it needs adb set-up per phone. */
+        internal val SETTINGS_KEYS: Set<Preferences.Key<*>> =
+            setOf(TOAST_ENABLED, INDICATOR_ENABLED, MODE_ENABLED, MODE_NAME, THEME_MODE, DYNAMIC_COLOR)
     }
 }

@@ -48,6 +48,9 @@ Secrets, keystores (`*.jks`, `*.keystore`), `keystore.properties`, passwords or 
   Composables only display state and forward clicks.
 - **All user-visible text goes in `app/src/main/res/values/strings.xml`**, never hard-coded.
   Add the translation to **every** `values-xx/strings.xml` (currently: `nl`, `fr`, `de`, `es`, `it`).
+- **Stored data and backup:** settings the user would want on a new phone go in the DataStore
+  `backed_up_settings` (Android backs it up); sign-in tokens and device-only state go in another
+  file (never backed up). See `docs/architecture.md`, "Backup".
 - Dependency versions live only in `gradle/libs.versions.toml`.
 - Versions are automatic (git tags / release workflow). Don't edit `versionName`/`versionCode`.
 - A change to `app/src/main/res/xml/shortcuts.xml` must also be made in

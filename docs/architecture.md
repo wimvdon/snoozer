@@ -82,15 +82,25 @@ There is no polling. While Follow Bedtime is on, the listener registers a non-ex
 
 ## Data storage
 
-There is no database. One Preferences DataStore file holds:
+There is no database. Two Preferences DataStore files (names in `data/DataFiles.kt`):
 
-| Key | Type | Purpose |
-|---|---|---|
-| `snooze_enabled` | Boolean | The switch |
-| `toast_enabled`, `indicator_enabled` | Boolean | Optional cues |
-| `dim_enabled` | Boolean | Mode on/off (historical name kept for compatibility) |
-| `mode_name` | String | Custom mode name |
-| `follow_bedtime`, `bedtime_last_active`, `bedtime_snoozed` | Boolean | Bedtime sync state and ownership |
-| `snoozed_keys` | Set<String> | Keys to restore |
+| File | Key | Type | Purpose |
+|---|---|---|---|
+| `backed_up_settings` | `theme_mode`, `dynamic_color` | String, Boolean | Appearance |
+| `backed_up_settings` | `toast_enabled`, `indicator_enabled` | Boolean | Optional cues |
+| `backed_up_settings` | `dim_enabled` | Boolean | Mode on/off (historical name kept for compatibility) |
+| `backed_up_settings` | `mode_name` | String | Custom mode name |
+| `snoozer` | `snooze_enabled` | Boolean | The switch |
+| `snoozer` | `follow_bedtime`, `bedtime_last_active`, `bedtime_snoozed` | Boolean | Bedtime sync state and ownership |
+| `snoozer` | `snoozed_keys` | Set<String> | Keys to restore |
 
-Backups and device transfers exclude everything (`res/xml/data_extraction_rules.xml`, `allowBackup="false"`). Notification keys are meaningless on another device, and a restored "snoozing on" state would be surprising.
+**Backup.** Android's own backup (to the Google account) and phone-to-phone transfer copy only
+`backed_up_settings` (`res/xml/data_extraction_rules.xml` for Android 12+, `res/xml/backup_rules.xml`
+for Android 8-11, guarded by `BackupRulesTest`). The `snoozer` file stays on the phone: notification
+keys are meaningless on another device, a restored "snoozing on" state would be surprising, and
+Follow Bedtime needs adb-granted permissions that a new phone doesn't have. Settings that need a
+permission on the new phone (the persistent notification, the mode) come back switched on but show
+as blocked until the permission is granted, as they already do when it is revoked.
+
+Up to version 1.3.0 the settings lived in the `snoozer` file. `MoveKeysMigration` moves them to
+`backed_up_settings` the first time the settings are read after the update.
