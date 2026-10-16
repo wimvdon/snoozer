@@ -15,9 +15,7 @@
     <string name="status_snoozed_body">Neue Benachrichtigungen werden still beiseitegelegt. Sie kommen zurück, sobald du sie aufweckst.</string>
     <string name="status_no_access_title">Benachrichtigungszugriff erforderlich</string>
     <string name="status_no_access_body">Erlaube den Benachrichtigungszugriff, um loszulegen.</string>
-
-    <string name="banner_access_title">Benachrichtigungszugriff aktivieren</string>
-    <string name="banner_access_body">Snoozer kann erst etwas schlummern lassen, wenn du es erlaubst. Tippe hier für die Anleitung.</string>
+    <string name="status_no_access_action">Zugriff erlauben</string>
     <string name="menu_settings">Einstellungen</string>
     <string name="setting_toast_title">Toast-Hinweis aktivieren</string>
     <string name="setting_toast_summary">Kurz anzeigen, von welcher App eine Benachrichtigung schlummert</string>

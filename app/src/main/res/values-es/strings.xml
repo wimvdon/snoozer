@@ -15,9 +15,7 @@
     <string name="status_snoozed_body">Las notificaciones nuevas se apartan en silencio. Vuelven en cuanto reanudes.</string>
     <string name="status_no_access_title">Se necesita acceso a las notificaciones</string>
     <string name="status_no_access_body">Concede acceso a las notificaciones para empezar a posponer.</string>
-
-    <string name="banner_access_title">Activar acceso a las notificaciones</string>
-    <string name="banner_access_body">Snoozer no puede posponer nada hasta que lo permitas. Toca para ver cómo.</string>
+    <string name="status_no_access_action">Permitir acceso</string>
     <string name="menu_settings">Ajustes</string>
     <string name="setting_toast_title">Activar aviso emergente</string>
     <string name="setting_toast_summary">Muestra brevemente de qué app era la notificación pospuesta</string>

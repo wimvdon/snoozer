@@ -57,7 +57,7 @@ To test a pull request without building, open it on GitHub › **Checks** › **
 
 ## 5. Grant notification access
 
-Open Snoozer and tap **Enable notification access**. On Android 13+ sideloaded installs can show the switch greyed out; enable **App info › ⋮ › Allow restricted settings** first. Debug builds installed from Android Studio or adb are usually not restricted.
+Open Snoozer and tap **Allow access** under the toggle. On Android 13+ sideloaded installs can show the switch greyed out; enable **App info › ⋮ › Allow restricted settings** first. Debug builds installed from Android Studio or adb are usually not restricted.
 
 ## Verify it works
 

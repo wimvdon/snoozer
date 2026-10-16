@@ -15,9 +15,7 @@
     <string name="status_snoozed_body">Nieuwe meldingen worden stil opzijgezet. Ze komen terug zodra je stopt met snoozen.</string>
     <string name="status_no_access_title">Toegang tot meldingen nodig</string>
     <string name="status_no_access_body">Geef toegang tot meldingen om te kunnen snoozen.</string>
-
-    <string name="banner_access_title">Toegang tot meldingen inschakelen</string>
-    <string name="banner_access_body">Snoozer kan pas snoozen als je dit toestaat. Tik om te zien hoe.</string>
+    <string name="status_no_access_action">Toegang geven</string>
     <string name="menu_settings">Instellingen</string>
     <string name="setting_toast_title">Toastmelding inschakelen</string>
     <string name="setting_toast_summary">Toon kort van welke app een melding is gesnoozed</string>

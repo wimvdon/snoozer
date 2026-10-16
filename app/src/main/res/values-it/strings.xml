@@ -15,9 +15,7 @@
     <string name="status_snoozed_body">Le nuove notifiche vengono messe da parte in silenzio. Tornano appena riprendi.</string>
     <string name="status_no_access_title">Serve l\'accesso alle notifiche</string>
     <string name="status_no_access_body">Concedi l\'accesso alle notifiche per iniziare a posticipare.</string>
-
-    <string name="banner_access_title">Attiva l\'accesso alle notifiche</string>
-    <string name="banner_access_body">Snoozer non può posticipare nulla finché non lo consenti. Tocca per scoprire come.</string>
+    <string name="status_no_access_action">Consenti accesso</string>
     <string name="menu_settings">Impostazioni</string>
     <string name="setting_toast_title">Attiva messaggio toast</string>
     <string name="setting_toast_summary">Mostra per un attimo di quale app era la notifica posticipata</string>

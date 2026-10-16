@@ -15,9 +15,7 @@
     <string name="status_snoozed_body">Les nouvelles notifications sont mises de côté en silence. Elles reviennent dès que vous reprenez.</string>
     <string name="status_no_access_title">Accès aux notifications requis</string>
     <string name="status_no_access_body">Autorisez l\'accès aux notifications pour commencer.</string>
-
-    <string name="banner_access_title">Activer l\'accès aux notifications</string>
-    <string name="banner_access_body">Snoozer ne peut rien mettre en pause sans votre autorisation. Appuyez pour savoir comment faire.</string>
+    <string name="status_no_access_action">Autoriser l\'accès</string>
     <string name="menu_settings">Paramètres</string>
     <string name="setting_toast_title">Activer le message toast</string>
     <string name="setting_toast_summary">Indique brièvement de quelle app provenait la notification mise en pause</string>
