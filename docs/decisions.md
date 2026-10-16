@@ -1,5 +1,16 @@
 # Technical decisions
 
+## 2026-10-16: Settings as one list; guide pages without a card per section
+
+A Material 3 audit (owner's request) found that every setting sat in its own collapsed card, so a
+single switch took two taps to reach. Settings are now one list grouped by section headers, from
+the shared `SettingsKit.kt` (see the android-app template's decision log): the toast and the
+persistent notification share a "While snoozing" section, "Open mode settings" and "Open Tasker"
+are list rows that open another app, and only setup instructions stay folded away. The access
+guide keeps cards for the status and the restricted-settings tip, but its steps and privacy note
+are plain page content, as Material 3 advises against a card around every section. Rejected:
+keeping a section per switch (two section headers with one row each).
+
 ## 2026-10-15: Settings screens make room for the keyboard
 
 The app targets Android 15+ and draws edge to edge, so the system no longer shrinks the screen when the keyboard opens. `SettingsScaffold` (shared design kit, same change in every app) now adds the keyboard to its content insets, so a focused text field scrolls into view instead of hiding behind the keyboard. Rejected: opting out of edge-to-edge (not possible for apps targeting Android 15+).

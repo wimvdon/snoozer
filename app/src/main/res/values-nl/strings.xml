@@ -3,8 +3,6 @@
     <string name="action_back">Terug</string>
     <string name="action_cancel">Annuleren</string>
     <string name="action_save">Opslaan</string>
-    <string name="toast_setting_on">Aan</string>
-    <string name="toast_setting_off">Uit</string>
 
     <string name="toggle_snooze">Snoozen</string>
     <string name="toggle_unsnooze">Stop snoozen</string>
@@ -23,8 +21,7 @@
     <string name="menu_settings">Instellingen</string>
     <string name="setting_toast_title">Toastmelding inschakelen</string>
     <string name="setting_toast_summary">Toon kort van welke app een melding is gesnoozed</string>
-    <string name="section_toast">Toastmelding</string>
-    <string name="section_indicator">Permanente melding</string>
+    <string name="section_snoozing">Tijdens snoozen</string>
     <string name="section_mode">Modus</string>
     <string name="section_expanded">Uitgevouwen</string>
     <string name="section_collapsed">Ingevouwen</string>

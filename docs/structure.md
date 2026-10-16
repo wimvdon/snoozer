@@ -62,7 +62,7 @@ snoozer/
         │   │       ├── SnoozerNavigation.kt   Back stack, permission requests, screen wiring
         │   │       ├── guide/                 Notification access guide + shared guide widgets
         │   │       ├── home/                  Snooze toggle, glow, expressive shapes
-        │   │       ├── settings/              Settings screen and its collapsible sections
+        │   │       ├── settings/              Settings screen: one list of sections
         │   │       └── theme/                 Material 3 theme, dynamic colour, shapes, motion, settings kit
         │   └── res/
         │       ├── drawable/                  Vector icons (launcher, tile, settings)

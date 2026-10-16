@@ -6,8 +6,6 @@
     <string name="action_back">Back</string>
     <string name="action_cancel">Cancel</string>
     <string name="action_save">Save</string>
-    <string name="toast_setting_on">On</string>
-    <string name="toast_setting_off">Off</string>
 
     <!-- Home: big toggle. Labels describe the action a tap performs. -->
     <string name="toggle_snooze">Snooze</string>
@@ -29,8 +27,7 @@
     <string name="menu_settings">Settings</string>
     <string name="setting_toast_title">Enable toast notification</string>
     <string name="setting_toast_summary">Briefly show which app\'s notification was snoozed</string>
-    <string name="section_toast">Toast notification</string>
-    <string name="section_indicator">Persistent notification</string>
+    <string name="section_snoozing">While snoozing</string>
     <string name="section_mode">Mode</string>
     <string name="section_expanded">Expanded</string>
     <string name="section_collapsed">Collapsed</string>

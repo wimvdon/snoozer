@@ -3,8 +3,6 @@
     <string name="action_back">Indietro</string>
     <string name="action_cancel">Annulla</string>
     <string name="action_save">Salva</string>
-    <string name="toast_setting_on">Attivo</string>
-    <string name="toast_setting_off">Disattivo</string>
 
     <string name="toggle_snooze">Posticipa</string>
     <string name="toggle_unsnooze">Riprendi</string>
@@ -23,8 +21,7 @@
     <string name="menu_settings">Impostazioni</string>
     <string name="setting_toast_title">Attiva messaggio toast</string>
     <string name="setting_toast_summary">Mostra per un attimo di quale app era la notifica posticipata</string>
-    <string name="section_toast">Messaggio toast</string>
-    <string name="section_indicator">Notifica persistente</string>
+    <string name="section_snoozing">Durante la posticipazione</string>
     <string name="section_mode">Modalità</string>
     <string name="section_expanded">Espanso</string>
     <string name="section_collapsed">Compresso</string>

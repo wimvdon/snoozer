@@ -3,8 +3,6 @@
     <string name="action_back">Retour</string>
     <string name="action_cancel">Annuler</string>
     <string name="action_save">Enregistrer</string>
-    <string name="toast_setting_on">Activé</string>
-    <string name="toast_setting_off">Désactivé</string>
 
     <string name="toggle_snooze">Mettre en pause</string>
     <string name="toggle_unsnooze">Reprendre</string>
@@ -23,8 +21,7 @@
     <string name="menu_settings">Paramètres</string>
     <string name="setting_toast_title">Activer le message toast</string>
     <string name="setting_toast_summary">Indique brièvement de quelle app provenait la notification mise en pause</string>
-    <string name="section_toast">Message toast</string>
-    <string name="section_indicator">Notification permanente</string>
+    <string name="section_snoozing">Pendant la pause</string>
     <string name="section_mode">Mode</string>
     <string name="section_expanded">Développé</string>
     <string name="section_collapsed">Réduit</string>
