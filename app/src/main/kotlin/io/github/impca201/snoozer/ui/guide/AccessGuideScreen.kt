@@ -91,12 +91,9 @@ fun AccessGuideScreen(
             }
         }
         item(key = "privacy") {
-            GuideCallout(
+            GuideText(
                 title = stringResource(R.string.guide_access_privacy_title),
                 text = stringResource(R.string.guide_access_privacy_body),
-                iconRes = R.drawable.ic_shield,
-                containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                contentColor = MaterialTheme.colorScheme.onSurface,
             )
         }
     }

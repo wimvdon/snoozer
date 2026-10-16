@@ -3,8 +3,6 @@
     <string name="action_back">Atrás</string>
     <string name="action_cancel">Cancelar</string>
     <string name="action_save">Guardar</string>
-    <string name="toast_setting_on">Activado</string>
-    <string name="toast_setting_off">Desactivado</string>
 
     <string name="toggle_snooze">Posponer</string>
     <string name="toggle_unsnooze">Reanudar</string>
@@ -23,8 +21,7 @@
     <string name="menu_settings">Ajustes</string>
     <string name="setting_toast_title">Activar aviso emergente</string>
     <string name="setting_toast_summary">Muestra brevemente de qué app era la notificación pospuesta</string>
-    <string name="section_toast">Aviso emergente</string>
-    <string name="section_indicator">Notificación persistente</string>
+    <string name="section_snoozing">Al posponer</string>
     <string name="section_mode">Modo</string>
     <string name="section_expanded">Desplegado</string>
     <string name="section_collapsed">Contraído</string>

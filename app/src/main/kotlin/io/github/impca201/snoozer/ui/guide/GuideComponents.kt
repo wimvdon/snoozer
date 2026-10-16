@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.shape.CircleShape
@@ -59,19 +60,27 @@ fun GuideScaffold(
             )
         },
     ) { innerPadding ->
-        LazyColumn(
+        Box(
             modifier =
                 Modifier
                     .fillMaxSize()
                     .padding(innerPadding),
-            contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 32.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            content = content,
-        )
+            contentAlignment = Alignment.TopCenter,
+        ) {
+            LazyColumn(
+                modifier =
+                    Modifier
+                        .widthIn(max = 640.dp)
+                        .fillMaxSize(),
+                contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 32.dp),
+                verticalArrangement = Arrangement.spacedBy(24.dp),
+                content = content,
+            )
+        }
     }
 }
 
-/** A titled group of numbered steps. */
+/** A titled group of numbered steps. Plain page content: only callouts get a container. */
 @Composable
 fun GuideSection(
     title: String,
@@ -79,21 +88,33 @@ fun GuideSection(
     modifier: Modifier = Modifier,
     footer: (@Composable () -> Unit)? = null,
 ) {
-    Card(
-        shape = AppShapes.Group,
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
-        modifier = modifier.fillMaxWidth(),
-    ) {
-        Column(Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.semantics { heading() },
-            )
-            steps.forEachIndexed { index, step -> GuideStep(number = index + 1, text = step) }
-            footer?.invoke()
-        }
+    Column(modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        GuideHeading(title)
+        steps.forEachIndexed { index, step -> GuideStep(number = index + 1, text = step) }
+        footer?.invoke()
     }
+}
+
+/** A titled paragraph of plain page content. */
+@Composable
+fun GuideText(
+    title: String,
+    text: String,
+    modifier: Modifier = Modifier,
+) {
+    Column(modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        GuideHeading(title)
+        Text(text = text, style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
+    }
+}
+
+@Composable
+private fun GuideHeading(title: String) {
+    Text(
+        text = title,
+        style = MaterialTheme.typography.titleMedium,
+        modifier = Modifier.semantics { heading() },
+    )
 }
 
 /** Numbered steps without a surrounding card, for use inside other containers. */

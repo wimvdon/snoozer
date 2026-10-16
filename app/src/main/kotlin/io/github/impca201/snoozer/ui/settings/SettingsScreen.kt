@@ -52,10 +52,12 @@ import io.github.impca201.snoozer.data.Appearance
 import io.github.impca201.snoozer.data.ThemeMode
 import io.github.impca201.snoozer.tile.SnoozeTileService
 import io.github.impca201.snoozer.ui.theme.AppearanceSettings
-import io.github.impca201.snoozer.ui.theme.CollapsibleSection
-import io.github.impca201.snoozer.ui.theme.CollapsibleSubsection
+import io.github.impca201.snoozer.ui.theme.ExpandableSetting
+import io.github.impca201.snoozer.ui.theme.SettingItem
+import io.github.impca201.snoozer.ui.theme.SettingsBlock
 import io.github.impca201.snoozer.ui.theme.SettingsFooter
 import io.github.impca201.snoozer.ui.theme.SettingsScaffold
+import io.github.impca201.snoozer.ui.theme.SettingsSection
 import io.github.impca201.snoozer.ui.theme.SwitchSetting
 import io.github.impca201.snoozer.ui.theme.rememberAppVersion
 import io.github.impca201.snoozer.ui.guide.ButtonIconSpacing
@@ -64,7 +66,7 @@ import android.graphics.drawable.Icon as PlatformIcon
 
 private const val TASKER_PACKAGE = "net.dinglisch.android.taskerm"
 
-/** Everything that can be configured or set up, in collapsible sections. */
+/** Everything that can be configured or set up, as one list of sections. */
 @Composable
 fun SettingsScreen(
     state: SettingsState,
@@ -76,8 +78,7 @@ fun SettingsScreen(
         backLabel = stringResource(R.string.action_back),
         onBack = onBack,
     ) {
-        item(key = "toast") { ToastSection(state, actions) }
-        item(key = "indicator") { IndicatorSection(state, actions) }
+        item(key = "snoozing") { SnoozingSection(state, actions) }
         item(key = "mode") { ModeSection(state, actions) }
         item(key = "bedtime") { BedtimeSection(state, actions) }
         item(key = "shortcuts") { ShortcutsSection() }
@@ -120,12 +121,7 @@ private fun AppearanceSection(
     state: SettingsState,
     actions: SettingsActions,
 ) {
-    CollapsibleSection(
-        key = "appearance",
-        title = stringResource(R.string.section_appearance),
-        summary = stringResource(state.appearance.themeMode.labelRes()),
-        icon = painterResource(R.drawable.ic_palette),
-    ) {
+    SettingsSection(title = stringResource(R.string.section_appearance)) {
         AppearanceSettings(
             themeLabel = stringResource(R.string.setting_theme_title),
             themeOptions = ThemeMode.entries.map { stringResource(it.labelRes()) },
@@ -148,37 +144,19 @@ private fun ThemeMode.labelRes(): Int =
         ThemeMode.Dark -> R.string.theme_dark
     }
 
+/** What Snoozer shows while it is snoozing. */
 @Composable
-private fun ToastSection(
+private fun SnoozingSection(
     state: SettingsState,
     actions: SettingsActions,
 ) {
-    CollapsibleSection(
-        key = "toast",
-        title = stringResource(R.string.section_toast),
-        summary = onOff(state.toastEnabled),
-        icon = painterResource(R.drawable.ic_toast),
-    ) {
+    SettingsSection(title = stringResource(R.string.section_snoozing)) {
         SwitchSetting(
             title = stringResource(R.string.setting_toast_title),
             summary = stringResource(R.string.setting_toast_summary),
             checked = state.toastEnabled,
             onCheckedChange = actions.onToastEnabledChange,
         )
-    }
-}
-
-@Composable
-private fun IndicatorSection(
-    state: SettingsState,
-    actions: SettingsActions,
-) {
-    CollapsibleSection(
-        key = "indicator",
-        title = stringResource(R.string.section_indicator),
-        summary = onOff(state.indicatorEnabled),
-        icon = painterResource(R.drawable.ic_notifications_paused),
-    ) {
         SwitchSetting(
             title = stringResource(R.string.setting_indicator_title),
             summary = stringResource(R.string.setting_indicator_summary),
@@ -197,12 +175,7 @@ private fun ModeSection(
 ) {
     val appName = stringResource(R.string.app_name)
     val displayName = state.modeName.ifBlank { appName }
-    CollapsibleSection(
-        key = "mode",
-        title = stringResource(R.string.section_mode),
-        summary = if (state.modeSupported) onOff(state.modeEnabled) else stringResource(R.string.setting_mode_unsupported),
-        icon = painterResource(R.drawable.ic_mode),
-    ) {
+    SettingsSection(title = stringResource(R.string.section_mode)) {
         SwitchSetting(
             title = stringResource(R.string.setting_mode_title),
             summary =
@@ -216,16 +189,17 @@ private fun ModeSection(
             onWarningClick = { actions.onModeEnabledChange(true) },
         )
         if (state.modeSupported) {
-            ModeNameField(current = displayName, onSave = actions.onModeNameSave)
-            SectionText(stringResource(R.string.setting_mode_details, appName, displayName))
+            SettingsBlock {
+                ModeNameField(current = displayName, onSave = actions.onModeNameSave)
+                SectionText(stringResource(R.string.setting_mode_details, appName, displayName))
+            }
             if (state.modeEnabled && !state.modeBlocked) {
-                FilledTonalButton(onClick = actions.onOpenModeSettings, modifier = Modifier.fillMaxWidth()) {
-                    Icon(painterResource(R.drawable.ic_open_in_new), contentDescription = null)
-                    Text(
-                        text = stringResource(R.string.setting_mode_open),
-                        modifier = Modifier.padding(start = ButtonIconSpacing),
-                    )
-                }
+                SettingItem(
+                    title = stringResource(R.string.setting_mode_open),
+                    summary = null,
+                    onClick = actions.onOpenModeSettings,
+                    trailing = { OpensElsewhereIcon() },
+                )
             }
         }
     }
@@ -263,13 +237,8 @@ private fun BedtimeSection(
 ) {
     val context = LocalContext.current
     val commands = BedtimeMonitor.adbCommands(context.packageName).joinToString("\n")
-    CollapsibleSection(
-        key = "bedtime",
-        title = stringResource(R.string.section_bedtime),
-        summary = onOff(state.followBedtime),
-        icon = painterResource(R.drawable.ic_bedtime),
-    ) {
-        InfoBanner(stringResource(R.string.bedtime_experimental))
+    SettingsSection(title = stringResource(R.string.section_bedtime)) {
+        SettingsBlock { InfoBanner(stringResource(R.string.bedtime_experimental)) }
         SwitchSetting(
             title = stringResource(R.string.setting_bedtime_title),
             summary = stringResource(R.string.setting_bedtime_summary),
@@ -278,22 +247,24 @@ private fun BedtimeSection(
             // Needs the adb permissions first; switching off always stays possible.
             enabled = state.bedtimeReady || state.followBedtime,
         )
-        state.bedtimeStatus?.let { status ->
-            Text(
-                text = stringResource(bedtimeStatusText(status)),
-                style = MaterialTheme.typography.bodyMedium,
-                color =
-                    when (status) {
-                        BedtimeMonitor.Status.NeedsSetup, BedtimeMonitor.Status.Unreadable -> MaterialTheme.colorScheme.error
-                        else -> MaterialTheme.colorScheme.primary
-                    },
-                modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite },
-            )
+        SettingsBlock {
+            state.bedtimeStatus?.let { status ->
+                Text(
+                    text = stringResource(bedtimeStatusText(status)),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color =
+                        when (status) {
+                            BedtimeMonitor.Status.NeedsSetup, BedtimeMonitor.Status.Unreadable -> MaterialTheme.colorScheme.error
+                            else -> MaterialTheme.colorScheme.primary
+                        },
+                    modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite },
+                )
+            }
+            OutlinedButton(onClick = actions.onBedtimeCheckNow, modifier = Modifier.fillMaxWidth()) {
+                Text(stringResource(R.string.bedtime_check_now))
+            }
         }
-        OutlinedButton(onClick = actions.onBedtimeCheckNow, modifier = Modifier.fillMaxWidth()) {
-            Text(stringResource(R.string.bedtime_check_now))
-        }
-        CollapsibleSubsection(
+        ExpandableSetting(
             key = "bedtime-setup",
             title = stringResource(R.string.bedtime_setup_title),
             initiallyExpanded = !state.bedtimeReady,
@@ -350,13 +321,9 @@ private fun ShortcutsSection() {
     val shortcutName = stringResource(R.string.shortcut_toggle_short)
     var addResult by rememberSaveable { mutableStateOf<Int?>(null) }
 
-    CollapsibleSection(
-        key = "shortcuts",
-        title = stringResource(R.string.guide_shortcuts_title),
-        summary = stringResource(R.string.guide_shortcuts_intro),
-        icon = painterResource(R.drawable.ic_tile_grid),
-    ) {
-        CollapsibleSubsection(key = "shortcuts-tile", title = stringResource(R.string.guide_tile_title)) {
+    SettingsSection(title = stringResource(R.string.guide_shortcuts_title)) {
+        SettingsBlock { SectionText(stringResource(R.string.guide_shortcuts_intro)) }
+        ExpandableSetting(key = "shortcuts-tile", title = stringResource(R.string.guide_tile_title)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 SectionText(stringResource(R.string.guide_tile_quick_add_body))
                 Button(
@@ -386,7 +353,7 @@ private fun ShortcutsSection() {
                 ),
             )
         }
-        CollapsibleSubsection(key = "shortcuts-launcher", title = stringResource(R.string.guide_shortcut_title)) {
+        ExpandableSetting(key = "shortcuts-launcher", title = stringResource(R.string.guide_shortcut_title)) {
             NumberedSteps(
                 listOf(
                     stringResource(R.string.guide_shortcut_step1, appName),
@@ -395,7 +362,7 @@ private fun ShortcutsSection() {
                 ),
             )
         }
-        CollapsibleSubsection(key = "shortcuts-gesture", title = stringResource(R.string.guide_gesture_title)) {
+        ExpandableSetting(key = "shortcuts-gesture", title = stringResource(R.string.guide_gesture_title)) {
             InfoBanner(stringResource(R.string.guide_gesture_pixel_only))
             NumberedSteps(
                 listOf(
@@ -416,26 +383,20 @@ private fun TaskerSection() {
     val appName = stringResource(R.string.app_name)
     val taskerLaunchIntent = remember(context) { context.packageManager.getLaunchIntentForPackage(TASKER_PACKAGE) }
 
-    CollapsibleSection(
-        key = "tasker",
-        title = stringResource(R.string.guide_tasker_title),
-        summary = stringResource(R.string.guide_tasker_intro, appName),
-        icon = painterResource(R.drawable.ic_automation),
-    ) {
-        SectionText(stringResource(R.string.guide_tasker_why, appName))
-        FilledTonalButton(
+    SettingsSection(title = stringResource(R.string.guide_tasker_title)) {
+        SettingsBlock {
+            SectionText(stringResource(R.string.guide_tasker_intro, appName))
+            SectionText(stringResource(R.string.guide_tasker_why, appName))
+        }
+        SettingItem(
+            title = stringResource(if (taskerLaunchIntent != null) R.string.guide_tasker_open else R.string.guide_tasker_get),
+            summary = null,
             onClick = {
                 if (taskerLaunchIntent != null) safeStart(context, taskerLaunchIntent) else openStoreListing(context)
             },
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            Icon(painterResource(R.drawable.ic_open_in_new), contentDescription = null)
-            Text(
-                text = stringResource(if (taskerLaunchIntent != null) R.string.guide_tasker_open else R.string.guide_tasker_get),
-                modifier = Modifier.padding(start = ButtonIconSpacing),
-            )
-        }
-        CollapsibleSubsection(key = "tasker-steps", title = stringResource(R.string.guide_tasker_steps_title)) {
+            trailing = { OpensElsewhereIcon() },
+        )
+        ExpandableSetting(key = "tasker-steps", title = stringResource(R.string.guide_tasker_steps_title)) {
             NumberedSteps(
                 listOf(
                     stringResource(R.string.guide_tasker_step1),
@@ -445,14 +406,17 @@ private fun TaskerSection() {
                 ),
             )
         }
-        CollapsibleSubsection(key = "tasker-other", title = stringResource(R.string.guide_tasker_other_title)) {
+        ExpandableSetting(key = "tasker-other", title = stringResource(R.string.guide_tasker_other_title)) {
             SectionText(stringResource(R.string.guide_tasker_other_body))
         }
     }
 }
 
+/** Trailing icon of a row that opens another app or system settings. */
 @Composable
-private fun onOff(on: Boolean): String = stringResource(if (on) R.string.toast_setting_on else R.string.toast_setting_off)
+private fun OpensElsewhereIcon() {
+    Icon(painterResource(R.drawable.ic_open_in_new), contentDescription = null)
+}
 
 private fun requestAddTile(
     context: Context,
