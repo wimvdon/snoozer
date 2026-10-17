@@ -19,9 +19,7 @@
     <string name="status_snoozed_body">New notifications are quietly put aside. They come back as soon as you unsnooze.</string>
     <string name="status_no_access_title">Notification access needed</string>
     <string name="status_no_access_body">Grant notification access to start snoozing.</string>
-
-    <string name="banner_access_title">Enable notification access</string>
-    <string name="banner_access_body">Snoozer can\'t snooze anything until you allow it. Tap to see how.</string>
+    <string name="status_no_access_action">Allow access</string>
 
     <!-- Home: app bar menus -->
     <string name="menu_settings">Settings</string>

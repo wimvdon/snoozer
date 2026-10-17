@@ -1,5 +1,9 @@
 # Technical decisions
 
+## 2026-10-16: Notification access: a button under the toggle instead of a banner
+
+Without notification access the home screen showed a red banner at the top and, under the disabled toggle, the same message again. The shared design rules now say a screen that can't work shows what to do in place, not in a banner (`DESIGN.md`, "Empty and setup states"). The banner is gone; the message under the toggle got an "Allow access" button that opens the same guide. Rejected: replacing the toggle with a generic empty state (the toggle is the app's signature and shows what will work once access is given).
+
 ## 2026-10-16: Settings as one list; guide pages without a card per section
 
 A Material 3 audit (owner's request) found that every setting sat in its own collapsed card, so a

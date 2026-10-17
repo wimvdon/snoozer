@@ -7,11 +7,9 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,8 +19,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -52,7 +49,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.impca201.snoozer.R
-import io.github.impca201.snoozer.ui.theme.AppShapes
 import io.github.impca201.snoozer.ui.theme.SnoozerTheme
 import io.github.impca201.snoozer.ui.theme.rememberReducedMotion
 
@@ -130,13 +126,6 @@ fun HomeScreen(
                             .padding(horizontal = 16.dp, vertical = 8.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    AnimatedVisibility(
-                        visible = !accessGranted,
-                        enter = fadeIn() + expandVertically(),
-                        exit = fadeOut() + shrinkVertically(),
-                    ) {
-                        AccessBanner(onClick = onOpenAccessGuide)
-                    }
                     Spacer(Modifier.weight(1f))
                     SnoozeToggle(
                         snoozed = active,
@@ -149,6 +138,17 @@ fun HomeScreen(
                                 .onGloballyPositioned { toggleCenter = it.boundsInRoot().center },
                     )
                     StatusText(snoozed = active, accessGranted = accessGranted)
+                    // Setup needed: the step that makes the toggle work, right under the message
+                    // that asks for it (DESIGN.md, "Empty and setup states").
+                    AnimatedVisibility(
+                        visible = !accessGranted,
+                        enter = fadeIn() + expandVertically(),
+                        exit = fadeOut() + shrinkVertically(),
+                    ) {
+                        Button(onClick = onOpenAccessGuide, modifier = Modifier.padding(top = 16.dp)) {
+                            Text(stringResource(R.string.status_no_access_action))
+                        }
+                    }
                     Spacer(Modifier.weight(1f))
                 }
             }
@@ -184,36 +184,6 @@ private fun StatusText(
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
         )
-    }
-}
-
-@Composable
-private fun AccessBanner(onClick: () -> Unit) {
-    Card(
-        onClick = onClick,
-        shape = AppShapes.Group,
-        colors =
-            CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.errorContainer,
-                contentColor = MaterialTheme.colorScheme.onErrorContainer,
-            ),
-        modifier =
-            Modifier
-                .fillMaxWidth()
-                .widthIn(max = 600.dp),
-    ) {
-        Row(
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-            Icon(painterResource(R.drawable.ic_notifications_off), contentDescription = null)
-            Column(Modifier.weight(1f)) {
-                Text(stringResource(R.string.banner_access_title), style = MaterialTheme.typography.titleMedium)
-                Text(stringResource(R.string.banner_access_body), style = MaterialTheme.typography.bodyMedium)
-            }
-            Icon(painterResource(R.drawable.ic_chevron_right), contentDescription = null)
-        }
     }
 }
 

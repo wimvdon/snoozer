@@ -2,7 +2,7 @@
 
 ## First launch
 
-1. Open Snoozer and tap **Enable notification access**.
+1. Open Snoozer and tap **Allow access** under the toggle.
 2. In the system screen, switch Snoozer on and confirm.
 3. If the switch is greyed out (Android 13+, apps installed outside a store), tap **Open App info** in the guide. Then choose **⋮ › Allow restricted settings** and try again.
 4. Back in Snoozer, the guide shows **You're all set**.
