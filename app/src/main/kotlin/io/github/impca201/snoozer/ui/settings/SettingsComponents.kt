@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -15,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import io.github.impca201.snoozer.R
+import io.github.impca201.snoozer.ui.theme.AppShapes
 
 /** A small highlighted note, e.g. "experimental" or "only on Pixel". */
 @Composable
@@ -23,7 +23,7 @@ fun InfoBanner(text: String) {
         modifier =
             Modifier
                 .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.secondaryContainer, RoundedCornerShape(16.dp))
+                .background(MaterialTheme.colorScheme.secondaryContainer, AppShapes.Group)
                 .padding(horizontal = 16.dp, vertical = 12.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalAlignment = Alignment.CenterVertically,
