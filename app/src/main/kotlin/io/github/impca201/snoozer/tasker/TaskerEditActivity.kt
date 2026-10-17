@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -42,6 +41,8 @@ import androidx.compose.ui.unit.dp
 import io.github.impca201.snoozer.R
 import io.github.impca201.snoozer.tasker.TaskerContract.Command
 import io.github.impca201.snoozer.ui.theme.SnoozerAppTheme
+import io.github.impca201.snoozer.ui.theme.AppShapes
+import io.github.impca201.snoozer.ui.theme.readableWidth
 
 /**
  * Configuration screen Tasker opens when the user adds or edits the Snoozer plug-in action.
@@ -119,6 +120,7 @@ private fun TaskerEditScreen(
                     .fillMaxSize()
                     .padding(innerPadding)
                     .verticalScroll(rememberScrollState())
+                    .readableWidth()
                     .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
@@ -127,7 +129,7 @@ private fun TaskerEditScreen(
                 style = MaterialTheme.typography.bodyLarge,
             )
             Card(
-                shape = RoundedCornerShape(24.dp),
+                shape = AppShapes.Group,
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
             ) {
                 Column(Modifier.selectableGroup().padding(vertical = 8.dp)) {

@@ -1,5 +1,9 @@
 # Technical decisions
 
+## 2026-10-17: Shared shapes and readable width
+
+A design review of the sibling apps added shared rules to `DESIGN.md` (reordering, navigation icons, readable width, wording). Snoozer has no lists to reorder, so it leaves `Reorder.kt` out, but it takes `Layout.kt`: the Tasker action screen keeps a readable width on wide windows. Hand-typed corner sizes became the shared tokens: the Tasker command card and the info banners use `AppShapes.Group`, as banners do in every app, and the adb command box uses Material's medium shape. Rejected: nothing else changes on screen.
+
 ## 2026-10-17: Less help text
 
 The owner found the app over-explanatory; the shared rule is in `DESIGN.md` ("Wording"): help text only says what the screen can't. Removed: the "why Snoozer has no schedules of its own" paragraph in the Tasker section. Shortened: the long mode explanation under "Turn on a mode while snoozing", the home status line ("Tap to snooze all notifications.") and the Dynamic color line. Kept: consequences, privacy notes and setup steps. Rejected: removing every hint (the remaining ones say something the screen doesn't).
