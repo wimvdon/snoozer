@@ -10,7 +10,7 @@
     <string name="state_not_snoozed">Snoozen uit</string>
 
     <string name="status_active_title">Meldingen staan aan</string>
-    <string name="status_active_body">Tik om alle meldingen te snoozen totdat je het weer uitzet.</string>
+    <string name="status_active_body">Tik om alle meldingen te snoozen.</string>
     <string name="status_snoozed_title">Alle meldingen gesnoozed</string>
     <string name="status_snoozed_body">Nieuwe meldingen worden stil opzijgezet. Ze komen terug zodra je stopt met snoozen.</string>
     <string name="status_no_access_title">Toegang tot meldingen nodig</string>
@@ -27,7 +27,7 @@
     <string name="setting_mode_summary">Voegt een modus toe onder Instellingen › Modi</string>
     <string name="setting_mode_blocked">Toegang tot Niet storen nodig. Tik om toe te staan.</string>
     <string name="setting_mode_unsupported">Vereist Android 15 of nieuwer</string>
-    <string name="setting_mode_details">%1$s voegt een modus met de naam ‘%2$s’ toe onder Instellingen › Modi en zet die aan tijdens het snoozen. Kies in de modusinstellingen wat hij doet, bijvoorbeeld de achtergrond dimmen, het donkere thema gebruiken of bepalen wie je nog kan bereiken. Je kunt hem combineren met je andere modi. Zet je dit uit, dan wordt de modus weer verwijderd.</string>
+    <string name="setting_mode_details">Kies in de modusinstellingen wat hij doet, bijvoorbeeld het donkere thema of wie je nog kan bereiken. Zet je dit uit, dan verdwijnt de modus.</string>
     <string name="setting_mode_name_label">Naam van modus</string>
     <string name="section_bedtime">Bedtijd volgen</string>
     <string name="setting_bedtime_title">Snoozen tijdens Bedtijd</string>
@@ -49,7 +49,6 @@
     <string name="bedtime_step5">Kom hier terug en tik op Nu controleren.</string>
     <string name="guide_gesture_pixel_only">Alleen beschikbaar op Pixel-telefoons.</string>
     <string name="mode_trigger_description">Terwijl Snoozer meldingen snoozet</string>
-    <string name="guide_tasker_why">%1$s heeft zelf geen schema\'s of triggers, zodat er geen achtergronddienst nodig is. Tasker kan dat veel beter.</string>
     <string name="setting_indicator_title">Permanente melding tonen</string>
     <string name="setting_indicator_summary">Een stille melding met een knop Stop snoozen zolang je snoozet</string>
     <string name="setting_indicator_blocked">Meldingen staan uit voor Snoozer. Tik om toe te staan.</string>
@@ -145,5 +144,5 @@
     <string name="theme_light">Licht</string>
     <string name="theme_dark">Donker</string>
     <string name="setting_dynamic_color_title">Dynamische kleuren</string>
-    <string name="setting_dynamic_color_summary">Kleuren van je achtergrond gebruiken in plaats van het blauw van de app</string>
+    <string name="setting_dynamic_color_summary">Kleuren van je achtergrond gebruiken</string>
 </resources>

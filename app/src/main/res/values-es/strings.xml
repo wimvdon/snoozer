@@ -10,7 +10,7 @@
     <string name="state_not_snoozed">Sin posponer</string>
 
     <string name="status_active_title">Las notificaciones están activas</string>
-    <string name="status_active_body">Toca para posponer todas las notificaciones hasta que lo vuelvas a desactivar.</string>
+    <string name="status_active_body">Toca para posponer todas las notificaciones.</string>
     <string name="status_snoozed_title">Todas las notificaciones pospuestas</string>
     <string name="status_snoozed_body">Las notificaciones nuevas se apartan en silencio. Vuelven en cuanto reanudes.</string>
     <string name="status_no_access_title">Se necesita acceso a las notificaciones</string>
@@ -27,7 +27,7 @@
     <string name="setting_mode_summary">Añade un modo en Ajustes › Modos</string>
     <string name="setting_mode_blocked">Necesita acceso a No molestar. Toca para permitirlo.</string>
     <string name="setting_mode_unsupported">Requiere Android 15 o posterior</string>
-    <string name="setting_mode_details">%1$s añade un modo llamado «%2$s» en Ajustes › Modos y lo activa mientras pospones. Elige qué hace en los ajustes del modo, por ejemplo atenuar el fondo de pantalla, usar el tema oscuro o decidir quién puede seguir contactándote. Se puede combinar con tus otros modos. Si lo desactivas, el modo se elimina.</string>
+    <string name="setting_mode_details">Elige qué hace el modo en sus ajustes, por ejemplo el tema oscuro o quién puede seguir contactándote. Si lo desactivas, el modo se elimina.</string>
     <string name="setting_mode_name_label">Nombre del modo</string>
     <string name="section_bedtime">Seguir Hora de dormir</string>
     <string name="setting_bedtime_title">Posponer durante Hora de dormir</string>
@@ -49,7 +49,6 @@
     <string name="bedtime_step5">Vuelve aquí y toca Comprobar ahora.</string>
     <string name="guide_gesture_pixel_only">Solo disponible en teléfonos Pixel.</string>
     <string name="mode_trigger_description">Mientras Snoozer pospone las notificaciones</string>
-    <string name="guide_tasker_why">%1$s no tiene horarios ni activadores propios, así que no necesita un servicio en segundo plano. Tasker los gestiona mucho mejor.</string>
     <string name="setting_indicator_title">Mostrar notificación persistente</string>
     <string name="setting_indicator_summary">Una notificación silenciosa con un botón Reanudar mientras se pospone</string>
     <string name="setting_indicator_blocked">Las notificaciones de Snoozer están desactivadas. Toca para permitirlas.</string>
@@ -146,5 +145,5 @@
     <string name="theme_light">Claro</string>
     <string name="theme_dark">Oscuro</string>
     <string name="setting_dynamic_color_title">Color dinámico</string>
-    <string name="setting_dynamic_color_summary">Usar los colores del fondo de pantalla en lugar del azul de la app</string>
+    <string name="setting_dynamic_color_summary">Usar los colores del fondo de pantalla</string>
 </resources>

@@ -10,7 +10,7 @@
     <string name="state_not_snoozed">Non posticipate</string>
 
     <string name="status_active_title">Le notifiche sono attive</string>
-    <string name="status_active_body">Tocca per posticipare tutte le notifiche finché non lo disattivi.</string>
+    <string name="status_active_body">Tocca per posticipare tutte le notifiche.</string>
     <string name="status_snoozed_title">Tutte le notifiche posticipate</string>
     <string name="status_snoozed_body">Le nuove notifiche vengono messe da parte in silenzio. Tornano appena riprendi.</string>
     <string name="status_no_access_title">Serve l\'accesso alle notifiche</string>
@@ -27,7 +27,7 @@
     <string name="setting_mode_summary">Aggiunge una modalità in Impostazioni › Modalità</string>
     <string name="setting_mode_blocked">Serve l\'accesso a Non disturbare. Tocca per consentirlo.</string>
     <string name="setting_mode_unsupported">Richiede Android 15 o versioni successive</string>
-    <string name="setting_mode_details">%1$s aggiunge una modalità chiamata «%2$s» in Impostazioni › Modalità e la attiva durante il posticipo. Scegli cosa fa nelle impostazioni della modalità, ad esempio scurire lo sfondo, usare il tema scuro o decidere chi può ancora contattarti. Puoi combinarla con le altre modalità. Se disattivi l\'opzione, la modalità viene rimossa.</string>
+    <string name="setting_mode_details">Scegli cosa fa la modalità nelle sue impostazioni, ad esempio il tema scuro o chi può ancora contattarti. Se disattivi l’opzione, la modalità viene rimossa.</string>
     <string name="setting_mode_name_label">Nome della modalità</string>
     <string name="section_bedtime">Segui Ora di andare a letto</string>
     <string name="setting_bedtime_title">Posticipa durante Ora di andare a letto</string>
@@ -49,7 +49,6 @@
     <string name="bedtime_step5">Torna qui e tocca Controlla ora.</string>
     <string name="guide_gesture_pixel_only">Disponibile solo sui telefoni Pixel.</string>
     <string name="mode_trigger_description">Mentre Snoozer posticipa le notifiche</string>
-    <string name="guide_tasker_why">%1$s non ha programmazioni né attivatori propri, quindi non serve un servizio in background. Tasker li gestisce molto meglio.</string>
     <string name="setting_indicator_title">Mostra notifica persistente</string>
     <string name="setting_indicator_summary">Una notifica silenziosa con un pulsante Riprendi mentre le notifiche sono posticipate</string>
     <string name="setting_indicator_blocked">Le notifiche di Snoozer sono disattivate. Tocca per consentirle.</string>
@@ -146,5 +145,5 @@
     <string name="theme_light">Chiaro</string>
     <string name="theme_dark">Scuro</string>
     <string name="setting_dynamic_color_title">Colori dinamici</string>
-    <string name="setting_dynamic_color_summary">Usa i colori dello sfondo invece del blu dell\'app</string>
+    <string name="setting_dynamic_color_summary">Usa i colori dello sfondo</string>
 </resources>

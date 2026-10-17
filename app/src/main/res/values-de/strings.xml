@@ -10,7 +10,7 @@
     <string name="state_not_snoozed">Schlummert nicht</string>
 
     <string name="status_active_title">Benachrichtigungen sind aktiv</string>
-    <string name="status_active_body">Tippe, um alle Benachrichtigungen schlummern zu lassen, bis du es wieder ausschaltest.</string>
+    <string name="status_active_body">Tippe, um alle Benachrichtigungen schlummern zu lassen.</string>
     <string name="status_snoozed_title">Alle Benachrichtigungen schlummern</string>
     <string name="status_snoozed_body">Neue Benachrichtigungen werden still beiseitegelegt. Sie kommen zurück, sobald du sie aufweckst.</string>
     <string name="status_no_access_title">Benachrichtigungszugriff erforderlich</string>
@@ -27,7 +27,7 @@
     <string name="setting_mode_summary">Fügt unter Einstellungen › Modi einen Modus hinzu</string>
     <string name="setting_mode_blocked">„Bitte nicht stören“-Zugriff nötig. Tippe, um ihn zu erlauben.</string>
     <string name="setting_mode_unsupported">Erfordert Android 15 oder neuer</string>
-    <string name="setting_mode_details">%1$s fügt unter Einstellungen › Modi einen Modus namens „%2$s“ hinzu und aktiviert ihn beim Schlummern. Lege in den Moduseinstellungen fest, was er tut, zum Beispiel den Hintergrund abdunkeln, das dunkle Design nutzen oder bestimmen, wer dich noch erreichen kann. Er lässt sich mit deinen anderen Modi kombinieren. Schaltest du das aus, wird der Modus wieder entfernt.</string>
+    <string name="setting_mode_details">Lege in den Moduseinstellungen fest, was er tut, etwa dunkles Design oder wer dich noch erreichen kann. Schaltest du das aus, wird der Modus entfernt.</string>
     <string name="setting_mode_name_label">Name des Modus</string>
     <string name="section_bedtime">Schlafenszeit folgen</string>
     <string name="setting_bedtime_title">Während der Schlafenszeit schlummern</string>
@@ -49,7 +49,6 @@
     <string name="bedtime_step5">Komm hierher zurück und tippe auf Jetzt prüfen.</string>
     <string name="guide_gesture_pixel_only">Nur auf Pixel-Smartphones verfügbar.</string>
     <string name="mode_trigger_description">Während Snoozer Benachrichtigungen schlummern lässt</string>
-    <string name="guide_tasker_why">%1$s hat keine eigenen Zeitpläne oder Auslöser und braucht daher keinen Hintergrunddienst. Tasker kann das viel besser.</string>
     <string name="setting_indicator_title">Dauerhafte Benachrichtigung anzeigen</string>
     <string name="setting_indicator_summary">Eine lautlose Benachrichtigung mit Aufwecken-Button, solange Benachrichtigungen schlummern</string>
     <string name="setting_indicator_blocked">Benachrichtigungen für Snoozer sind aus. Tippe, um sie zu erlauben.</string>
@@ -145,5 +144,5 @@
     <string name="theme_light">Hell</string>
     <string name="theme_dark">Dunkel</string>
     <string name="setting_dynamic_color_title">Dynamische Farben</string>
-    <string name="setting_dynamic_color_summary">Farben deines Hintergrundbilds statt des App-Blaus verwenden</string>
+    <string name="setting_dynamic_color_summary">Farben deines Hintergrundbilds verwenden</string>
 </resources>
