@@ -191,7 +191,7 @@ private fun ModeSection(
         if (state.modeSupported) {
             SettingsBlock {
                 ModeNameField(current = displayName, onSave = actions.onModeNameSave)
-                SectionText(stringResource(R.string.setting_mode_details, appName, displayName))
+                SectionText(stringResource(R.string.setting_mode_details))
             }
             if (state.modeEnabled && !state.modeBlocked) {
                 SettingItem(
@@ -386,7 +386,6 @@ private fun TaskerSection() {
     SettingsSection(title = stringResource(R.string.guide_tasker_title)) {
         SettingsBlock {
             SectionText(stringResource(R.string.guide_tasker_intro, appName))
-            SectionText(stringResource(R.string.guide_tasker_why, appName))
         }
         SettingItem(
             title = stringResource(if (taskerLaunchIntent != null) R.string.guide_tasker_open else R.string.guide_tasker_get),

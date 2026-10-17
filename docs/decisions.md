@@ -1,5 +1,9 @@
 # Technical decisions
 
+## 2026-10-17: Less help text
+
+The owner found the app over-explanatory; the shared rule is in `DESIGN.md` ("Wording"): help text only says what the screen can't. Removed: the "why Snoozer has no schedules of its own" paragraph in the Tasker section. Shortened: the long mode explanation under "Turn on a mode while snoozing", the home status line ("Tap to snooze all notifications.") and the Dynamic color line. Kept: consequences, privacy notes and setup steps. Rejected: removing every hint (the remaining ones say something the screen doesn't).
+
 ## 2026-10-16: Notification access: a button under the toggle instead of a banner
 
 Without notification access the home screen showed a red banner at the top and, under the disabled toggle, the same message again. The shared design rules now say a screen that can't work shows what to do in place, not in a banner (`DESIGN.md`, "Empty and setup states"). The banner is gone; the message under the toggle got an "Allow access" button that opens the same guide. Rejected: replacing the toggle with a generic empty state (the toggle is the app's signature and shows what will work once access is given).

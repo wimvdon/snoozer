@@ -14,7 +14,7 @@
     <string name="state_not_snoozed">Not snoozing</string>
 
     <string name="status_active_title">Notifications are on</string>
-    <string name="status_active_body">Tap to snooze all notifications until you turn it off again.</string>
+    <string name="status_active_body">Tap to snooze all notifications.</string>
     <string name="status_snoozed_title">All notifications snoozed</string>
     <string name="status_snoozed_body">New notifications are quietly put aside. They come back as soon as you unsnooze.</string>
     <string name="status_no_access_title">Notification access needed</string>
@@ -33,7 +33,7 @@
     <string name="setting_mode_summary">Adds a mode under Settings › Modes</string>
     <string name="setting_mode_blocked">Needs Do Not Disturb access. Tap to allow.</string>
     <string name="setting_mode_unsupported">Requires Android 15 or newer</string>
-    <string name="setting_mode_details">%1$s adds a mode called “%2$s” under Settings › Modes and turns it on while snoozing. Choose what it does in the mode settings, for example dim the wallpaper, use dark theme or decide who can still reach you. It can be combined with your other modes. Turning this off removes the mode again.</string>
+    <string name="setting_mode_details">Choose what the mode does in its settings, for example dark theme or who can still reach you. Turning this off removes the mode.</string>
     <string name="setting_mode_name_label">Mode name</string>
     <string name="section_bedtime">Follow Bedtime</string>
     <string name="setting_bedtime_title">Snooze during Bedtime</string>
@@ -55,7 +55,6 @@
     <string name="bedtime_step5">Come back here and tap Check now.</string>
     <string name="guide_gesture_pixel_only">Only available on Pixel phones.</string>
     <string name="mode_trigger_description">While Snoozer is snoozing notifications</string>
-    <string name="guide_tasker_why">%1$s has no schedules or triggers of its own, so it needs no background service. Tasker handles those much better.</string>
     <string name="setting_indicator_title">Show persistent notification</string>
     <string name="setting_indicator_summary">A silent notification with an Unsnooze button while snoozing</string>
     <string name="setting_indicator_blocked">Notifications are off for Snoozer. Tap to allow.</string>
@@ -160,5 +159,5 @@
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
     <string name="setting_dynamic_color_title">Dynamic color</string>
-    <string name="setting_dynamic_color_summary">Use colors from your wallpaper instead of the app’s blue</string>
+    <string name="setting_dynamic_color_summary">Use colors from your wallpaper</string>
 </resources>
