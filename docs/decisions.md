@@ -1,5 +1,14 @@
 # Technical decisions
 
+## 2026-11-01: Claude Code sessions don't build the APK before pushing
+
+Sessions ran `./gradlew testDebugUnitTest lintDebug assembleDebug` before every push, and CI then
+runs the same and more. The APK built in the session was never used: the owner installs the one
+from CI. Sessions now run only the unit tests and lint, which catch nearly every problem and
+compile the app's code and resources. CI still builds the debug and release APKs, so a packaging
+problem still turns the pull request red. Rejected: no local checks at all (every test or lint
+failure would then cost a CI round trip).
+
 ## 2026-10-17: Shared shapes and readable width
 
 A design review of the sibling apps added shared rules to `DESIGN.md` (reordering, navigation icons, readable width, wording). Snoozer has no lists to reorder, so it leaves `Reorder.kt` out, but it takes `Layout.kt`: the Tasker action screen keeps a readable width on wide windows. Hand-typed corner sizes became the shared tokens: the Tasker command card and the info banners use `AppShapes.Group`, as banners do in every app, and the adb command box uses Material's medium shape. Rejected: nothing else changes on screen.
