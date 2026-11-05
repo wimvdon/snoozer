@@ -46,10 +46,12 @@ snoozer/
         │   │   │   └── SnoozeRepository.kt
         │   │   ├── later/
         │   │   │   ├── LaterActionActivity.kt Widget row taps: open a saved notification
+        │   │   │   ├── LaterIcons.kt          Stored notification icons; widget badges
+        │   │   │   ├── LaterNotifications.kt  Saved notifications in the shade
         │   │   │   ├── LaterPickerActivity.kt "Save for later" bottom sheet (widget + and shortcut)
         │   │   │   ├── LaterWidget.kt         Builds the widget's RemoteViews
         │   │   │   ├── LaterWidgetProvider.kt The widget's AppWidgetProvider
-        │   │   │   └── LaterWidgetService.kt  Widget rows on Android 8-11
+        │   │   │   └── LaterWidgetService.kt  Widget rows, one at a time
         │   │   ├── service/
         │   │   │   ├── CurrentNotifications.kt  In-memory shade view and saved tap actions
         │   │   │   ├── NotificationAccess.kt

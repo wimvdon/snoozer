@@ -74,6 +74,7 @@ fun SnoozerNavigation(
         hasPolicyAccess = SnoozeMode.hasAccess(context)
         bedtimeReady = BedtimeMonitor.hasPermissions(context)
         app.refreshSnoozeCues()
+        app.refreshLaterViews()
         onPauseOrDispose { }
     }
 
@@ -83,6 +84,7 @@ fun SnoozerNavigation(
         rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
             canPostNotifications = SnoozeIndicator.canPost(context)
             app.refreshSnoozeCues()
+            app.refreshLaterViews()
             // The system stops showing the dialog after two refusals; then only Settings can help.
             if (!granted && openSettingsIfDenied) openAppNotificationSettings(context)
         }

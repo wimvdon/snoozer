@@ -1,5 +1,15 @@
 # Technical decisions
 
+## 2026-11-05: Saved notifications also in the shade, with their icons
+
+The owner wants saved notifications where notifications belong, and kept the widget.
+
+- **Snoozer's own notification per saved item**, on a `MIN` channel ("Do later"): silent, collapsed at the bottom of the shade, no status bar icon. One group with a summary, so they fold together. Users can switch the channel off in system settings.
+- **Swiping is not blocked** (the owner's choice), and it only hides the item in the shade (`later_hidden`), so an accidental swipe loses nothing: it stays in the widget. Rejected: reposting after a swipe (as the persistent snooze notification does), which would fight the user.
+- **The original's icon:** its small icon is drawn as a white PNG when it is saved and kept in the no-backup folder, so it survives restarts after the original is gone. In the shade it is the small icon (bitmap) with the original colour; the widget draws it on a circle in that colour, as the shade does. Older items, or an icon that can't be read, get Snoozer's bell. Rejected: reusing the other app's icon resource directly (not allowed for another package's notification, and gone if the app updates).
+- **Widget rows come from `RemoteViewsService` on every Android version** now. With an icon per row, `RemoteCollectionItems` would send the whole list in one binder transaction, which can exceed its 1 MB limit.
+- Saving asks for the notification permission on Android 13+ when it is missing; without it the widget still works.
+
 ## 2026-11-05: Do later no longer snoozes; no done button
 
 Version 1.5.1 hid a saved notification by snoozing it for a year. Android then keeps that key snoozed, and many apps post every new notification of a chat (some apps: everything) under the same key, so those new notifications never appeared. Cancelling a snoozed notification from a listener also does nothing, so opening an item didn't end it either.
@@ -16,7 +26,7 @@ Single notifications can be put aside in a home screen widget and opened from th
 - **Hidden by snoozing, not dismissing** (replaced the same day, see above). A saved notification is snoozed for a year and re-snoozed whenever it resurfaces, so Android keeps the real notification with its own tap action, and Snoozer can put it back in the shade.
 - **Opening uses the notification's own link** (its `contentIntent`, kept in memory) from a translucent activity, which counts as visible and on Android 14+ lends its permission to start screens. A `PendingIntent` can't be stored, so after a restart Snoozer restores the notification and opens its app instead. To find that app's launch screen, the manifest declares a `MAIN`/`LAUNCHER` `<queries>` intent (package visibility, no permission).
 - **Notification content is stored now,** but only for notifications the user picks: app name, title, text and time, in the device-only `snoozer` file (not backed up), at most 100, deleted when opened. `PRIVACY.md` and the access guide's privacy text say so.
-- **Plain `RemoteViews`, no Jetpack Glance.** Glance would be a new dependency for one small widget. Android 12+ gets its rows as `RemoteCollectionItems`; Android 8-11 uses a `RemoteViewsService`.
+- **Plain `RemoteViews`, no Jetpack Glance.** Glance would be a new dependency for one small widget. (Rows: see "Saved notifications also in the shade".)
 - **Looks like Google's widgets.** On Android 12+ the colours come from the wallpaper (`system_accent*`/`system_neutral*`) and the corners from the launcher (`system_app_widget_background_radius`), whatever the app's own Dynamic color setting is; older versions use the app's palette.
 - **Storage without a new library:** the list is one string in Preferences DataStore with control-character separators (`LaterItems`), unit tested, instead of Room or kotlinx.serialization.
 

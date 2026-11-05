@@ -212,13 +212,30 @@ class SnoozeRepository(
         dataStore.edit {
             it[LATER_ITEMS] = LaterItems.encode(LaterItems.add(LaterItems.decode(it[LATER_ITEMS]), item))
             it[LATER_RELEASES] = it[LATER_RELEASES].orEmpty() + LaterRelease.Remove.encode(item.key)
+            it[LATER_HIDDEN] = it[LATER_HIDDEN].orEmpty() - item.key // Saved again: show it again.
         }
     }
 
-    /** Opened from the widget: it leaves the list. */
+    /** Opened from the widget or the shade: it leaves the list. */
     suspend fun removeLater(key: String) {
         dataStore.edit {
             it[LATER_ITEMS] = LaterItems.encode(LaterItems.remove(LaterItems.decode(it[LATER_ITEMS]), key))
+            it[LATER_HIDDEN] = it[LATER_HIDDEN].orEmpty() - key
+        }
+    }
+
+    /** Keys of saved notifications the user swiped away in the shade; they stay in the widget. */
+    val laterHidden: StateFlow<Set<String>> =
+        preferences
+            .map { it[LATER_HIDDEN].orEmpty() }
+            .distinctUntilChanged()
+            .stateIn(scope, SharingStarted.Eagerly, emptySet())
+
+    suspend fun hideLater(key: String) {
+        dataStore.edit {
+            // Only keys still on the list, so the set can't grow without bound.
+            val saved = LaterItems.decode(it[LATER_ITEMS]).mapTo(HashSet()) { item -> item.key }
+            it[LATER_HIDDEN] = (it[LATER_HIDDEN].orEmpty() + key).filterTo(HashSet()) { hidden -> hidden in saved }
         }
     }
 
@@ -253,6 +270,7 @@ class SnoozeRepository(
         private val LATER_ITEMS = stringPreferencesKey("later_items")
         private val LATER_RELEASES = stringSetPreferencesKey("later_releases")
         private val LATER_NOT_SNOOZED = booleanPreferencesKey("later_not_snoozed")
+        private val LATER_HIDDEN = stringSetPreferencesKey("later_hidden")
         private val SNOOZE_ENABLED = booleanPreferencesKey("snooze_enabled")
         private val TOAST_ENABLED = booleanPreferencesKey("toast_enabled")
         private val INDICATOR_ENABLED = booleanPreferencesKey("indicator_enabled")

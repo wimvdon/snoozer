@@ -78,6 +78,8 @@ Static shortcut `save_for_later` (same file):
 
 `LaterWidgetProvider` (not exported; the widget host delivers its updates). Its rows start `LaterActionActivity` (not exported) through one mutable `PendingIntent` template that each row fills in with its notification key and package; the **+** starts `LaterPickerActivity` through an immutable `PendingIntent`. Neither activity returns data.
 
+Snoozer's notifications for saved items (channel `later`, id 2, tag = original key) open `LaterActionActivity` through an immutable `PendingIntent` per item.
+
 ## Quick Settings tile
 
 `SnoozeTileService`, declared as `TOGGLEABLE_TILE`:

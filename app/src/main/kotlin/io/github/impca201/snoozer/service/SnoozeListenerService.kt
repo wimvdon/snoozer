@@ -17,6 +17,8 @@ import io.github.impca201.snoozer.LoggingExceptionHandler
 import io.github.impca201.snoozer.bedtime.BedtimeMonitor
 import io.github.impca201.snoozer.data.LaterRelease
 import io.github.impca201.snoozer.data.NotificationSnapshot
+import io.github.impca201.snoozer.later.LaterIcons
+import io.github.impca201.snoozer.later.LaterNotifications
 import io.github.impca201.snoozer.snoozerApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -179,6 +181,12 @@ class SnoozeListenerService : NotificationListenerService() {
         reason: Int,
     ) {
         if (scope != null) publishActive()
+        if (sbn != null && sbn.packageName == packageName && sbn.id == LaterNotifications.NOTIFICATION_ID) {
+            // The user swiped a saved notification away in the shade: hide it there, keep it in the widget.
+            val key = sbn.tag
+            if (key != null && reason in SWIPE_REASONS) snoozerApp.appScope.launch { repository.hideLater(key) }
+            return
+        }
         if (sbn == null || sbn.packageName != packageName || sbn.id != SnoozeIndicator.NOTIFICATION_ID) return
         // Android 14+ lets users swipe away ongoing notifications. While snoozing, put the
         // indicator straight back; the short delay lets System UI finish its dismiss animation.
@@ -221,12 +229,19 @@ class SnoozeListenerService : NotificationListenerService() {
             isClearable = sbn.isClearable,
             isGroupSummary = sbn.notification.flags and Notification.FLAG_GROUP_SUMMARY != 0,
             isOwn = sbn.packageName == packageName,
+            color = sbn.notification.color,
         )
     }
 
     /** Keeps the notification's tap action for the widget, then removes it from the shade. */
     private fun removeForLater(sbn: StatusBarNotification) {
         CurrentNotifications.rememberContentIntent(sbn.key, sbn.notification.contentIntent)
+        val app = snoozerApp
+        val icon = sbn.notification.smallIcon
+        app.appScope.launch(Dispatchers.IO) {
+            LaterIcons.save(app, sbn.key, icon)
+            app.refreshLaterViews() // The widget and the shade were drawn before the icon existed.
+        }
         try {
             cancelNotification(sbn.key)
         } catch (_: RuntimeException) {
@@ -341,6 +356,9 @@ class SnoozeListenerService : NotificationListenerService() {
 
         /** Re-snoozing for this short period is how notifications are brought back. */
         const val RESTORE_DELAY_MS = 1_000L
+
+        /** Removal reasons that mean the user swiped (or cleared) the notification away. */
+        val SWIPE_REASONS = setOf(REASON_CANCEL, REASON_CANCEL_ALL, REASON_GROUP_SUMMARY_CANCELED)
 
         /** How long a key 1.5.1 snoozed may take to come back after it is released. */
         const val LEGACY_REPOST_WINDOW_MS = 10_000L

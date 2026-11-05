@@ -37,6 +37,8 @@ Put single notifications aside until you have time for them.
 2. Tap **+** on the widget. A sheet lists the notifications in your shade. Tap one: it leaves the shade and appears in the widget.
 3. Tap a notification in the widget to open it, as if you tapped the notification itself. It leaves the list.
 
+Saved notifications are also shown at the bottom of your notification shade, collapsed and silent, with the icon of the original notification. Tapping one there opens it too. Swiping one away only hides it in the shade; it stays in the widget. To turn these off: Settings › Apps › Snoozer › Notifications › **Do later**.
+
 Without the widget: long-press the Snoozer icon and choose **Do later**; the same sheet opens.
 
 Good to know:

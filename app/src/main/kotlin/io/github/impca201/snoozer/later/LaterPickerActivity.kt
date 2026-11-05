@@ -1,12 +1,15 @@
 package io.github.impca201.snoozer.later
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -14,6 +17,7 @@ import io.github.impca201.snoozer.R
 import io.github.impca201.snoozer.data.NotificationSnapshot
 import io.github.impca201.snoozer.service.CurrentNotifications
 import io.github.impca201.snoozer.service.NotificationAccess
+import io.github.impca201.snoozer.service.SnoozeIndicator
 import io.github.impca201.snoozer.snoozerApp
 import io.github.impca201.snoozer.ui.Destination
 import io.github.impca201.snoozer.ui.MainActivity
@@ -28,6 +32,13 @@ import kotlinx.coroutines.launch
  */
 class LaterPickerActivity : ComponentActivity() {
     private val hasAccess = mutableStateOf(false)
+
+    // Android 13+: Snoozer's notifications for saved items need the notification permission.
+    private val notificationPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+            snoozerApp.refreshLaterViews()
+            finish()
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
@@ -65,7 +76,12 @@ class LaterPickerActivity : ComponentActivity() {
         val app = snoozerApp
         app.appScope.launch { app.repository.addLater(notification.toLaterItem()) }
         Toast.makeText(app, R.string.later_saved, Toast.LENGTH_SHORT).show()
-        finish()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !SnoozeIndicator.canPost(this)) {
+            // Asked once per save; after two refusals Android stops showing the dialog by itself.
+            notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
+        } else {
+            finish()
+        }
     }
 
     companion object {

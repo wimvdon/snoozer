@@ -6,7 +6,6 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.text.format.DateUtils
 import android.view.View
 import android.widget.RemoteViews
@@ -30,40 +29,27 @@ object LaterWidget {
                 return // Some devices have no widget host service.
             }
         if (ids.isEmpty()) return
-        for (id in ids) manager.updateAppWidget(id, views(context, id, items))
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
-            @Suppress("DEPRECATION") // Only reached below Android 12, where the list comes from LaterWidgetService.
-            manager.notifyAppWidgetViewDataChanged(ids, R.id.later_list)
-        }
+        for (id in ids) manager.updateAppWidget(id, views(context, id))
+        @Suppress("DEPRECATION") // See LaterWidgetService for why the rows come from a service.
+        manager.notifyAppWidgetViewDataChanged(ids, R.id.later_list)
     }
 
     private fun views(
         context: Context,
         appWidgetId: Int,
-        items: List<LaterItem>,
     ): RemoteViews {
         val views = RemoteViews(context.packageName, R.layout.widget_later)
         views.setOnClickPendingIntent(R.id.later_add, pickerIntent(context))
         views.setOnClickPendingIntent(R.id.later_title, appIntent(context))
         views.setPendingIntentTemplate(R.id.later_list, actionTemplate(context))
         views.setEmptyView(R.id.later_list, R.id.later_empty)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            val collection =
-                RemoteViews.RemoteCollectionItems
-                    .Builder()
-                    .setHasStableIds(true)
-                    .setViewTypeCount(1)
-            items.forEach { collection.addItem(stableId(it), itemViews(context, it)) }
-            views.setRemoteAdapter(R.id.later_list, collection.build())
-        } else {
-            val adapter =
-                Intent(context, LaterWidgetService::class.java)
-                    .putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
-            // A unique data URI per widget, or the system reuses one adapter for every widget.
-            adapter.data = Uri.parse(adapter.toUri(Intent.URI_INTENT_SCHEME))
-            @Suppress("DEPRECATION")
-            views.setRemoteAdapter(R.id.later_list, adapter)
-        }
+        val adapter =
+            Intent(context, LaterWidgetService::class.java)
+                .putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+        // A unique data URI per widget, or the system reuses one adapter for every widget.
+        adapter.data = Uri.parse(adapter.toUri(Intent.URI_INTENT_SCHEME))
+        @Suppress("DEPRECATION")
+        views.setRemoteAdapter(R.id.later_list, adapter)
         return views
     }
 
@@ -76,6 +62,7 @@ object LaterWidget {
         val row = RemoteViews(context.packageName, R.layout.widget_later_item)
         val headline = item.title.ifBlank { item.text }
         row.setTextViewText(R.id.later_item_title, headline)
+        row.setImageViewBitmap(R.id.later_item_icon, LaterIcons.badge(context, item, context.getColor(R.color.widget_icon_fallback)))
         val supporting = if (item.title.isBlank()) "" else item.text
         row.setTextViewText(R.id.later_item_text, supporting)
         row.setViewVisibility(R.id.later_item_text, if (supporting.isBlank()) View.GONE else View.VISIBLE)

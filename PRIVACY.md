@@ -12,7 +12,7 @@ this access only to:
 - snooze notifications while snoozing is switched on, and bring them back when it is switched off;
 - read the name of the app that posted a notification, only to show the optional
   "Notification from {app} snoozed" message;
-- read the app name, title and text of the notifications in your notification shade, only to
+- read the app name, title, text, colour and icon of the notifications in your notification shade, only to
   show them in the "Save for later" list when you open it, and to show the ones you saved in the
   "Do later" widget.
 
@@ -28,7 +28,8 @@ On your device only, Snoozer stores:
 - the system identifiers ("keys") of notifications it snoozed, so they can be restored. These
   keys contain the posting app's package name and a notification ID, never notification content;
 - for each notification you save for later ("Do later" widget): its key, the app's package name
-  and name, its title and text, and the time it arrived. Only the notifications you pick yourself
+  and name, its title and text, the time it arrived, its colour and its small icon (the app's
+  notification symbol), and whether you swiped Snoozer's copy of it away in the shade. Only the notifications you pick yourself
   are stored, at most 100, and an item is deleted as soon as you open it.
 
 Your settings (theme, toast message, persistent notification, mode and its name) are included in

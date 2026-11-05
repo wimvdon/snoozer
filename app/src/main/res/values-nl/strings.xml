@@ -160,4 +160,10 @@
     <string name="later_open_failed">De app van deze melding kon niet worden geopend</string>
     <string name="shortcut_later_short">Doe later</string>
     <string name="shortcut_later_long">Melding bewaren voor later</string>
+    <string name="later_channel_name">Doe later</string>
+    <string name="later_channel_description">Meldingen die je voor later hebt bewaard. Wegvegen verbergt een melding alleen hier; in de widget blijft hij staan.</string>
+    <plurals name="later_summary">
+        <item quantity="one">%d melding voor later</item>
+        <item quantity="other">%d meldingen voor later</item>
+    </plurals>
 </resources>

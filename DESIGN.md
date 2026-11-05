@@ -235,5 +235,5 @@ app apart from their package (and `R` import) lines. Copy a change to the other 
   `Reorder.kt` out.
 - "Do later" widget: matches Google Calendar and Tasks widgets. Title in the accent colour at
   the top left, a round **+** in the primary container colour at the top right, plain rows
-  (title, text, app and time) that open the notification. On Android 12+ it always uses the wallpaper's
+  (the notification's icon on a circle in its colour, title, text, app and time) that open the notification. On Android 12+ it always uses the wallpaper's
   colours and the launcher's corner radius; below that, the app's own palette.
