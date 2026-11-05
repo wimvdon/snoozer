@@ -43,16 +43,6 @@ class LaterItemsTest {
     }
 
     @Test
-    fun `refresh keeps the place and shows the latest text`() {
-        val list = listOf(item("a"), item("b", text = "old", postedAt = 1L))
-        val refreshed = LaterItems.refresh(list, item("b", title = "", text = "new", postedAt = 2L))
-        assertEquals(listOf("a", "b"), refreshed.map { it.key })
-        assertEquals("Title b", refreshed[1].title) // An empty update keeps the old title.
-        assertEquals("new", refreshed[1].text)
-        assertEquals(2L, refreshed[1].postedAt)
-    }
-
-    @Test
     fun `items survive storage, including line breaks and separators in the text`() {
         val list =
             listOf(
@@ -92,6 +82,6 @@ class LaterItemsTest {
     @Test
     fun `release prefixes are stable because pending requests are stored`() {
         assertEquals("r:k", LaterRelease.Restore.encode("k"))
-        assertEquals("d:k", LaterRelease.Dismiss.encode("k"))
+        assertEquals("d:k", LaterRelease.Remove.encode("k"))
     }
 }

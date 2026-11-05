@@ -29,7 +29,7 @@ On your device only, Snoozer stores:
   keys contain the posting app's package name and a notification ID, never notification content;
 - for each notification you save for later ("Do later" widget): its key, the app's package name
   and name, its title and text, and the time it arrived. Only the notifications you pick yourself
-  are stored, at most 100, and an item is deleted as soon as you open it or mark it done.
+  are stored, at most 100, and an item is deleted as soon as you open it.
 
 Your settings (theme, toast message, persistent notification, mode and its name) are included in
 Android's own backup to your Google account, if you turned that on, and in a transfer to a new

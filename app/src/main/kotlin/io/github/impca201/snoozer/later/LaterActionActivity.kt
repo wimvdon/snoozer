@@ -10,13 +10,12 @@ import android.os.Bundle
 import android.widget.Toast
 import io.github.impca201.snoozer.R
 import io.github.impca201.snoozer.data.LaterItem
-import io.github.impca201.snoozer.data.LaterRelease
 import io.github.impca201.snoozer.service.CurrentNotifications
 import io.github.impca201.snoozer.snoozerApp
 import kotlinx.coroutines.launch
 
 /**
- * Invisible activity behind the widget's rows: opens a saved notification or marks it done.
+ * Invisible activity behind the widget's rows: opens a saved notification and takes it off the list.
  *
  * It is a (transparent) activity rather than a broadcast because opening a notification starts
  * another app's screen, which Android only allows from an app that is in the foreground.
@@ -46,26 +45,15 @@ class LaterActionActivity : Activity() {
 
     private fun handle(intent: Intent?) {
         val key = intent?.getStringExtra(EXTRA_KEY) ?: return
-        when (intent.getStringExtra(EXTRA_ACTION)) {
-            ACTION_DONE -> release(key, LaterRelease.Dismiss)
-            ACTION_OPEN ->
-                if (sendContentIntent(key)) {
-                    release(key, LaterRelease.Dismiss)
-                } else {
-                    // The link was lost (the app restarted) or no longer works: put the
-                    // notification back in the shade and open its app.
-                    release(key, LaterRelease.Restore)
-                    openApp(intent.getStringExtra(EXTRA_PACKAGE))
-                }
+        // The link is lost after the app restarted, or no longer works: open the notification's app.
+        val opened = sendContentIntent(key) || openApp(intent.getStringExtra(EXTRA_PACKAGE))
+        if (!opened) {
+            Toast.makeText(this, R.string.later_open_failed, Toast.LENGTH_SHORT).show()
+            return // Keep it on the list.
         }
-    }
-
-    private fun release(
-        key: String,
-        how: LaterRelease,
-    ) {
+        CurrentNotifications.forget(key)
         val app = snoozerApp
-        app.appScope.launch { app.repository.releaseLater(key, how) }
+        app.appScope.launch { app.repository.removeLater(key) }
     }
 
     private fun sendContentIntent(key: String): Boolean {
@@ -91,38 +79,27 @@ class LaterActionActivity : Activity() {
         return ActivityOptions.makeBasic().setPendingIntentBackgroundActivityStartMode(mode).toBundle()
     }
 
-    private fun openApp(packageName: String?) {
-        val launch = packageName?.let { packageManager.getLaunchIntentForPackage(it) }
-        try {
-            if (launch != null) {
-                startActivity(launch.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
-                return
-            }
+    private fun openApp(packageName: String?): Boolean {
+        val launch = packageName?.let { packageManager.getLaunchIntentForPackage(it) } ?: return false
+        return try {
+            startActivity(launch.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+            true
         } catch (_: ActivityNotFoundException) {
-            // Uninstalled meanwhile; fall through to the message.
+            false // Uninstalled meanwhile.
         } catch (_: SecurityException) {
-            // Not startable from here; fall through to the message.
+            false
         }
-        Toast.makeText(this, R.string.later_restored, Toast.LENGTH_SHORT).show()
     }
 
     companion object {
-        const val ACTION_OPEN = "open"
-        const val ACTION_DONE = "done"
-
         private const val EXTRA_KEY = "io.github.impca201.snoozer.extra.LATER_KEY"
         private const val EXTRA_PACKAGE = "io.github.impca201.snoozer.extra.LATER_PACKAGE"
-        private const val EXTRA_ACTION = "io.github.impca201.snoozer.extra.LATER_ACTION"
         private const val STATE_HANDLED = "handled"
 
-        /** Filled into the widget's click template for one row's tap or checkbox. */
-        fun fillIn(
-            item: LaterItem,
-            action: String,
-        ): Intent =
+        /** Filled into the widget's click template for one row. */
+        fun fillIn(item: LaterItem): Intent =
             Intent()
                 .putExtra(EXTRA_KEY, item.key)
                 .putExtra(EXTRA_PACKAGE, item.packageName)
-                .putExtra(EXTRA_ACTION, action)
     }
 }

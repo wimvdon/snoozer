@@ -54,8 +54,8 @@ Test and lint reports are attached to every run as the `reports` artifact, also 
 |---|---|---|
 | `bedtime/BedtimeMonitorTest` | `BedtimeMonitor.adbCommands` | The Settings screen shows these commands; they must name the installed package (`.debug` for test builds) |
 | `bedtime/BedtimeParserTest` | `BedtimeParser` + `ProtoReader` on hand-built protobuf dumps | The dump format is internal to Android; these pin the expected layout and the safety rules |
-| `data/LaterItemsTest` | `LaterItems` and `LaterRelease` | The "Do later" list: newest first, no duplicates, capped at 100, text updates keep the place; the storage format survives any text and skips damaged records; stored release prefixes never change |
-| `data/NotificationSnapshotTest` | `NotificationSnapshot.candidates` | The sheet only offers notifications that can be put aside: clearable, not Snoozer's own, not group summaries, not blank, not already saved |
+| `data/LaterItemsTest` | `LaterItems` and `LaterRelease` | The "Do later" list: newest first, no duplicates, capped at 100; the storage format survives any text and skips damaged records; stored release prefixes never change |
+| `data/NotificationSnapshotTest` | `NotificationSnapshot.candidates` | The sheet only offers notifications that can be put aside: clearable, not Snoozer's own, not group summaries, not blank; a newer notification under a saved key is offered again |
 | `tasker/TaskerContractTest` | `TaskerContract.Command` ids | Ids live inside users' Tasker tasks; renaming one would silently break them |
 
 `BedtimeParserTest` cases:
@@ -80,7 +80,7 @@ Everything that depends on system services is verified manually on a device, bec
 
 Not covered by automated tests:
 - `SnoozeRepository` (DataStore transactions, including the Bedtime ownership rules in `onBedtimeReading`);
-- the snooze/restore flow in `SnoozeListenerService`, including saving, opening and dismissing "Do later" notifications;
+- the snooze/restore flow in `SnoozeListenerService`, including saving and opening "Do later" notifications and the one-time repair of keys 1.5.1 snoozed;
 - the widget's `RemoteViews` and the activities behind it;
 - the Compose UI. There are no instrumented (`androidTest`) or UI tests.
 
@@ -91,7 +91,7 @@ There is no coverage tool configured.
 For each pull request (before or after it is merged: merging only waits for green CI), install the debug APK from the CI run and follow the steps in the pull request description. Before a release, also check:
 
 - [ ] Snooze and Unsnooze from the app, the Quick Settings tile and the launcher shortcut.
-- [ ] "Do later" widget: save a notification with +, open it from the widget, mark one done. Also in dark mode and with dynamic colours from a different wallpaper.
+- [ ] "Do later" widget: save a notification with +, open it from the widget, and check that a new notification from the same chat still arrives. Also in dark mode and with dynamic colours from a different wallpaper.
 - [ ] Dark mode on and off: text stays readable.
 - [ ] Language: Settings › System › Languages › App languages › Snoozer › Nederlands. All text is translated.
 - [ ] Largest font size: nothing is cut off.

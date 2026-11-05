@@ -151,16 +151,14 @@
     <string name="later_widget_title">Para más tarde</string>
     <string name="later_widget_description">Las notificaciones que has guardado para más tarde. Toca + para añadir una.</string>
     <string name="later_widget_empty">Nada para más tarde. Toca + para guardar una notificación.</string>
-    <string name="later_done">Hecho</string>
     <string name="later_add">Guardar una notificación para más tarde</string>
-    <string name="later_mark_done">Marcar «%1$s» como hecha</string>
     <string name="later_item_meta">%1$s · %2$s</string>
     <string name="later_sheet_title">Guardar para más tarde</string>
     <string name="later_sheet_empty">No hay notificaciones ahora</string>
     <string name="later_sheet_empty_snoozing">Posponer está activado, así que las notificaciones se apartan. Desactívalo para elegir una.</string>
     <string name="later_sheet_no_access">Snoozer necesita acceso a las notificaciones para guardarlas para más tarde.</string>
     <string name="later_saved">Guardada para más tarde</string>
-    <string name="later_restored">La notificación ha vuelto a tus notificaciones</string>
+    <string name="later_open_failed">No se ha podido abrir la app de esta notificación</string>
     <string name="shortcut_later_short">Más tarde</string>
     <string name="shortcut_later_long">Guardar una notificación para más tarde</string>
 </resources>

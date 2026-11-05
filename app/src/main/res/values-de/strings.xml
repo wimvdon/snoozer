@@ -150,16 +150,14 @@
     <string name="later_widget_title">Später erledigen</string>
     <string name="later_widget_description">Benachrichtigungen, die du für später aufgehoben hast. Tippe auf +, um eine hinzuzufügen.</string>
     <string name="later_widget_empty">Nichts für später. Tippe auf +, um eine Benachrichtigung aufzuheben.</string>
-    <string name="later_done">Erledigt</string>
     <string name="later_add">Benachrichtigung für später aufheben</string>
-    <string name="later_mark_done">„%1$s“ als erledigt markieren</string>
     <string name="later_item_meta">%1$s · %2$s</string>
     <string name="later_sheet_title">Für später aufheben</string>
     <string name="later_sheet_empty">Gerade keine Benachrichtigungen</string>
     <string name="later_sheet_empty_snoozing">Schlummern ist an, deshalb werden Benachrichtigungen beiseitegelegt. Beende das Schlummern, um eine auszuwählen.</string>
     <string name="later_sheet_no_access">Snoozer braucht Zugriff auf Benachrichtigungen, um sie für später aufzuheben.</string>
     <string name="later_saved">Für später aufgehoben</string>
-    <string name="later_restored">Die Benachrichtigung ist wieder bei deinen Benachrichtigungen</string>
+    <string name="later_open_failed">Die App dieser Benachrichtigung konnte nicht geöffnet werden</string>
     <string name="shortcut_later_short">Später</string>
     <string name="shortcut_later_long">Benachrichtigung für später aufheben</string>
 </resources>

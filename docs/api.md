@@ -76,7 +76,7 @@ Static shortcut `save_for_later` (same file):
 
 ## "Do later" widget
 
-`LaterWidgetProvider` (not exported; the widget host delivers its updates). Its rows start `LaterActionActivity` (not exported) through one mutable `PendingIntent` template that each row fills in with its notification key, package and `open` or `done`; the **+** starts `LaterPickerActivity` through an immutable `PendingIntent`. Neither activity returns data.
+`LaterWidgetProvider` (not exported; the widget host delivers its updates). Its rows start `LaterActionActivity` (not exported) through one mutable `PendingIntent` template that each row fills in with its notification key and package; the **+** starts `LaterPickerActivity` through an immutable `PendingIntent`. Neither activity returns data.
 
 ## Quick Settings tile
 

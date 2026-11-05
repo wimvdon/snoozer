@@ -1,15 +1,23 @@
 # Technical decisions
 
+## 2026-11-05: Do later no longer snoozes; no done button
+
+Version 1.5.1 hid a saved notification by snoozing it for a year. Android then keeps that key snoozed, and many apps post every new notification of a chat (some apps: everything) under the same key, so those new notifications never appeared. Cancelling a snoozed notification from a listener also does nothing, so opening an item didn't end it either.
+
+- **Saved notifications are copied and removed from the shade** (cancelled) instead. The widget shows the stored copy; the tap action stays in memory as before. After a restart, opening it opens the app, because a cancelled notification can't be restored. A cancel lets the app know the notification was dismissed (its delete intent), as a swipe would.
+- **One-time repair:** keys still in the widget from 1.5.1 are snoozed for a second so they come back, then cancelled again. Keys of items already opened in 1.5.1 aren't known any more; the app clears them when the user opens that chat or item.
+- **No done button** (the owner's choice): tapping a row opens it, which also takes it off the list.
+
 ## 2026-11-05: "Do later" widget
 
 Single notifications can be put aside in a home screen widget and opened from there later.
 
 - **No button on the notification itself.** Android doesn't let an app change another app's notification, and posting a second notification next to every notification would double the shade. The choice is made in a bottom sheet instead, opened from the widget's **+** or the **Do later** launcher shortcut.
-- **Hidden by snoozing, not dismissing.** A saved notification is snoozed for a year and re-snoozed whenever it resurfaces, so Android keeps the real notification with its own tap action, and Snoozer can put it back in the shade.
+- **Hidden by snoozing, not dismissing** (replaced the same day, see above). A saved notification is snoozed for a year and re-snoozed whenever it resurfaces, so Android keeps the real notification with its own tap action, and Snoozer can put it back in the shade.
 - **Opening uses the notification's own link** (its `contentIntent`, kept in memory) from a translucent activity, which counts as visible and on Android 14+ lends its permission to start screens. A `PendingIntent` can't be stored, so after a restart Snoozer restores the notification and opens its app instead. To find that app's launch screen, the manifest declares a `MAIN`/`LAUNCHER` `<queries>` intent (package visibility, no permission).
-- **Notification content is stored now,** but only for notifications the user picks: app name, title, text and time, in the device-only `snoozer` file (not backed up), at most 100, deleted when opened or done. `PRIVACY.md` and the access guide's privacy text say so.
+- **Notification content is stored now,** but only for notifications the user picks: app name, title, text and time, in the device-only `snoozer` file (not backed up), at most 100, deleted when opened. `PRIVACY.md` and the access guide's privacy text say so.
 - **Plain `RemoteViews`, no Jetpack Glance.** Glance would be a new dependency for one small widget. Android 12+ gets its rows as `RemoteCollectionItems`; Android 8-11 uses a `RemoteViewsService`.
-- **Looks like Google's widgets.** On Android 12+ the colours come from the wallpaper (`system_accent*`/`system_neutral*`) and the corners from the launcher (`system_app_widget_background_radius`), whatever the app's own Dynamic color setting is; older versions use the app's palette. A round "done" button per row, as in Google Tasks.
+- **Looks like Google's widgets.** On Android 12+ the colours come from the wallpaper (`system_accent*`/`system_neutral*`) and the corners from the launcher (`system_app_widget_background_radius`), whatever the app's own Dynamic color setting is; older versions use the app's palette.
 - **Storage without a new library:** the list is one string in Preferences DataStore with control-character separators (`LaterItems`), unit tested, instead of Room or kotlinx.serialization.
 
 The app's own screens don't show the list yet; that comes in a later change.

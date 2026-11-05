@@ -45,7 +45,7 @@ snoozer/
         │   │   │   ├── NotificationSnapshot.kt  Shade entry without Android types; what the sheet offers
         │   │   │   └── SnoozeRepository.kt
         │   │   ├── later/
-        │   │   │   ├── LaterActionActivity.kt Widget row taps: open a saved notification or mark it done
+        │   │   │   ├── LaterActionActivity.kt Widget row taps: open a saved notification
         │   │   │   ├── LaterPickerActivity.kt "Save for later" bottom sheet (widget + and shortcut)
         │   │   │   ├── LaterWidget.kt         Builds the widget's RemoteViews
         │   │   │   ├── LaterWidgetProvider.kt The widget's AppWidgetProvider

@@ -24,10 +24,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 /**
@@ -40,9 +38,10 @@ import kotlinx.coroutines.launch
  *  - to restore them, each snoozed key is re-snoozed for [RESTORE_DELAY_MS], which makes the
  *    system repost it almost immediately.
  *
- * Notifications saved for later ("Do later" widget) follow the same idea per notification: they
- * stay snoozed for [LATER_SNOOZE_DURATION_MS], are snoozed again whenever they resurface, and
- * are restored or removed when the widget asks for it through the repository.
+ * Notifications saved for later ("Do later" widget) are not snoozed: Android keeps a snoozed
+ * key snoozed, so every later notification the app posts under that key (often every new message
+ * in a chat, sometimes everything from the app) would stay hidden too. Instead the saved copy
+ * lives in the repository and the notification is removed from the shade once, when it is saved.
  */
 class SnoozeListenerService : NotificationListenerService() {
     private val repository get() = snoozerApp.repository
@@ -55,6 +54,9 @@ class SnoozeListenerService : NotificationListenerService() {
 
     /** App names by package, so publishing the shade doesn't ask the package manager every time. */
     private val appLabels = HashMap<String, String>()
+
+    /** Keys hidden by 1.5.1 that are being brought back right now. */
+    private val legacyLaterKeys = HashSet<String>()
 
     /** In-memory mirror of the persisted keys; used to avoid repeat toasts on re-snooze. */
     private val trackedKeys = HashSet<String>()
@@ -77,17 +79,8 @@ class SnoozeListenerService : NotificationListenerService() {
             }
         }
         connectedScope.launch {
-            // Saving a notification for later: hide it as soon as it is on the list.
-            repository.laterItems
-                .filterNotNull()
-                .map { items -> items.mapTo(HashSet()) { it.key } }
-                .distinctUntilChanged()
-                .collect { keys ->
-                    activeOrEmpty().filter { it.key in keys }.forEach(::snoozeForLater)
-                    publishActive()
-                }
-        }
-        connectedScope.launch {
+            // Version 1.5.1 snoozed saved notifications for a year; bring those keys back once.
+            repository.takeLegacyLaterKeys()?.let(::releaseLegacyLaterKeys)
             repository.laterReleasesPending.filter { it }.collect { applyLaterReleases() }
         }
         connectedScope.launch {
@@ -118,11 +111,9 @@ class SnoozeListenerService : NotificationListenerService() {
         rankingMap: RankingMap?,
     ) {
         if (sbn == null || scope == null) return
-        if (sbn.key in repository.laterKeys()) {
-            snoozeForLater(sbn)
-            // A new message in the same conversation: show its latest text in the widget.
-            val update = snapshot(sbn).toLaterItem()
-            snoozerApp.appScope.launch { repository.refreshLater(update) }
+        if (legacyLaterKeys.remove(sbn.key) && sbn.key in repository.laterKeys()) {
+            // A notification 1.5.1 had hidden is back; it is still in the widget, so take it off the shade again.
+            removeForLater(sbn)
         } else if (repository.snoozeEnabled.value == true) {
             snooze(sbn)
         }
@@ -233,27 +224,42 @@ class SnoozeListenerService : NotificationListenerService() {
         )
     }
 
-    private fun snoozeForLater(sbn: StatusBarNotification) {
+    /** Keeps the notification's tap action for the widget, then removes it from the shade. */
+    private fun removeForLater(sbn: StatusBarNotification) {
         CurrentNotifications.rememberContentIntent(sbn.key, sbn.notification.contentIntent)
         try {
-            snoozeNotification(sbn.key, LATER_SNOOZE_DURATION_MS)
+            cancelNotification(sbn.key)
         } catch (_: RuntimeException) {
-            // Access just revoked, or an OEM quirk; it is tried again when the notification resurfaces.
+            // Access just revoked, or an OEM quirk; the notification simply stays in the shade.
         }
     }
 
-    /** The widget opened or finished saved notifications: bring them back, or remove them. */
+    /** A notification was just saved for later ([LaterRelease.Remove]): take it off the shade. */
     private suspend fun applyLaterReleases() {
-        val visible = activeOrEmpty().mapTo(HashSet()) { it.key }
+        val active = activeOrEmpty().associateBy { it.key }
         for ((key, release) in repository.takeLaterReleases()) {
-            CurrentNotifications.forget(key)
+            when (release) {
+                LaterRelease.Remove -> active[key]?.let(::removeForLater)
+                LaterRelease.Restore -> releaseLegacyLaterKeys(setOf(key))
+            }
+        }
+    }
+
+    /** Keys 1.5.1 snoozed "forever": snooze them for a second so they come back; see [onNotificationPosted]. */
+    private fun releaseLegacyLaterKeys(keys: Set<String>) {
+        val visible = activeOrEmpty().mapTo(HashSet()) { it.key }
+        val hidden = keys - visible
+        // A key whose notification no longer exists never comes back; don't take a future one for it.
+        scope?.launch {
+            delay(LEGACY_REPOST_WINDOW_MS)
+            legacyLaterKeys -= hidden
+        }
+        for (key in hidden) {
+            legacyLaterKeys += key
             try {
-                when (release) {
-                    LaterRelease.Restore -> if (key !in visible) snoozeNotification(key, RESTORE_DELAY_MS)
-                    LaterRelease.Dismiss -> cancelNotification(key)
-                }
+                snoozeNotification(key, RESTORE_DELAY_MS)
             } catch (_: SecurityException) {
-                return // Lost access; a restored one comes back by itself when its snooze ends.
+                return
             } catch (_: RuntimeException) {
                 // The notification no longer exists.
             }
@@ -262,10 +268,6 @@ class SnoozeListenerService : NotificationListenerService() {
 
     private fun snooze(sbn: StatusBarNotification) {
         if (!shouldSnooze(sbn)) return
-        if (sbn.key in repository.laterKeys()) {
-            snoozeForLater(sbn)
-            return
-        }
         val key = sbn.key
         try {
             snoozeNotification(key, SNOOZE_DURATION_MS)
@@ -295,8 +297,7 @@ class SnoozeListenerService : NotificationListenerService() {
             } catch (_: SecurityException) {
                 emptySet()
             }
-        // Saved-for-later notifications stay hidden until the widget releases them.
-        for (key in keys - visible - repository.laterKeys()) {
+        for (key in keys - visible) {
             try {
                 snoozeNotification(key, RESTORE_DELAY_MS)
             } catch (_: SecurityException) {
@@ -338,11 +339,11 @@ class SnoozeListenerService : NotificationListenerService() {
         /** Re-applied whenever a notification resurfaces while snoozing is on. */
         const val SNOOZE_DURATION_MS = 7L * 24 * 60 * 60 * 1000
 
-        /** "Forever" for saved notifications; they are snoozed again if they ever resurface. */
-        const val LATER_SNOOZE_DURATION_MS = 365L * 24 * 60 * 60 * 1000
-
         /** Re-snoozing for this short period is how notifications are brought back. */
         const val RESTORE_DELAY_MS = 1_000L
+
+        /** How long a key 1.5.1 snoozed may take to come back after it is released. */
+        const val LEGACY_REPOST_WINDOW_MS = 10_000L
 
         /** Wait between Bedtime readings; mode changes arrive as several quick updates. */
         const val BEDTIME_SETTLE_MS = 1_500L
