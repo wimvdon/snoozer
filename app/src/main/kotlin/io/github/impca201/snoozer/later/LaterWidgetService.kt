@@ -10,7 +10,10 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 
-/** Supplies the widget's rows on Android 8 to 11. Android 12+ gets them directly from [LaterWidget]. */
+/**
+ * Supplies the widget's rows, one at a time. Android 12's RemoteCollectionItems would send every
+ * row with its icon in one transaction, which can exceed the binder limit with a long list.
+ */
 class LaterWidgetService : RemoteViewsService() {
     override fun onGetViewFactory(intent: Intent): RemoteViewsFactory = Factory(applicationContext)
 

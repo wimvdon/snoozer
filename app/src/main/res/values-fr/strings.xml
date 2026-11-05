@@ -161,4 +161,11 @@
     <string name="later_open_failed">Impossible d\'ouvrir l\'app de cette notification</string>
     <string name="shortcut_later_short">Plus tard</string>
     <string name="shortcut_later_long">Garder une notification pour plus tard</string>
+    <string name="later_channel_name">À faire plus tard</string>
+    <string name="later_channel_description">Les notifications gardées pour plus tard. Balayer une notification la masque seulement ici ; elle reste dans le widget.</string>
+    <plurals name="later_summary">
+        <item quantity="one">%d notification pour plus tard</item>
+        <item quantity="many">%d notifications pour plus tard</item>
+        <item quantity="other">%d notifications pour plus tard</item>
+    </plurals>
 </resources>

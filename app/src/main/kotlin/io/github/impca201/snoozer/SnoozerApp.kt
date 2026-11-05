@@ -7,6 +7,8 @@ import android.service.notification.NotificationListenerService
 import android.service.quicksettings.TileService
 import android.util.Log
 import io.github.impca201.snoozer.data.SnoozeRepository
+import io.github.impca201.snoozer.later.LaterIcons
+import io.github.impca201.snoozer.later.LaterNotifications
 import io.github.impca201.snoozer.later.LaterWidget
 import io.github.impca201.snoozer.service.NotificationAccess
 import io.github.impca201.snoozer.service.SnoozeIndicator
@@ -30,6 +32,7 @@ class SnoozerApp : Application() {
     override fun onCreate() {
         super.onCreate()
         SnoozeIndicator.createChannel(this)
+        LaterNotifications.createChannel(this)
         appScope.launch {
             repository.snoozeEnabled.filterNotNull().collect { onSnoozeStateChanged() }
         }
@@ -42,8 +45,9 @@ class SnoozerApp : Application() {
                 .collect { refreshSnoozeCues() }
         }
         appScope.launch {
-            // The "Do later" widget shows the saved list, whoever changed it.
-            repository.laterItems.filterNotNull().collect { LaterWidget.update(this@SnoozerApp, it) }
+            // The widget and the shade show the saved list, whoever changed it.
+            combine(repository.laterItems.filterNotNull(), repository.laterHidden) { _, _ -> }
+                .collect { refreshLaterViews() }
         }
     }
 
@@ -65,6 +69,17 @@ class SnoozerApp : Application() {
             active = repository.snoozeEnabled.value == true && NotificationAccess.isGranted(this),
             name = repository.modeName.value,
         )
+    }
+
+    /** Redraws the "Do later" widget and Snoozer's notifications for the saved list. */
+    fun refreshLaterViews() {
+        // Off the main thread: it reads and draws an icon per saved notification.
+        appScope.launch {
+            val items = repository.laterItems.value ?: return@launch
+            LaterWidget.update(this@SnoozerApp, items)
+            LaterNotifications.sync(this@SnoozerApp, items, repository.laterHidden.value)
+            LaterIcons.prune(this@SnoozerApp, items.map { it.key })
+        }
     }
 
     /** Keeps every surface (tile, listener) in sync no matter where the toggle came from. */

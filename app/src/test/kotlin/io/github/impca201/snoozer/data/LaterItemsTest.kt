@@ -84,4 +84,29 @@ class LaterItemsTest {
         assertEquals("r:k", LaterRelease.Restore.encode("k"))
         assertEquals("d:k", LaterRelease.Remove.encode("k"))
     }
+
+    @Test
+    fun `the notification colour is stored, including negative ARGB values`() {
+        val list = listOf(item("a").copy(color = 0xFF25D366.toInt()), item("b").copy(color = 0))
+        assertEquals(list, LaterItems.decode(LaterItems.encode(list)))
+    }
+
+    @Test
+    fun `records from before the colour was stored still load, without a colour`() {
+        val old = listOf("k", "com.example", "Example", "Title", "Text", "1000").joinToString("\u001F")
+        assertEquals(listOf(item("k", title = "Title", text = "Text")), LaterItems.decode(old))
+    }
+
+    @Test
+    fun `a record with a damaged colour is skipped`() {
+        val bad = listOf("k", "com.example", "Example", "Title", "Text", "1000", "red").joinToString("\u001F")
+        assertEquals(emptyList<LaterItem>(), LaterItems.decode(bad))
+    }
+
+    @Test
+    fun `swiped-away items stay on the list but are not shown in the shade`() {
+        val list = listOf(item("a"), item("b"), item("c"))
+        assertEquals(listOf("a", "c"), LaterItems.inShade(list, setOf("b", "gone")).map { it.key })
+        assertEquals(list, LaterItems.inShade(list, emptySet()))
+    }
 }

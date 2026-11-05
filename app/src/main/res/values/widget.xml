@@ -9,4 +9,6 @@
     <color name="widget_on_surface">#FF1A1B1F</color>
     <color name="widget_on_surface_variant">#FF44474E</color>
     <color name="widget_ripple">#1F1A1B1F</color>
+    <!-- Circle behind a notification icon whose app set no colour. -->
+    <color name="widget_icon_fallback">#FF0D5CB9</color>
 </resources>

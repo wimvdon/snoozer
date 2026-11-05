@@ -11,8 +11,10 @@ data class NotificationSnapshot(
     val isClearable: Boolean,
     val isGroupSummary: Boolean,
     val isOwn: Boolean,
+    /** `Notification.color` (ARGB); 0 when the app set none. */
+    val color: Int = 0,
 ) {
-    fun toLaterItem(): LaterItem = LaterItem(key, packageName, appLabel, title, text, postedAt)
+    fun toLaterItem(): LaterItem = LaterItem(key, packageName, appLabel, title, text, postedAt, color)
 
     companion object {
         /**

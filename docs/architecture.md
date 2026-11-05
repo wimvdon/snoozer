@@ -40,6 +40,8 @@ No component calls another to "snooze now". They change state, and the listener 
 | `CurrentNotifications` | `service/CurrentNotifications.kt` | In-memory view the listener publishes: the notifications in the shade (for the sheet) and the tap action of each saved notification (for the widget). Never stored. |
 | `LaterWidgetProvider` / `LaterWidget` / `LaterWidgetService` | `later/` | "Do later" home screen widget built with plain `RemoteViews`. Android 12+ gets its rows as `RemoteCollectionItems`; Android 8-11 through `LaterWidgetService`. |
 | `LaterPickerActivity` + `LaterSheet` | `later/`, `ui/later/` | Transparent activity with a Compose bottom sheet listing the shade; opened by the widget's + and the "Do later" launcher shortcut. |
+| `LaterNotifications` | `later/` | Shows each saved notification in the shade as Snoozer's own silent (`IMPORTANCE_MIN`) notification in one group, with the original's icon and colour. |
+| `LaterIcons` | `later/` | Stores each saved notification's small icon as a white PNG in the no-backup folder; draws the coloured badge for the widget. |
 | `LaterActionActivity` | `later/` | Invisible, translucent activity behind the widget's rows: opens a saved notification. |
 | `MainActivity` + `SnoozerNavigation` | `ui/` | Compose UI with an enum back stack (`Home`, `AccessGuide`, `Settings`). |
 
@@ -71,8 +73,10 @@ A saved notification is copied into the repository and removed from the shade. I
 1. The widget's **+** (or the **Do later** shortcut) opens `LaterPickerActivity`. Its sheet lists `CurrentNotifications.active` filtered by `NotificationSnapshot.candidates` (clearable, not Snoozer's own, not a group summary). A notification under the key of a saved item is a newer one; saving it replaces the item.
 2. Tapping one calls `SnoozeRepository.addLater`, which stores the app name, title, text and time in `later_items` and, in the same transaction, a **Remove** request in `later_releases`.
 3. The listener takes the request, remembers the notification's tap action (`contentIntent`) in memory and cancels the notification. New notifications from the app, also under the same key, appear as usual.
-4. `SnoozerApp` pushes every change of `later_items` to the widget.
-5. Tapping a row opens `LaterActionActivity`. If the tap action is still in memory, it is sent with this visible activity's permission to start screens (Android 14+ needs that opt-in). Otherwise (the process restarted, or the link no longer works) the notification's app is opened. Either way the item leaves the list; if nothing could be opened it stays and a toast says so.
+4. The listener also stores the notification's small icon (`LaterIcons`) and then asks `SnoozerApp` to redraw.
+5. `SnoozerApp.refreshLaterViews` runs on every change of `later_items` or `later_hidden` (and when the app resumes): it redraws the widget, makes Snoozer's notifications match the list (`LaterNotifications.sync`) and deletes icons of items that are gone.
+6. **In the shade** every saved notification is a silent, collapsed notification from Snoozer (id 2, tag = the original key, one group with a summary from two items on), with the original's icon (as a bitmap small icon) and colour. Tapping it goes through `LaterActionActivity`, like the widget. Swiping it away is allowed: the listener sees Snoozer's own notification removed with a swipe reason and records the key in `later_hidden`; it stays in the widget. Saving it again shows it again.
+7. Tapping a row opens `LaterActionActivity`. If the tap action is still in memory, it is sent with this visible activity's permission to start screens (Android 14+ needs that opt-in). Otherwise (the process restarted, or the link no longer works) the notification's app is opened. Either way the item leaves the list; if nothing could be opened it stays and a toast says so.
 
 Once per install (`later_not_snoozed`), the listener brings back the keys 1.5.1 snoozed: it snoozes each saved key for a second, and when the notification reposts it cancels it again, keeping its tap action for the widget.
 
@@ -112,6 +116,7 @@ There is no database. Two Preferences DataStore files (names in `data/DataFiles.
 | `snoozer` | `snoozed_keys` | Set<String> | Keys to restore |
 | `snoozer` | `later_items` | String | Notifications saved for later (encoded by `LaterItems`, at most 100) |
 | `snoozer` | `later_releases` | Set<String> | Pending requests for the listener: remove from the shade (`d:key`) or restore (`r:key`) |
+| `snoozer` | `later_hidden` | Set<String> | Saved notifications swiped away in the shade (still in the widget) |
 | `snoozer` | `later_not_snoozed` | Boolean | Keys snoozed by version 1.5.1 have been brought back |
 
 **Backup.** Android's own backup (to the Google account) and phone-to-phone transfer copy only

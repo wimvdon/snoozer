@@ -12,6 +12,8 @@ data class LaterItem(
     val text: String,
     /** When the posting app showed it (`StatusBarNotification.postTime`), in epoch millis. */
     val postedAt: Long,
+    /** The notification's accent colour (`Notification.color`, ARGB); 0 when it has none. */
+    val color: Int = 0,
 )
 
 /** A request from the repository to the listener about one notification key. Prefixes are stored: never change them. */
@@ -48,7 +50,10 @@ object LaterItems {
 
     private const val RECORD = '\u001E'
     private const val FIELD = '\u001F'
-    private const val FIELD_COUNT = 6
+    private const val FIELD_COUNT = 7
+
+    /** Records written by 1.5.1 and 1.5.2, before the colour was stored. */
+    private const val OLD_FIELD_COUNT = 6
 
     /** Newest first; an item that is saved again moves to the top instead of appearing twice. */
     fun add(
@@ -63,7 +68,7 @@ object LaterItems {
 
     fun encode(items: List<LaterItem>): String =
         items.joinToString(RECORD.toString()) { item ->
-            listOf(item.key, item.packageName, item.appLabel, item.title, item.text, item.postedAt.toString())
+            listOf(item.key, item.packageName, item.appLabel, item.title, item.text, item.postedAt.toString(), item.color.toString())
                 .joinToString(FIELD.toString()) { it.clean() }
         }
 
@@ -72,11 +77,21 @@ object LaterItems {
         if (stored.isNullOrEmpty()) return emptyList()
         return stored.split(RECORD).mapNotNull { record ->
             val fields = record.split(FIELD)
-            if (fields.size != FIELD_COUNT || fields[0].isEmpty()) return@mapNotNull null
+            if ((fields.size != FIELD_COUNT && fields.size != OLD_FIELD_COUNT) || fields[0].isEmpty()) return@mapNotNull null
             val postedAt = fields[5].toLongOrNull() ?: return@mapNotNull null
-            LaterItem(fields[0], fields[1], fields[2], fields[3], fields[4], postedAt)
+            val color = if (fields.size == FIELD_COUNT) fields[6].toIntOrNull() ?: return@mapNotNull null else 0
+            LaterItem(fields[0], fields[1], fields[2], fields[3], fields[4], postedAt, color)
         }
     }
+
+    /**
+     * The saved notifications Snoozer shows in the shade: all of them except the ones the user
+     * swiped away there. A swipe only hides it from the shade; it stays in the widget.
+     */
+    fun inShade(
+        items: List<LaterItem>,
+        hidden: Set<String>,
+    ): List<LaterItem> = items.filterNot { it.key in hidden }
 
     private fun String.clean(): String = filterNot { it == RECORD || it == FIELD }
 }
