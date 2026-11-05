@@ -19,12 +19,12 @@ import io.github.impca201.snoozer.ui.Destination
 import io.github.impca201.snoozer.ui.MainActivity
 import io.github.impca201.snoozer.ui.later.LaterSheet
 import io.github.impca201.snoozer.ui.theme.SnoozerAppTheme
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 /**
  * The "Save for later" bottom sheet over whatever is on screen, opened from the widget's + and
- * from the launcher shortcut. Picking a notification puts it on the list; the listener hides it.
+ * from the launcher shortcut. Picking a notification puts it on the list; the listener takes it off the shade.
  */
 class LaterPickerActivity : ComponentActivity() {
     private val hasAccess = mutableStateOf(false)
@@ -35,9 +35,7 @@ class LaterPickerActivity : ComponentActivity() {
         hasAccess.value = NotificationAccess.isGranted(this)
         val repository = snoozerApp.repository
         val candidates =
-            combine(CurrentNotifications.active, repository.laterItems) { active, saved ->
-                NotificationSnapshot.candidates(active, saved.orEmpty().mapTo(HashSet()) { it.key })
-            }
+            CurrentNotifications.active.map(NotificationSnapshot::candidates)
         setContent {
             SnoozerAppTheme {
                 val list by candidates.collectAsStateWithLifecycle(emptyList())

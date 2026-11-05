@@ -8,6 +8,5 @@
     <color name="widget_on_add">#FF004590</color>
     <color name="widget_on_surface">#FF1A1B1F</color>
     <color name="widget_on_surface_variant">#FF44474E</color>
-    <color name="widget_accent">#FF0D5CB9</color>
     <color name="widget_ripple">#1F1A1B1F</color>
 </resources>

@@ -151,16 +151,14 @@
     <string name="later_widget_title">À faire plus tard</string>
     <string name="later_widget_description">Les notifications que vous avez mises de côté. Appuyez sur + pour en ajouter une.</string>
     <string name="later_widget_empty">Rien pour plus tard. Appuyez sur + pour mettre une notification de côté.</string>
-    <string name="later_done">Terminé</string>
     <string name="later_add">Garder une notification pour plus tard</string>
-    <string name="later_mark_done">Marquer « %1$s » comme terminé</string>
     <string name="later_item_meta">%1$s · %2$s</string>
     <string name="later_sheet_title">Garder pour plus tard</string>
     <string name="later_sheet_empty">Aucune notification pour le moment</string>
     <string name="later_sheet_empty_snoozing">La mise en pause est activée, les notifications sont donc mises de côté. Désactivez-la pour en choisir une.</string>
     <string name="later_sheet_no_access">Snoozer a besoin de l\'accès aux notifications pour les garder pour plus tard.</string>
     <string name="later_saved">Gardée pour plus tard</string>
-    <string name="later_restored">La notification est de retour dans vos notifications</string>
+    <string name="later_open_failed">Impossible d\'ouvrir l\'app de cette notification</string>
     <string name="shortcut_later_short">Plus tard</string>
     <string name="shortcut_later_long">Garder une notification pour plus tard</string>
 </resources>

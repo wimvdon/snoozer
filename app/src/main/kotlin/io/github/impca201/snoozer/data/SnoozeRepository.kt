@@ -204,33 +204,36 @@ class SnoozeRepository(
     /** Keys of the saved notifications, for the listener's quick checks. */
     fun laterKeys(): Set<String> = laterItems.value?.mapTo(HashSet()) { it.key }.orEmpty()
 
+    /**
+     * Saves a notification for later and, in the same transaction, asks the listener to take it
+     * off the shade, so the request survives the listener being disconnected right now.
+     */
     suspend fun addLater(item: LaterItem) {
         dataStore.edit {
             it[LATER_ITEMS] = LaterItems.encode(LaterItems.add(LaterItems.decode(it[LATER_ITEMS]), item))
+            it[LATER_RELEASES] = it[LATER_RELEASES].orEmpty() + LaterRelease.Remove.encode(item.key)
         }
     }
 
-    /** Updates a saved notification's text when its app updates it; does nothing if it isn't saved. */
-    suspend fun refreshLater(update: LaterItem) {
+    /** Opened from the widget: it leaves the list. */
+    suspend fun removeLater(key: String) {
         dataStore.edit {
-            val current = LaterItems.decode(it[LATER_ITEMS])
-            if (current.none { item -> item.key == update.key }) return@edit
-            it[LATER_ITEMS] = LaterItems.encode(LaterItems.refresh(current, update))
+            it[LATER_ITEMS] = LaterItems.encode(LaterItems.remove(LaterItems.decode(it[LATER_ITEMS]), key))
         }
     }
 
     /**
-     * Takes a notification off the list and asks the listener to [release] it, in one
-     * transaction, so the request survives the listener being disconnected right now.
+     * Once per install: the keys of notifications version 1.5.1 snoozed for a year, which keeps
+     * the app's new notifications under the same key hidden too. `null` when already done.
      */
-    suspend fun releaseLater(
-        key: String,
-        release: LaterRelease,
-    ) {
+    suspend fun takeLegacyLaterKeys(): Set<String>? {
+        var keys: Set<String>? = null
         dataStore.edit {
-            it[LATER_ITEMS] = LaterItems.encode(LaterItems.remove(LaterItems.decode(it[LATER_ITEMS]), key))
-            it[LATER_RELEASES] = it[LATER_RELEASES].orEmpty() + release.encode(key)
+            if (it[LATER_NOT_SNOOZED] == true) return@edit
+            it[LATER_NOT_SNOOZED] = true
+            keys = LaterItems.decode(it[LATER_ITEMS]).mapTo(HashSet()) { item -> item.key }
         }
+        return keys
     }
 
     /** Pending release requests; the listener applies them with [takeLaterReleases]. */
@@ -249,6 +252,7 @@ class SnoozeRepository(
     companion object {
         private val LATER_ITEMS = stringPreferencesKey("later_items")
         private val LATER_RELEASES = stringSetPreferencesKey("later_releases")
+        private val LATER_NOT_SNOOZED = booleanPreferencesKey("later_not_snoozed")
         private val SNOOZE_ENABLED = booleanPreferencesKey("snooze_enabled")
         private val TOAST_ENABLED = booleanPreferencesKey("toast_enabled")
         private val INDICATOR_ENABLED = booleanPreferencesKey("indicator_enabled")

@@ -83,9 +83,7 @@ object LaterWidget {
             R.id.later_item_meta,
             context.getString(R.string.later_item_meta, item.appLabel, postedTime(item.postedAt)),
         )
-        row.setContentDescription(R.id.later_item_done, context.getString(R.string.later_mark_done, headline))
-        row.setOnClickFillInIntent(R.id.later_item, LaterActionActivity.fillIn(item, LaterActionActivity.ACTION_OPEN))
-        row.setOnClickFillInIntent(R.id.later_item_done, LaterActionActivity.fillIn(item, LaterActionActivity.ACTION_DONE))
+        row.setOnClickFillInIntent(R.id.later_item, LaterActionActivity.fillIn(item))
         return row
     }
 

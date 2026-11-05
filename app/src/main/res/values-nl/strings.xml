@@ -150,16 +150,14 @@
     <string name="later_widget_title">Doe later</string>
     <string name="later_widget_description">Meldingen die je voor later hebt bewaard. Tik op + om er een toe te voegen.</string>
     <string name="later_widget_empty">Niets voor later. Tik op + om een melding te bewaren.</string>
-    <string name="later_done">Klaar</string>
     <string name="later_add">Melding bewaren voor later</string>
-    <string name="later_mark_done">„%1$s” markeren als klaar</string>
     <string name="later_item_meta">%1$s · %2$s</string>
     <string name="later_sheet_title">Bewaren voor later</string>
     <string name="later_sheet_empty">Er zijn nu geen meldingen</string>
     <string name="later_sheet_empty_snoozing">Snoozen staat aan, dus meldingen worden opzijgezet. Zet snoozen uit om er een te kiezen.</string>
     <string name="later_sheet_no_access">Snoozer heeft meldingstoegang nodig om meldingen voor later te bewaren.</string>
     <string name="later_saved">Bewaard voor later</string>
-    <string name="later_restored">De melding staat weer bij je meldingen</string>
+    <string name="later_open_failed">De app van deze melding kon niet worden geopend</string>
     <string name="shortcut_later_short">Doe later</string>
     <string name="shortcut_later_long">Melding bewaren voor later</string>
 </resources>

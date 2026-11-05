@@ -1,8 +1,8 @@
 package io.github.impca201.snoozer.data
 
 /**
- * A notification the user saved for later. It stays snoozed until it is opened or marked done
- * from the widget. Title and text are kept so the widget can show it while it is hidden.
+ * A notification the user saved for later. It is removed from the shade when it is saved; title
+ * and text are kept so the widget can show it until it is opened from there.
  */
 data class LaterItem(
     val key: String,
@@ -14,15 +14,15 @@ data class LaterItem(
     val postedAt: Long,
 )
 
-/** What to do with a saved notification once it leaves the list. */
+/** A request from the repository to the listener about one notification key. Prefixes are stored: never change them. */
 enum class LaterRelease(
     private val prefix: String,
 ) {
-    /** Put it back in the notification shade (it was opened but its link could not be used). */
+    /** Bring the notification back in the shade (frees keys version 1.5.1 snoozed). */
     Restore("r:"),
 
-    /** Remove it for good (opened through its own link, or marked done). */
-    Dismiss("d:"),
+    /** Take the notification off the shade: it was just saved for later. */
+    Remove("d:"),
     ;
 
     fun encode(key: String): String = prefix + key
@@ -60,24 +60,6 @@ object LaterItems {
         items: List<LaterItem>,
         key: String,
     ): List<LaterItem> = items.filterNot { it.key == key }
-
-    /** The app updated a saved notification (a new message in the same chat): keep its place, show the new text. */
-    fun refresh(
-        items: List<LaterItem>,
-        update: LaterItem,
-    ): List<LaterItem> =
-        items.map { item ->
-            if (item.key != update.key) {
-                item
-            } else {
-                item.copy(
-                    title = update.title.ifEmpty { item.title },
-                    text = update.text.ifEmpty { item.text },
-                    appLabel = update.appLabel.ifEmpty { item.appLabel },
-                    postedAt = update.postedAt,
-                )
-            }
-        }
 
     fun encode(items: List<LaterItem>): String =
         items.joinToString(RECORD.toString()) { item ->

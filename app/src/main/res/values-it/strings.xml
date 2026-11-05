@@ -151,16 +151,14 @@
     <string name="later_widget_title">Da fare dopo</string>
     <string name="later_widget_description">Le notifiche che hai messo da parte per dopo. Tocca + per aggiungerne una.</string>
     <string name="later_widget_empty">Niente per dopo. Tocca + per mettere da parte una notifica.</string>
-    <string name="later_done">Fatto</string>
     <string name="later_add">Salva una notifica per dopo</string>
-    <string name="later_mark_done">Segna «%1$s» come fatta</string>
     <string name="later_item_meta">%1$s · %2$s</string>
     <string name="later_sheet_title">Salva per dopo</string>
     <string name="later_sheet_empty">Nessuna notifica al momento</string>
     <string name="later_sheet_empty_snoozing">La posticipazione è attiva, quindi le notifiche vengono messe da parte. Disattivala per sceglierne una.</string>
     <string name="later_sheet_no_access">Snoozer ha bisogno dell\'accesso alle notifiche per salvarle per dopo.</string>
     <string name="later_saved">Salvata per dopo</string>
-    <string name="later_restored">La notifica è di nuovo tra le tue notifiche</string>
+    <string name="later_open_failed">Impossibile aprire l\'app di questa notifica</string>
     <string name="shortcut_later_short">Dopo</string>
     <string name="shortcut_later_long">Salva una notifica per dopo</string>
 </resources>

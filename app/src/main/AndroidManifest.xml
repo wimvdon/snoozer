@@ -79,7 +79,7 @@
             android:taskAffinity=""
             android:theme="@style/Theme.Snoozer.Sheet" />
 
-        <!-- Invisible activity behind the widget's rows: open a saved notification or mark it done. -->
+        <!-- Invisible activity behind the widget's rows: open a saved notification. -->
         <activity
             android:name=".later.LaterActionActivity"
             android:excludeFromRecents="true"

@@ -17,18 +17,14 @@ data class NotificationSnapshot(
     companion object {
         /**
          * The notifications the "Save for later" sheet offers: ones the user could swipe away,
-         * not Snoozer's own, not invisible group summaries, with something to show, and not
-         * already saved. Newest first.
+         * not Snoozer's own, not invisible group summaries, with something to show. Newest first.
+         * One with the key of a saved item is a newer notification; saving it replaces the item.
          */
-        fun candidates(
-            active: List<NotificationSnapshot>,
-            savedKeys: Set<String>,
-        ): List<NotificationSnapshot> =
+        fun candidates(active: List<NotificationSnapshot>): List<NotificationSnapshot> =
             active
                 .asSequence()
                 .filter { it.isClearable && !it.isOwn && !it.isGroupSummary }
                 .filter { it.title.isNotBlank() || it.text.isNotBlank() }
-                .filter { it.key !in savedKeys }
                 .distinctBy { it.key }
                 .sortedByDescending { it.postedAt }
                 .toList()

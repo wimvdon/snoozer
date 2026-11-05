@@ -6,6 +6,5 @@
     <color name="widget_on_add">#FFD7E2FF</color>
     <color name="widget_on_surface">#FFE3E2E6</color>
     <color name="widget_on_surface_variant">#FFC4C6D0</color>
-    <color name="widget_accent">#FFACC7FF</color>
     <color name="widget_ripple">#1FE3E2E6</color>
 </resources>

@@ -36,11 +36,11 @@ No component calls another to "snooze now". They change state, and the listener 
 | `SnoozeTileService` | `tile/` | Toggleable Quick Settings tile; opens the access guide when access is missing. |
 | `ShortcutActivity` | `shortcut/` | Invisible trampoline behind the launcher shortcut: toggles and shows a toast. |
 | `TaskerEditActivity` / `TaskerFireReceiver` / `TaskerContract` | `tasker/` | Locale plug-in: configure and execute Snooze, Unsnooze or Toggle. |
-| `LaterItems` / `NotificationSnapshot` | `data/` | Plain-Kotlin rules for the "Do later" list (add, remove, refresh, storage format) and for which notifications the sheet offers. |
+| `LaterItems` / `NotificationSnapshot` | `data/` | Plain-Kotlin rules for the "Do later" list (add, remove, storage format) and for which notifications the sheet offers. |
 | `CurrentNotifications` | `service/CurrentNotifications.kt` | In-memory view the listener publishes: the notifications in the shade (for the sheet) and the tap action of each saved notification (for the widget). Never stored. |
 | `LaterWidgetProvider` / `LaterWidget` / `LaterWidgetService` | `later/` | "Do later" home screen widget built with plain `RemoteViews`. Android 12+ gets its rows as `RemoteCollectionItems`; Android 8-11 through `LaterWidgetService`. |
 | `LaterPickerActivity` + `LaterSheet` | `later/`, `ui/later/` | Transparent activity with a Compose bottom sheet listing the shade; opened by the widget's + and the "Do later" launcher shortcut. |
-| `LaterActionActivity` | `later/` | Invisible, translucent activity behind the widget's rows: opens a saved notification or marks it done. |
+| `LaterActionActivity` | `later/` | Invisible, translucent activity behind the widget's rows: opens a saved notification. |
 | `MainActivity` + `SnoozerNavigation` | `ui/` | Compose UI with an enum back stack (`Home`, `AccessGuide`, `Settings`). |
 
 ## System flow
@@ -66,16 +66,15 @@ Persisting the keys is what lets a restore work after the process was killed or 
 
 ### Do later
 
-Saving one notification works like snoozing all of them, but per notification and without a time limit:
+A saved notification is copied into the repository and removed from the shade. It is **not** snoozed: Android keeps a snoozed key snoozed, so every later notification the app posts under the same key (often each new message in a chat, sometimes everything from the app) would stay hidden too. Version 1.5.1 did snooze them; see "2026-11-05: Do later no longer snoozes" in `decisions.md`.
 
-1. The widget's **+** (or the **Do later** shortcut) opens `LaterPickerActivity`. Its sheet lists `CurrentNotifications.active` filtered by `NotificationSnapshot.candidates` (clearable, not Snoozer's own, not a group summary, not already saved).
-2. Tapping one calls `SnoozeRepository.addLater`, which stores the app name, title, text and time in `later_items`. Nothing else talks to the listener.
-3. The listener sees the new key, remembers the notification's tap action (`contentIntent`) in memory and snoozes it for a year. If it ever resurfaces (snooze expired, the app re-posted it), it is snoozed again; an update from the app also refreshes its text in the list. Unsnoozing all notifications leaves saved ones hidden.
+1. The widget's **+** (or the **Do later** shortcut) opens `LaterPickerActivity`. Its sheet lists `CurrentNotifications.active` filtered by `NotificationSnapshot.candidates` (clearable, not Snoozer's own, not a group summary). A notification under the key of a saved item is a newer one; saving it replaces the item.
+2. Tapping one calls `SnoozeRepository.addLater`, which stores the app name, title, text and time in `later_items` and, in the same transaction, a **Remove** request in `later_releases`.
+3. The listener takes the request, remembers the notification's tap action (`contentIntent`) in memory and cancels the notification. New notifications from the app, also under the same key, appear as usual.
 4. `SnoozerApp` pushes every change of `later_items` to the widget.
-5. Tapping a row opens `LaterActionActivity`. If the tap action is still in memory, it is sent with this visible activity's permission to start screens (Android 14+ needs that opt-in), and the item is released as **Dismiss**: the snoozed notification is cancelled. Otherwise (the process restarted, or the link no longer works) it is released as **Restore**: the notification is put back in the shade and its app is opened.
-6. The round button on a row releases the item as **Dismiss**.
+5. Tapping a row opens `LaterActionActivity`. If the tap action is still in memory, it is sent with this visible activity's permission to start screens (Android 14+ needs that opt-in). Otherwise (the process restarted, or the link no longer works) the notification's app is opened. Either way the item leaves the list; if nothing could be opened it stays and a toast says so.
 
-A release is written in the same transaction that removes the item (`later_releases`), and the listener takes and applies the requests when it is connected, so nothing is lost if the listener is disconnected at that moment.
+Once per install (`later_not_snoozed`), the listener brings back the keys 1.5.1 snoozed: it snoozes each saved key for a second, and when the notification reposts it cancels it again, keeping its tap action for the widget.
 
 ### Persistent notification and mode
 
@@ -112,7 +111,8 @@ There is no database. Two Preferences DataStore files (names in `data/DataFiles.
 | `snoozer` | `follow_bedtime`, `bedtime_last_active`, `bedtime_snoozed` | Boolean | Bedtime sync state and ownership |
 | `snoozer` | `snoozed_keys` | Set<String> | Keys to restore |
 | `snoozer` | `later_items` | String | Notifications saved for later (encoded by `LaterItems`, at most 100) |
-| `snoozer` | `later_releases` | Set<String> | Pending restore (`r:key`) or dismiss (`d:key`) requests from the widget |
+| `snoozer` | `later_releases` | Set<String> | Pending requests for the listener: remove from the shade (`d:key`) or restore (`r:key`) |
+| `snoozer` | `later_not_snoozed` | Boolean | Keys snoozed by version 1.5.1 have been brought back |
 
 **Backup.** Android's own backup (to the Google account) and phone-to-phone transfer copy only
 `backed_up_settings` (`res/xml/data_extraction_rules.xml` for Android 12+, `res/xml/backup_rules.xml`
