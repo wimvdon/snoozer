@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- "Do later" widget. Colours follow the wallpaper on Android 12+ (values-v31), like Google's own widgets. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/widget_background"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:minHeight="48dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/later_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/widget_title_background"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-medium"
+            android:maxLines="1"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="8dp"
+            android:text="@string/later_widget_title"
+            android:textColor="@color/widget_title"
+            android:textSize="18sp" />
+
+        <ImageButton
+            android:id="@+id/later_add"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/widget_add_background"
+            android:contentDescription="@string/later_add"
+            android:scaleType="center"
+            android:src="@drawable/ic_add"
+            android:tint="@color/widget_on_add" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <ListView
+            android:id="@+id/later_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@null"
+            android:scrollbars="none" />
+
+        <TextView
+            android:id="@+id/later_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="@string/later_widget_empty"
+            android:textColor="@color/widget_on_surface_variant"
+            android:textSize="14sp" />
+    </FrameLayout>
+</LinearLayout>

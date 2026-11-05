@@ -91,7 +91,7 @@
     <string name="guide_access_restricted_body">Si instalaste Snoozer fuera de una tienda de apps, Android bloquea este ajuste al principio. Abre Información de la app, toca el menú ⋮ de arriba, elige «Permitir ajustes restringidos» y vuelve a intentarlo.</string>
     <string name="guide_access_open_app_info">Abrir información de la app</string>
     <string name="guide_access_privacy_title">Tu privacidad</string>
-    <string name="guide_access_privacy_body">Snoozer solo usa este acceso para posponer y restaurar notificaciones. Nunca lee, guarda ni comparte su contenido, y no tiene acceso a Internet.</string>
+    <string name="guide_access_privacy_body">Snoozer solo usa este acceso para posponer y restaurar notificaciones, y para mostrar las que guardas para más tarde. Lo que guardas se queda en tu teléfono, y Snoozer no tiene acceso a Internet.</string>
 
     <string name="guide_tile_title">Icono de Ajustes rápidos</string>
     <string name="guide_shortcuts_title">Accesos directos</string>
@@ -146,4 +146,21 @@
     <string name="theme_dark">Oscuro</string>
     <string name="setting_dynamic_color_title">Color dinámico</string>
     <string name="setting_dynamic_color_summary">Usar los colores del fondo de pantalla</string>
+
+    <!-- "Do later": widget, bottom sheet and launcher shortcut -->
+    <string name="later_widget_title">Para más tarde</string>
+    <string name="later_widget_description">Las notificaciones que has guardado para más tarde. Toca + para añadir una.</string>
+    <string name="later_widget_empty">Nada para más tarde. Toca + para guardar una notificación.</string>
+    <string name="later_done">Hecho</string>
+    <string name="later_add">Guardar una notificación para más tarde</string>
+    <string name="later_mark_done">Marcar «%1$s» como hecha</string>
+    <string name="later_item_meta">%1$s · %2$s</string>
+    <string name="later_sheet_title">Guardar para más tarde</string>
+    <string name="later_sheet_empty">No hay notificaciones ahora</string>
+    <string name="later_sheet_empty_snoozing">Posponer está activado, así que las notificaciones se apartan. Desactívalo para elegir una.</string>
+    <string name="later_sheet_no_access">Snoozer necesita acceso a las notificaciones para guardarlas para más tarde.</string>
+    <string name="later_saved">Guardada para más tarde</string>
+    <string name="later_restored">La notificación ha vuelto a tus notificaciones</string>
+    <string name="shortcut_later_short">Más tarde</string>
+    <string name="shortcut_later_long">Guardar una notificación para más tarde</string>
 </resources>

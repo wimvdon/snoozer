@@ -18,6 +18,11 @@
     <!-- Lets the Tasker guide show "Open Tasker" when it is installed (package visibility, API 30+). -->
     <queries>
         <package android:name="net.dinglisch.android.taskerm" />
+        <!-- Opening a saved notification whose link was lost opens its app instead (launch intent). -->
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent>
     </queries>
 
     <application
@@ -64,6 +69,43 @@
             android:noHistory="true"
             android:taskAffinity=""
             android:theme="@android:style/Theme.NoDisplay" />
+
+        <!-- "Save for later" bottom sheet, from the widget's + and the launcher shortcut. Not
+             exported: both start it with this app's identity. -->
+        <activity
+            android:name=".later.LaterPickerActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:taskAffinity=""
+            android:theme="@style/Theme.Snoozer.Sheet" />
+
+        <!-- Invisible activity behind the widget's rows: open a saved notification or mark it done. -->
+        <activity
+            android:name=".later.LaterActionActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:noHistory="true"
+            android:taskAffinity=""
+            android:theme="@style/Theme.Snoozer.Trampoline" />
+
+        <!-- "Do later" home screen widget. -->
+        <receiver
+            android:name=".later.LaterWidgetProvider"
+            android:exported="false"
+            android:label="@string/later_widget_title">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/later_widget_info" />
+        </receiver>
+
+        <!-- Rows of the widget on Android 8 to 11. -->
+        <service
+            android:name=".later.LaterWidgetService"
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
 
         <!-- Tasker / Locale plug-in: action configuration screen. -->
         <activity

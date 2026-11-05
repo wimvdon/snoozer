@@ -7,6 +7,7 @@ import android.service.notification.NotificationListenerService
 import android.service.quicksettings.TileService
 import android.util.Log
 import io.github.impca201.snoozer.data.SnoozeRepository
+import io.github.impca201.snoozer.later.LaterWidget
 import io.github.impca201.snoozer.service.NotificationAccess
 import io.github.impca201.snoozer.service.SnoozeIndicator
 import io.github.impca201.snoozer.service.SnoozeListenerService
@@ -39,6 +40,10 @@ class SnoozerApp : Application() {
                 repository.modeEnabled,
             ) { _, _, _ -> }
                 .collect { refreshSnoozeCues() }
+        }
+        appScope.launch {
+            // The "Do later" widget shows the saved list, whoever changed it.
+            repository.laterItems.filterNotNull().collect { LaterWidget.update(this@SnoozerApp, it) }
         }
     }
 

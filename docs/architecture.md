@@ -36,6 +36,11 @@ No component calls another to "snooze now". They change state, and the listener 
 | `SnoozeTileService` | `tile/` | Toggleable Quick Settings tile; opens the access guide when access is missing. |
 | `ShortcutActivity` | `shortcut/` | Invisible trampoline behind the launcher shortcut: toggles and shows a toast. |
 | `TaskerEditActivity` / `TaskerFireReceiver` / `TaskerContract` | `tasker/` | Locale plug-in: configure and execute Snooze, Unsnooze or Toggle. |
+| `LaterItems` / `NotificationSnapshot` | `data/` | Plain-Kotlin rules for the "Do later" list (add, remove, refresh, storage format) and for which notifications the sheet offers. |
+| `CurrentNotifications` | `service/CurrentNotifications.kt` | In-memory view the listener publishes: the notifications in the shade (for the sheet) and the tap action of each saved notification (for the widget). Never stored. |
+| `LaterWidgetProvider` / `LaterWidget` / `LaterWidgetService` | `later/` | "Do later" home screen widget built with plain `RemoteViews`. Android 12+ gets its rows as `RemoteCollectionItems`; Android 8-11 through `LaterWidgetService`. |
+| `LaterPickerActivity` + `LaterSheet` | `later/`, `ui/later/` | Transparent activity with a Compose bottom sheet listing the shade; opened by the widget's + and the "Do later" launcher shortcut. |
+| `LaterActionActivity` | `later/` | Invisible, translucent activity behind the widget's rows: opens a saved notification or marks it done. |
 | `MainActivity` + `SnoozerNavigation` | `ui/` | Compose UI with an enum back stack (`Home`, `AccessGuide`, `Settings`). |
 
 ## System flow
@@ -58,6 +63,19 @@ Android has no public "unsnooze" call. When the switch turns off, the listener:
 3. Re-snoozes the rest for 1 second, so the system reposts them almost immediately.
 
 Persisting the keys is what lets a restore work after the process was killed or the phone restarted while snoozing.
+
+### Do later
+
+Saving one notification works like snoozing all of them, but per notification and without a time limit:
+
+1. The widget's **+** (or the **Do later** shortcut) opens `LaterPickerActivity`. Its sheet lists `CurrentNotifications.active` filtered by `NotificationSnapshot.candidates` (clearable, not Snoozer's own, not a group summary, not already saved).
+2. Tapping one calls `SnoozeRepository.addLater`, which stores the app name, title, text and time in `later_items`. Nothing else talks to the listener.
+3. The listener sees the new key, remembers the notification's tap action (`contentIntent`) in memory and snoozes it for a year. If it ever resurfaces (snooze expired, the app re-posted it), it is snoozed again; an update from the app also refreshes its text in the list. Unsnoozing all notifications leaves saved ones hidden.
+4. `SnoozerApp` pushes every change of `later_items` to the widget.
+5. Tapping a row opens `LaterActionActivity`. If the tap action is still in memory, it is sent with this visible activity's permission to start screens (Android 14+ needs that opt-in), and the item is released as **Dismiss**: the snoozed notification is cancelled. Otherwise (the process restarted, or the link no longer works) it is released as **Restore**: the notification is put back in the shade and its app is opened.
+6. The round button on a row releases the item as **Dismiss**.
+
+A release is written in the same transaction that removes the item (`later_releases`), and the listener takes and applies the requests when it is connected, so nothing is lost if the listener is disconnected at that moment.
 
 ### Persistent notification and mode
 
@@ -93,11 +111,13 @@ There is no database. Two Preferences DataStore files (names in `data/DataFiles.
 | `snoozer` | `snooze_enabled` | Boolean | The switch |
 | `snoozer` | `follow_bedtime`, `bedtime_last_active`, `bedtime_snoozed` | Boolean | Bedtime sync state and ownership |
 | `snoozer` | `snoozed_keys` | Set<String> | Keys to restore |
+| `snoozer` | `later_items` | String | Notifications saved for later (encoded by `LaterItems`, at most 100) |
+| `snoozer` | `later_releases` | Set<String> | Pending restore (`r:key`) or dismiss (`d:key`) requests from the widget |
 
 **Backup.** Android's own backup (to the Google account) and phone-to-phone transfer copy only
 `backed_up_settings` (`res/xml/data_extraction_rules.xml` for Android 12+, `res/xml/backup_rules.xml`
 for Android 8-11, guarded by `BackupRulesTest`). The `snoozer` file stays on the phone: notification
-keys are meaningless on another device, a restored "snoozing on" state would be surprising, and
+keys and saved notifications are meaningless on another device, a restored "snoozing on" state would be surprising, and
 Follow Bedtime needs adb-granted permissions that a new phone doesn't have. Settings that need a
 permission on the new phone (the persistent notification, the mode) come back switched on but show
 as blocked until the permission is granted, as they already do when it is revoked.

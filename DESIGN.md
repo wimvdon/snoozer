@@ -230,5 +230,10 @@ app apart from their package (and `R` import) lines. Copy a change to the other 
   snoozing, with a slow glow behind it. The launcher icon uses the same cookie shape.
 - Setup needed (no notification access): the toggle stays in the middle, disabled, with
   "Notification access needed" under it and an "Allow access" button that opens the guide.
-  No banner on top. Snoozer has no lists, so it leaves `EmptyState.kt`, `Skeleton.kt` and
+  No banner on top. Snoozer's only list is the "Save for later" bottom sheet, which lays out
+  its empty and setup states like `EmptyState`; it leaves `EmptyState.kt`, `Skeleton.kt` and
   `Reorder.kt` out.
+- "Do later" widget: matches Google Calendar and Tasks widgets. Title in the accent colour at
+  the top left, a round **+** in the primary container colour at the top right, rows with a
+  round "done" button in front, as in Google Tasks. On Android 12+ it always uses the wallpaper's
+  colours and the launcher's corner radius; below that, the app's own palette.

@@ -4,4 +4,17 @@
     <style name="Theme.Snoozer" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:windowBackground">@color/window_background</item>
     </style>
+
+    <!-- "Save for later" bottom sheet: a see-through window; Compose draws the sheet and its scrim. -->
+    <style name="Theme.Snoozer.Sheet" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
+
+    <!-- Invisible activity behind the widget's rows. Translucent (not NoDisplay) so it counts as
+         visible and may open the saved notification's own screen. -->
+    <style name="Theme.Snoozer.Trampoline" parent="android:Theme.Translucent.NoTitleBar">
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
 </resources>
