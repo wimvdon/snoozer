@@ -91,7 +91,7 @@
     <string name="guide_access_restricted_body">Si vous avez installé Snoozer en dehors d\'une boutique d\'applications, Android bloque d\'abord ce paramètre. Ouvrez Infos sur l\'appli, appuyez sur le menu ⋮ en haut, choisissez « Autoriser les paramètres restreints », puis réessayez.</string>
     <string name="guide_access_open_app_info">Ouvrir Infos sur l\'appli</string>
     <string name="guide_access_privacy_title">Votre confidentialité</string>
-    <string name="guide_access_privacy_body">Snoozer utilise cet accès uniquement pour mettre en pause et restaurer les notifications. Il ne lit, ne stocke ni ne partage jamais leur contenu, et n\'a pas accès à Internet.</string>
+    <string name="guide_access_privacy_body">Snoozer utilise cet accès uniquement pour mettre en pause et restaurer les notifications, et pour afficher celles que vous gardez pour plus tard. Ce que vous gardez reste sur votre téléphone, et l\'app n\'a pas accès à Internet.</string>
 
     <string name="guide_tile_title">Bloc Réglages rapides</string>
     <string name="guide_shortcuts_title">Raccourcis</string>
@@ -146,4 +146,21 @@
     <string name="theme_dark">Sombre</string>
     <string name="setting_dynamic_color_title">Couleurs dynamiques</string>
     <string name="setting_dynamic_color_summary">Utiliser les couleurs du fond d’écran</string>
+
+    <!-- "Do later": widget, bottom sheet and launcher shortcut -->
+    <string name="later_widget_title">À faire plus tard</string>
+    <string name="later_widget_description">Les notifications que vous avez mises de côté. Appuyez sur + pour en ajouter une.</string>
+    <string name="later_widget_empty">Rien pour plus tard. Appuyez sur + pour mettre une notification de côté.</string>
+    <string name="later_done">Terminé</string>
+    <string name="later_add">Garder une notification pour plus tard</string>
+    <string name="later_mark_done">Marquer « %1$s » comme terminé</string>
+    <string name="later_item_meta">%1$s · %2$s</string>
+    <string name="later_sheet_title">Garder pour plus tard</string>
+    <string name="later_sheet_empty">Aucune notification pour le moment</string>
+    <string name="later_sheet_empty_snoozing">La mise en pause est activée, les notifications sont donc mises de côté. Désactivez-la pour en choisir une.</string>
+    <string name="later_sheet_no_access">Snoozer a besoin de l\'accès aux notifications pour les garder pour plus tard.</string>
+    <string name="later_saved">Gardée pour plus tard</string>
+    <string name="later_restored">La notification est de retour dans vos notifications</string>
+    <string name="shortcut_later_short">Plus tard</string>
+    <string name="shortcut_later_long">Garder une notification pour plus tard</string>
 </resources>

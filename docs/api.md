@@ -65,6 +65,19 @@ Static shortcut `toggle_snooze` (`res/xml/shortcuts.xml`):
 | Exported | no; only the launcher (with Snoozer's identity) or gesture features such as Pixel Quick Tap can start it |
 | Effect | `toggleSnooze()`, then a toast "snoozed" / "unsnoozed". Without notification access it opens the access guide instead. |
 
+Static shortcut `save_for_later` (same file):
+
+| | |
+|---|---|
+| Target | `io.github.impca201.snoozer.later.LaterPickerActivity` |
+| Action | `io.github.impca201.snoozer.action.SAVE_FOR_LATER` |
+| Exported | no |
+| Effect | Opens the "Save for later" sheet. Without notification access the sheet offers **Allow access**. |
+
+## "Do later" widget
+
+`LaterWidgetProvider` (not exported; the widget host delivers its updates). Its rows start `LaterActionActivity` (not exported) through one mutable `PendingIntent` template that each row fills in with its notification key, package and `open` or `done`; the **+** starts `LaterPickerActivity` through an immutable `PendingIntent`. Neither activity returns data.
+
 ## Quick Settings tile
 
 `SnoozeTileService`, declared as `TOGGLEABLE_TILE`:

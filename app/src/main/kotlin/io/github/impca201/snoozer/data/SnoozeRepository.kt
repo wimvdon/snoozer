@@ -194,7 +194,61 @@ class SnoozeRepository(
         return taken
     }
 
+    /** Notifications saved for later, newest first; `null` until read. Device-only (not backed up). */
+    val laterItems: StateFlow<List<LaterItem>?> =
+        preferences
+            .map { LaterItems.decode(it[LATER_ITEMS]) }
+            .distinctUntilChanged()
+            .stateIn(scope, SharingStarted.Eagerly, null)
+
+    /** Keys of the saved notifications, for the listener's quick checks. */
+    fun laterKeys(): Set<String> = laterItems.value?.mapTo(HashSet()) { it.key }.orEmpty()
+
+    suspend fun addLater(item: LaterItem) {
+        dataStore.edit {
+            it[LATER_ITEMS] = LaterItems.encode(LaterItems.add(LaterItems.decode(it[LATER_ITEMS]), item))
+        }
+    }
+
+    /** Updates a saved notification's text when its app updates it; does nothing if it isn't saved. */
+    suspend fun refreshLater(update: LaterItem) {
+        dataStore.edit {
+            val current = LaterItems.decode(it[LATER_ITEMS])
+            if (current.none { item -> item.key == update.key }) return@edit
+            it[LATER_ITEMS] = LaterItems.encode(LaterItems.refresh(current, update))
+        }
+    }
+
+    /**
+     * Takes a notification off the list and asks the listener to [release] it, in one
+     * transaction, so the request survives the listener being disconnected right now.
+     */
+    suspend fun releaseLater(
+        key: String,
+        release: LaterRelease,
+    ) {
+        dataStore.edit {
+            it[LATER_ITEMS] = LaterItems.encode(LaterItems.remove(LaterItems.decode(it[LATER_ITEMS]), key))
+            it[LATER_RELEASES] = it[LATER_RELEASES].orEmpty() + release.encode(key)
+        }
+    }
+
+    /** Pending release requests; the listener applies them with [takeLaterReleases]. */
+    val laterReleasesPending: Flow<Boolean> =
+        preferences.map { !it[LATER_RELEASES].isNullOrEmpty() }.distinctUntilChanged()
+
+    suspend fun takeLaterReleases(): List<Pair<String, LaterRelease>> {
+        var taken: Set<String> = emptySet()
+        dataStore.edit {
+            taken = it[LATER_RELEASES].orEmpty()
+            it.remove(LATER_RELEASES)
+        }
+        return taken.mapNotNull(LaterRelease::decode)
+    }
+
     companion object {
+        private val LATER_ITEMS = stringPreferencesKey("later_items")
+        private val LATER_RELEASES = stringSetPreferencesKey("later_releases")
         private val SNOOZE_ENABLED = booleanPreferencesKey("snooze_enabled")
         private val TOAST_ENABLED = booleanPreferencesKey("toast_enabled")
         private val INDICATOR_ENABLED = booleanPreferencesKey("indicator_enabled")
