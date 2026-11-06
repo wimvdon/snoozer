@@ -20,7 +20,11 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import java.io.IOException
 
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = DataFiles.DEVICE_STATE)
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
+    name = DataFiles.DEVICE_STATE,
+    // Versions 1.5.1 to 1.5.3 stored "Do later" items here; delete them once.
+    produceMigrations = { listOf(RemoveKeysMigration(RemoveKeysMigration.DO_LATER_KEYS)) },
+)
 
 private val Context.settingsStore: DataStore<Preferences> by preferencesDataStore(
     name = DataFiles.BACKED_UP_SETTINGS,
@@ -194,83 +198,7 @@ class SnoozeRepository(
         return taken
     }
 
-    /** Notifications saved for later, newest first; `null` until read. Device-only (not backed up). */
-    val laterItems: StateFlow<List<LaterItem>?> =
-        preferences
-            .map { LaterItems.decode(it[LATER_ITEMS]) }
-            .distinctUntilChanged()
-            .stateIn(scope, SharingStarted.Eagerly, null)
-
-    /** Keys of the saved notifications, for the listener's quick checks. */
-    fun laterKeys(): Set<String> = laterItems.value?.mapTo(HashSet()) { it.key }.orEmpty()
-
-    /**
-     * Saves a notification for later and, in the same transaction, asks the listener to take it
-     * off the shade, so the request survives the listener being disconnected right now.
-     */
-    suspend fun addLater(item: LaterItem) {
-        dataStore.edit {
-            it[LATER_ITEMS] = LaterItems.encode(LaterItems.add(LaterItems.decode(it[LATER_ITEMS]), item))
-            it[LATER_RELEASES] = it[LATER_RELEASES].orEmpty() + LaterRelease.Remove.encode(item.key)
-            it[LATER_HIDDEN] = it[LATER_HIDDEN].orEmpty() - item.key // Saved again: show it again.
-        }
-    }
-
-    /** Opened from the widget or the shade: it leaves the list. */
-    suspend fun removeLater(key: String) {
-        dataStore.edit {
-            it[LATER_ITEMS] = LaterItems.encode(LaterItems.remove(LaterItems.decode(it[LATER_ITEMS]), key))
-            it[LATER_HIDDEN] = it[LATER_HIDDEN].orEmpty() - key
-        }
-    }
-
-    /** Keys of saved notifications the user swiped away in the shade; they stay in the widget. */
-    val laterHidden: StateFlow<Set<String>> =
-        preferences
-            .map { it[LATER_HIDDEN].orEmpty() }
-            .distinctUntilChanged()
-            .stateIn(scope, SharingStarted.Eagerly, emptySet())
-
-    suspend fun hideLater(key: String) {
-        dataStore.edit {
-            // Only keys still on the list, so the set can't grow without bound.
-            val saved = LaterItems.decode(it[LATER_ITEMS]).mapTo(HashSet()) { item -> item.key }
-            it[LATER_HIDDEN] = (it[LATER_HIDDEN].orEmpty() + key).filterTo(HashSet()) { hidden -> hidden in saved }
-        }
-    }
-
-    /**
-     * Once per install: the keys of notifications version 1.5.1 snoozed for a year, which keeps
-     * the app's new notifications under the same key hidden too. `null` when already done.
-     */
-    suspend fun takeLegacyLaterKeys(): Set<String>? {
-        var keys: Set<String>? = null
-        dataStore.edit {
-            if (it[LATER_NOT_SNOOZED] == true) return@edit
-            it[LATER_NOT_SNOOZED] = true
-            keys = LaterItems.decode(it[LATER_ITEMS]).mapTo(HashSet()) { item -> item.key }
-        }
-        return keys
-    }
-
-    /** Pending release requests; the listener applies them with [takeLaterReleases]. */
-    val laterReleasesPending: Flow<Boolean> =
-        preferences.map { !it[LATER_RELEASES].isNullOrEmpty() }.distinctUntilChanged()
-
-    suspend fun takeLaterReleases(): List<Pair<String, LaterRelease>> {
-        var taken: Set<String> = emptySet()
-        dataStore.edit {
-            taken = it[LATER_RELEASES].orEmpty()
-            it.remove(LATER_RELEASES)
-        }
-        return taken.mapNotNull(LaterRelease::decode)
-    }
-
     companion object {
-        private val LATER_ITEMS = stringPreferencesKey("later_items")
-        private val LATER_RELEASES = stringSetPreferencesKey("later_releases")
-        private val LATER_NOT_SNOOZED = booleanPreferencesKey("later_not_snoozed")
-        private val LATER_HIDDEN = stringSetPreferencesKey("later_hidden")
         private val SNOOZE_ENABLED = booleanPreferencesKey("snooze_enabled")
         private val TOAST_ENABLED = booleanPreferencesKey("toast_enabled")
         private val INDICATOR_ENABLED = booleanPreferencesKey("indicator_enabled")

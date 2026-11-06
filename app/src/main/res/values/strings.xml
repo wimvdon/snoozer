@@ -101,7 +101,7 @@
     <string name="guide_access_restricted_body">If you installed Snoozer from outside an app store, Android blocks this setting at first. Open App info, tap the ⋮ menu in the top corner, choose \"Allow restricted settings\", and try again.</string>
     <string name="guide_access_open_app_info">Open App info</string>
     <string name="guide_access_privacy_title">Your privacy</string>
-    <string name="guide_access_privacy_body">Snoozer only uses this access to snooze and restore notifications, and to show the ones you save for later. What you save stays on your phone, and Snoozer has no internet access.</string>
+    <string name="guide_access_privacy_body">Snoozer only uses this access to snooze and restore notifications. It never reads, stores or shares their content, and it has no internet access.</string>
 
     <!-- Guide: Quick Settings tile and launcher shortcut -->
     <string name="guide_tile_title">Quick Settings tile</string>
@@ -160,25 +160,4 @@
     <string name="theme_dark">Dark</string>
     <string name="setting_dynamic_color_title">Dynamic color</string>
     <string name="setting_dynamic_color_summary">Use colors from your wallpaper</string>
-
-    <!-- "Do later": widget, bottom sheet and launcher shortcut -->
-    <string name="later_widget_title">Do later</string>
-    <string name="later_widget_description">Notifications you put aside for later. Tap + to add one.</string>
-    <string name="later_widget_empty">Nothing for later. Tap + to put a notification aside.</string>
-    <string name="later_add">Save a notification for later</string>
-    <string name="later_item_meta">%1$s · %2$s</string>
-    <string name="later_sheet_title">Save for later</string>
-    <string name="later_sheet_empty">No notifications right now</string>
-    <string name="later_sheet_empty_snoozing">Snoozing is on, so notifications are put aside. Unsnooze to pick one.</string>
-    <string name="later_sheet_no_access">Snoozer needs notification access to save notifications for later.</string>
-    <string name="later_saved">Saved for later</string>
-    <string name="later_open_failed">Couldn\'t open the notification\'s app</string>
-    <string name="shortcut_later_short">Do later</string>
-    <string name="shortcut_later_long">Save a notification for later</string>
-    <string name="later_channel_name">Do later</string>
-    <string name="later_channel_description">Notifications you saved for later. Swiping one away only hides it here; it stays in the widget.</string>
-    <plurals name="later_summary">
-        <item quantity="one">%d notification for later</item>
-        <item quantity="other">%d notifications for later</item>
-    </plurals>
 </resources>

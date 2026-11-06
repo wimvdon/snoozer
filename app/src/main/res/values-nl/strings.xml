@@ -90,7 +90,7 @@
     <string name="guide_access_restricted_body">Als je Snoozer buiten een appwinkel hebt geïnstalleerd, blokkeert Android deze instelling eerst. Open App-info, tik op het ⋮-menu in de hoek, kies \"Beperkte instellingen toestaan\" en probeer het opnieuw.</string>
     <string name="guide_access_open_app_info">App-info openen</string>
     <string name="guide_access_privacy_title">Je privacy</string>
-    <string name="guide_access_privacy_body">Snoozer gebruikt deze toegang alleen om meldingen te snoozen en terug te zetten, en om de meldingen te tonen die je voor later bewaart. Wat je bewaart blijft op je telefoon, en de app heeft geen internettoegang.</string>
+    <string name="guide_access_privacy_body">Snoozer gebruikt deze toegang alleen om meldingen te snoozen en terug te zetten. De inhoud wordt nooit gelezen, opgeslagen of gedeeld, en de app heeft geen internettoegang.</string>
 
     <string name="guide_tile_title">Snelle instellingen-tegel</string>
     <string name="guide_shortcuts_title">Snelkoppelingen</string>
@@ -145,25 +145,4 @@
     <string name="theme_dark">Donker</string>
     <string name="setting_dynamic_color_title">Dynamische kleuren</string>
     <string name="setting_dynamic_color_summary">Kleuren van je achtergrond gebruiken</string>
-
-    <!-- "Do later": widget, bottom sheet and launcher shortcut -->
-    <string name="later_widget_title">Doe later</string>
-    <string name="later_widget_description">Meldingen die je voor later hebt bewaard. Tik op + om er een toe te voegen.</string>
-    <string name="later_widget_empty">Niets voor later. Tik op + om een melding te bewaren.</string>
-    <string name="later_add">Melding bewaren voor later</string>
-    <string name="later_item_meta">%1$s · %2$s</string>
-    <string name="later_sheet_title">Bewaren voor later</string>
-    <string name="later_sheet_empty">Er zijn nu geen meldingen</string>
-    <string name="later_sheet_empty_snoozing">Snoozen staat aan, dus meldingen worden opzijgezet. Zet snoozen uit om er een te kiezen.</string>
-    <string name="later_sheet_no_access">Snoozer heeft meldingstoegang nodig om meldingen voor later te bewaren.</string>
-    <string name="later_saved">Bewaard voor later</string>
-    <string name="later_open_failed">De app van deze melding kon niet worden geopend</string>
-    <string name="shortcut_later_short">Doe later</string>
-    <string name="shortcut_later_long">Melding bewaren voor later</string>
-    <string name="later_channel_name">Doe later</string>
-    <string name="later_channel_description">Meldingen die je voor later hebt bewaard. Wegvegen verbergt een melding alleen hier; in de widget blijft hij staan.</string>
-    <plurals name="later_summary">
-        <item quantity="one">%d melding voor later</item>
-        <item quantity="other">%d meldingen voor later</item>
-    </plurals>
 </resources>

@@ -29,23 +29,6 @@ Snoozing survives app restarts and phone reboots. After a reboot, unsnoozing sti
 | **Persistent notification** | Settings › **Persistent notification** | **Unsnooze** button while snoozing |
 | **Tasker and similar apps** | See [Automation](#automation) | Snooze, Unsnooze or Toggle from any task |
 
-## Do later
-
-Put single notifications aside until you have time for them.
-
-1. Long-press the home screen, tap **Widgets**, find **Snoozer** and drag **Do later** to the home screen.
-2. Tap **+** on the widget. A sheet lists the notifications in your shade. Tap one: it leaves the shade and appears in the widget.
-3. Tap a notification in the widget to open it, as if you tapped the notification itself. It leaves the list.
-
-Saved notifications are also shown at the bottom of your notification shade, collapsed and silent, with the icon of the original notification. Tapping one there opens it too. Swiping one away only hides it in the shade; it stays in the widget. To turn these off: Settings › Apps › Snoozer › Notifications › **Do later**.
-
-Without the widget: long-press the Snoozer icon and choose **Do later**; the same sheet opens.
-
-Good to know:
-- A saved notification is removed from the shade, not snoozed, so new notifications from the same app (also in the same chat) still arrive as usual. Saving one of those replaces the saved item.
-- After the phone or Snoozer restarts, opening a saved notification opens its app instead of the exact screen, because Android forgets the notification's own link.
-- While snoozing is on, the shade is empty, so the sheet has nothing to offer.
-
 ## Settings
 
 Open the cogwheel on the home screen.
@@ -99,5 +82,3 @@ Contract details: [api.md](api.md).
 | Persistent notification doesn't appear | Allow notifications for Snoozer (Android 13+); the setting opens the right screen if they are blocked |
 | Mode setting has no effect | Grant Do Not Disturb access when asked; requires Android 15+ |
 | Follow Bedtime says "Setup needed" after reinstall | Re-run the two adb commands |
-| A saved notification opens its app instead of the right chat | Snoozer or the phone restarted, so the notification's own link was lost |
-| After using version 1.5.1, new notifications from an app stay away | 1.5.1 snoozed saved notifications for a year, which also hid new ones under the same key. 1.5.2 brings back those still in the widget. For one you already opened, open the chat or item in its app once; most apps then clear it |

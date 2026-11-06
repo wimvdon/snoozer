@@ -41,19 +41,9 @@ snoozer/
         │   │   │   └── ProtoReader.kt         Minimal protobuf wire-format reader
         │   │   ├── data/
         │   │   │   ├── Appearance.kt          Theme choice (system / light / dark)
-        │   │   │   ├── LaterItems.kt          "Do later" list rules and storage format
-        │   │   │   ├── NotificationSnapshot.kt  Shade entry without Android types; what the sheet offers
+        │   │   │   ├── RemoveKeysMigration.kt Deletes data of the removed "Do later" feature
         │   │   │   └── SnoozeRepository.kt
-        │   │   ├── later/
-        │   │   │   ├── LaterActionActivity.kt Widget row taps: open a saved notification
-        │   │   │   ├── LaterIcons.kt          Stored notification icons; widget badges
-        │   │   │   ├── LaterNotifications.kt  Saved notifications in the shade
-        │   │   │   ├── LaterPickerActivity.kt "Save for later" bottom sheet (widget + and shortcut)
-        │   │   │   ├── LaterWidget.kt         Builds the widget's RemoteViews
-        │   │   │   ├── LaterWidgetProvider.kt The widget's AppWidgetProvider
-        │   │   │   └── LaterWidgetService.kt  Widget rows, one at a time
         │   │   ├── service/
-        │   │   │   ├── CurrentNotifications.kt  In-memory shade view and saved tap actions
         │   │   │   ├── NotificationAccess.kt
         │   │   │   ├── SnoozeIndicator.kt     Persistent notification + UnsnoozeReceiver
         │   │   │   ├── SnoozeListenerService.kt
@@ -73,22 +63,18 @@ snoozer/
         │   │       ├── SnoozerNavigation.kt   Back stack, permission requests, screen wiring
         │   │       ├── guide/                 Notification access guide + shared guide widgets
         │   │       ├── home/                  Snooze toggle, glow, expressive shapes
-        │   │       ├── later/                 "Save for later" sheet
         │   │       ├── settings/              Settings screen: one list of sections
         │   │       └── theme/                 Material 3 theme, dynamic colour, shapes, motion, settings kit
         │   └── res/
-        │       ├── drawable/                  Vector icons (launcher, tile, settings), widget shapes
-        │       ├── layout/                    "Do later" widget (RemoteViews only; screens are Compose)
+        │       ├── drawable/                  Vector icons (launcher, tile, settings)
         │       ├── mipmap-anydpi/             Adaptive launcher icons
         │       ├── values/ values-night/      Colours, themes, English strings
-        │       ├── values-v31/ values-night-v31/  Widget colours from the wallpaper (Android 12+)
         │       ├── values-{nl,fr,de,es,it}/   Translations
-        │       └── xml/                       Shortcuts, widget info, backup rules (the locale list is generated)
+        │       └── xml/                       Shortcuts, backup rules (the locale list is generated)
         └── test/kotlin/io/github/impca201/snoozer/
             ├── bedtime/BedtimeMonitorTest.kt
             ├── bedtime/BedtimeParserTest.kt
-            ├── data/LaterItemsTest.kt
-            ├── data/NotificationSnapshotTest.kt
+            ├── data/RemoveKeysMigrationTest.kt
             └── tasker/TaskerContractTest.kt
 ```
 
@@ -100,7 +86,7 @@ The app has three layers, enforced by convention rather than modules:
 |---|---|---|
 | **State** | `data/` | Only place that reads or writes DataStore. Exposes `StateFlow`s and suspend operations. No Android UI or service code. |
 | **Effects** | `service/`, `bedtime/`, `SnoozerApp.kt` | Talk to platform APIs (listener, notifications, zen rules, dumpsys). They react to state and never hold their own copy of the switch. |
-| **Entry points** | `ui/`, `tile/`, `shortcut/`, `tasker/`, `later/`, `UnsnoozeReceiver` | Translate user or automation input into repository calls. They must not snooze notifications directly. |
+| **Entry points** | `ui/`, `tile/`, `shortcut/`, `tasker/`, `UnsnoozeReceiver` | Translate user or automation input into repository calls. They must not snooze notifications directly. |
 
 ## What does NOT go where
 
