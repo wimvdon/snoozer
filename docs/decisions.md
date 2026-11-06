@@ -1,36 +1,8 @@
 # Technical decisions
 
-## 2026-11-05: Saved notifications also in the shade, with their icons
+## 2026-11-06: "Do later" removed
 
-The owner wants saved notifications where notifications belong, and kept the widget.
-
-- **Snoozer's own notification per saved item**, on a `MIN` channel ("Do later"): silent, collapsed at the bottom of the shade, no status bar icon. One group with a summary, so they fold together. Users can switch the channel off in system settings.
-- **Swiping is not blocked** (the owner's choice), and it only hides the item in the shade (`later_hidden`), so an accidental swipe loses nothing: it stays in the widget. Rejected: reposting after a swipe (as the persistent snooze notification does), which would fight the user.
-- **The original's icon:** its small icon is drawn as a white PNG when it is saved and kept in the no-backup folder, so it survives restarts after the original is gone. In the shade it is the small icon (bitmap) with the original colour; the widget draws it on a circle in that colour, as the shade does. Older items, or an icon that can't be read, get Snoozer's bell. Rejected: reusing the other app's icon resource directly (not allowed for another package's notification, and gone if the app updates).
-- **Widget rows come from `RemoteViewsService` on every Android version** now. With an icon per row, `RemoteCollectionItems` would send the whole list in one binder transaction, which can exceed its 1 MB limit.
-- Saving asks for the notification permission on Android 13+ when it is missing; without it the widget still works.
-
-## 2026-11-05: Do later no longer snoozes; no done button
-
-Version 1.5.1 hid a saved notification by snoozing it for a year. Android then keeps that key snoozed, and many apps post every new notification of a chat (some apps: everything) under the same key, so those new notifications never appeared. Cancelling a snoozed notification from a listener also does nothing, so opening an item didn't end it either.
-
-- **Saved notifications are copied and removed from the shade** (cancelled) instead. The widget shows the stored copy; the tap action stays in memory as before. After a restart, opening it opens the app, because a cancelled notification can't be restored. A cancel lets the app know the notification was dismissed (its delete intent), as a swipe would.
-- **One-time repair:** keys still in the widget from 1.5.1 are snoozed for a second so they come back, then cancelled again. Keys of items already opened in 1.5.1 aren't known any more; the app clears them when the user opens that chat or item.
-- **No done button** (the owner's choice): tapping a row opens it, which also takes it off the list.
-
-## 2026-11-05: "Do later" widget
-
-Single notifications can be put aside in a home screen widget and opened from there later.
-
-- **No button on the notification itself.** Android doesn't let an app change another app's notification, and posting a second notification next to every notification would double the shade. The choice is made in a bottom sheet instead, opened from the widget's **+** or the **Do later** launcher shortcut.
-- **Hidden by snoozing, not dismissing** (replaced the same day, see above). A saved notification is snoozed for a year and re-snoozed whenever it resurfaces, so Android keeps the real notification with its own tap action, and Snoozer can put it back in the shade.
-- **Opening uses the notification's own link** (its `contentIntent`, kept in memory) from a translucent activity, which counts as visible and on Android 14+ lends its permission to start screens. A `PendingIntent` can't be stored, so after a restart Snoozer restores the notification and opens its app instead. To find that app's launch screen, the manifest declares a `MAIN`/`LAUNCHER` `<queries>` intent (package visibility, no permission).
-- **Notification content is stored now,** but only for notifications the user picks: app name, title, text and time, in the device-only `snoozer` file (not backed up), at most 100, deleted when opened. `PRIVACY.md` and the access guide's privacy text say so.
-- **Plain `RemoteViews`, no Jetpack Glance.** Glance would be a new dependency for one small widget. (Rows: see "Saved notifications also in the shade".)
-- **Looks like Google's widgets.** On Android 12+ the colours come from the wallpaper (`system_accent*`/`system_neutral*`) and the corners from the launcher (`system_app_widget_background_radius`), whatever the app's own Dynamic color setting is; older versions use the app's palette.
-- **Storage without a new library:** the list is one string in Preferences DataStore with control-character separators (`LaterItems`), unit tested, instead of Room or kotlinx.serialization.
-
-The app's own screens don't show the list yet; that comes in a later change.
+The "Do later" feature of versions 1.5.1 to 1.5.3 (a widget and quiet notifications for single notifications put aside) is removed at the owner's request; the code is back to how it was before. One cleanup stays, because those versions stored notification titles and texts on the phone: `RemoveKeysMigration` deletes their keys from the device-state file, and `SnoozerApp` deletes the `later` notification channel (and with it any of its notifications) and the stored icons. It can be dropped once no phone runs 1.5.1 to 1.5.3 any more. A widget or "Do later" shortcut already on a home screen is removed or greyed out by the launcher, because its target no longer exists.
 
 ## 2026-11-01: Claude Code sessions don't build the APK before pushing
 
@@ -173,7 +145,7 @@ Android exposes no API for "which mode is active" to third-party apps. The only 
 
 ## Privacy by construction
 
-There is no `INTERNET` permission and no analytics SDK. Backups and device transfers copy only the settings (see "Settings are backed up" above). `dependenciesInfo.includeInApk = false` drops the Google Play dependency blob. Notification content is only read for the "Do later" sheet and stored only for the notifications the user saves there (see 2026-11-05); otherwise only the posting app's label is read, for the optional toast.
+There is no `INTERNET` permission and no analytics SDK. Backups and device transfers copy only the settings (see "Settings are backed up" above). `dependenciesInfo.includeInApk = false` drops the Google Play dependency blob. Notification content is never read; only the posting app's label is read, for the optional toast.
 
 ## Release signing only in CI
 

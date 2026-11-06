@@ -1,15 +1,13 @@
 package io.github.impca201.snoozer
 
 import android.app.Application
+import android.app.NotificationManager
 import android.content.ComponentName
 import android.content.Context
 import android.service.notification.NotificationListenerService
 import android.service.quicksettings.TileService
 import android.util.Log
 import io.github.impca201.snoozer.data.SnoozeRepository
-import io.github.impca201.snoozer.later.LaterIcons
-import io.github.impca201.snoozer.later.LaterNotifications
-import io.github.impca201.snoozer.later.LaterWidget
 import io.github.impca201.snoozer.service.NotificationAccess
 import io.github.impca201.snoozer.service.SnoozeIndicator
 import io.github.impca201.snoozer.service.SnoozeListenerService
@@ -22,6 +20,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
+import java.io.File
 
 class SnoozerApp : Application() {
     /** Process-wide scope for work that must outlive a single screen, receiver or tile click. */
@@ -32,7 +31,7 @@ class SnoozerApp : Application() {
     override fun onCreate() {
         super.onCreate()
         SnoozeIndicator.createChannel(this)
-        LaterNotifications.createChannel(this)
+        removeDoLaterLeftovers()
         appScope.launch {
             repository.snoozeEnabled.filterNotNull().collect { onSnoozeStateChanged() }
         }
@@ -44,11 +43,16 @@ class SnoozerApp : Application() {
             ) { _, _, _ -> }
                 .collect { refreshSnoozeCues() }
         }
-        appScope.launch {
-            // The widget and the shade show the saved list, whoever changed it.
-            combine(repository.laterItems.filterNotNull(), repository.laterHidden) { _, _ -> }
-                .collect { refreshLaterViews() }
-        }
+    }
+
+    /**
+     * Versions 1.5.1 to 1.5.3 had a "Do later" feature. Deleting its notification channel also
+     * removes its notifications; its icons lived in the no-backup folder. Its stored items are
+     * deleted by [io.github.impca201.snoozer.data.RemoveKeysMigration].
+     */
+    private fun removeDoLaterLeftovers() {
+        runCatching { getSystemService(NotificationManager::class.java)?.deleteNotificationChannel("later") }
+        appScope.launch(Dispatchers.IO) { File(noBackupFilesDir, "later_icons").deleteRecursively() }
     }
 
     /** True while the persistent "Snoozing notifications" notification should be visible. */
@@ -69,17 +73,6 @@ class SnoozerApp : Application() {
             active = repository.snoozeEnabled.value == true && NotificationAccess.isGranted(this),
             name = repository.modeName.value,
         )
-    }
-
-    /** Redraws the "Do later" widget and Snoozer's notifications for the saved list. */
-    fun refreshLaterViews() {
-        // Off the main thread: it reads and draws an icon per saved notification.
-        appScope.launch {
-            val items = repository.laterItems.value ?: return@launch
-            LaterWidget.update(this@SnoozerApp, items)
-            LaterNotifications.sync(this@SnoozerApp, items, repository.laterHidden.value)
-            LaterIcons.prune(this@SnoozerApp, items.map { it.key })
-        }
     }
 
     /** Keeps every surface (tile, listener) in sync no matter where the toggle came from. */

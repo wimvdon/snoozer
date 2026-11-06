@@ -19,7 +19,6 @@ Snoozer is an Android app that snoozes every notification on the phone with one 
 
 - **What it does:** while snoozing is on, every clearable notification, including new ones, is snoozed through Android's notification listener API. Turning it off restores all of them.
 - **What problem it solves:** Do Not Disturb only silences notifications; they still pile up in the shade. Snoozer clears the shade without dismissing anything, and calls, alarms, media controls, navigation and other non-dismissible notifications stay untouched.
-- **Do later:** a home screen widget keeps single notifications aside until you open them. Tap **+** to pick one from your shade.
 - **Real use case:** focus time, meetings or bedtime. Toggle from the app, a Quick Settings tile, a launcher shortcut, Pixel Quick Tap, or automatically via Tasker or Pixel Bedtime mode.
 
 No internet permission, no analytics ([privacy policy](PRIVACY.md)). Android 8.0+, in English, Dutch, French, German, Spanish and Italian.
@@ -45,7 +44,7 @@ cd snoozer
 | Language | Kotlin 2.4, coroutines and `StateFlow` |
 | UI | Jetpack Compose, Material 3 (dynamic colour), `androidx.graphics:graphics-shapes` |
 | Storage | Jetpack DataStore (Preferences) |
-| Platform APIs | `NotificationListenerService`, `TileService`, `AppWidgetProvider` (`RemoteViews`), `AutomaticZenRule` (modes), app shortcuts, Locale/Tasker plug-in intents |
+| Platform APIs | `NotificationListenerService`, `TileService`, `AutomaticZenRule` (modes), app shortcuts, Locale/Tasker plug-in intents |
 | Build | Gradle 9.8 (Kotlin DSL, version catalog), AGP 9.4, R8 |
 | CI/CD | GitHub Actions: tests, lint and an installable debug APK on every pull request; versioned, signed release APKs; Dependabot |
 | Tests | JUnit 4 (JVM unit tests) |

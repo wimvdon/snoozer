@@ -90,7 +90,7 @@
     <string name="guide_access_restricted_body">Wenn du Snoozer außerhalb eines App-Stores installiert hast, sperrt Android diese Einstellung zunächst. Öffne die App-Info, tippe oben auf das ⋮-Menü, wähle „Eingeschränkte Einstellungen zulassen“ und versuche es erneut.</string>
     <string name="guide_access_open_app_info">App-Info öffnen</string>
     <string name="guide_access_privacy_title">Deine Privatsphäre</string>
-    <string name="guide_access_privacy_body">Snoozer nutzt diesen Zugriff nur, um Benachrichtigungen schlummern zu lassen und wiederherzustellen und um die anzuzeigen, die du für später aufhebst. Was du aufhebst, bleibt auf deinem Smartphone, und die App hat keinen Internetzugriff.</string>
+    <string name="guide_access_privacy_body">Snoozer nutzt diesen Zugriff nur, um Benachrichtigungen schlummern zu lassen und wiederherzustellen. Inhalte werden nie gelesen, gespeichert oder geteilt, und die App hat keinen Internetzugriff.</string>
 
     <string name="guide_tile_title">Schnelleinstellungs-Kachel</string>
     <string name="guide_shortcuts_title">Verknüpfungen</string>
@@ -145,25 +145,4 @@
     <string name="theme_dark">Dunkel</string>
     <string name="setting_dynamic_color_title">Dynamische Farben</string>
     <string name="setting_dynamic_color_summary">Farben deines Hintergrundbilds verwenden</string>
-
-    <!-- "Do later": widget, bottom sheet and launcher shortcut -->
-    <string name="later_widget_title">Später erledigen</string>
-    <string name="later_widget_description">Benachrichtigungen, die du für später aufgehoben hast. Tippe auf +, um eine hinzuzufügen.</string>
-    <string name="later_widget_empty">Nichts für später. Tippe auf +, um eine Benachrichtigung aufzuheben.</string>
-    <string name="later_add">Benachrichtigung für später aufheben</string>
-    <string name="later_item_meta">%1$s · %2$s</string>
-    <string name="later_sheet_title">Für später aufheben</string>
-    <string name="later_sheet_empty">Gerade keine Benachrichtigungen</string>
-    <string name="later_sheet_empty_snoozing">Schlummern ist an, deshalb werden Benachrichtigungen beiseitegelegt. Beende das Schlummern, um eine auszuwählen.</string>
-    <string name="later_sheet_no_access">Snoozer braucht Zugriff auf Benachrichtigungen, um sie für später aufzuheben.</string>
-    <string name="later_saved">Für später aufgehoben</string>
-    <string name="later_open_failed">Die App dieser Benachrichtigung konnte nicht geöffnet werden</string>
-    <string name="shortcut_later_short">Später</string>
-    <string name="shortcut_later_long">Benachrichtigung für später aufheben</string>
-    <string name="later_channel_name">Später erledigen</string>
-    <string name="later_channel_description">Benachrichtigungen, die du für später aufgehoben hast. Wegwischen blendet sie nur hier aus; im Widget bleiben sie.</string>
-    <plurals name="later_summary">
-        <item quantity="one">%d Benachrichtigung für später</item>
-        <item quantity="other">%d Benachrichtigungen für später</item>
-    </plurals>
 </resources>
