@@ -1,5 +1,11 @@
 # Technical decisions
 
+## 2026-11-09: No Quick Tap guide in the app
+
+The Shortcuts section no longer has the "Gesture: tap the back of your phone" guide, at the
+owner's request. The shortcut still works with Pixel Quick Tap and similar features
+(`docs/usage.md` keeps how to set it up).
+
 ## 2026-11-09: The shortcut is back in the manifest, no relay
 
 Pixel Quick Tap shows no settings gear for an app without manifest shortcuts: the dynamic

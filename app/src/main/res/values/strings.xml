@@ -53,7 +53,6 @@
     <string name="bedtime_step3">Connect your phone to a computer that has Android\'s platform tools (adb) and allow USB debugging when your phone asks.</string>
     <string name="bedtime_step4">Tap Copy commands, send the commands to the computer, and run them there in a command window.</string>
     <string name="bedtime_step5">Come back here and tap Check now.</string>
-    <string name="guide_gesture_pixel_only">Only available on Pixel phones.</string>
     <string name="mode_trigger_description">While Snoozer is snoozing notifications</string>
     <string name="setting_indicator_title">Show persistent notification</string>
     <string name="setting_indicator_summary">A silent notification with an Unsnooze button while snoozing</string>
@@ -106,7 +105,7 @@
     <!-- Guide: Quick Settings tile and launcher shortcut -->
     <string name="guide_tile_title">Quick Settings tile</string>
     <string name="guide_shortcuts_title">Shortcuts</string>
-    <string name="guide_shortcuts_intro">Snooze or unsnooze without opening the app: from Quick Settings, your home screen or a gesture.</string>
+    <string name="guide_shortcuts_intro">Snooze or unsnooze without opening the app: from Quick Settings or your home screen.</string>
     <string name="guide_tile_quick_add_body">Your phone can add the tile for you. Tap the button and confirm.</string>
     <string name="guide_tile_quick_add_button">Add tile</string>
     <string name="guide_tile_result_added">Tile added. Swipe down to find it.</string>
@@ -121,12 +120,6 @@
     <string name="guide_shortcut_step1">Touch and hold the %1$s app icon.</string>
     <string name="guide_shortcut_step2">Tap \"%1$s\" to switch snoozing on or off instantly.</string>
     <string name="guide_shortcut_step3">Optional: drag the shortcut onto your home screen for one-tap access.</string>
-    <string name="guide_gesture_title">Gesture: tap the back of your phone</string>
-    <string name="guide_gesture_step1">Open Settings › System › Gestures › Quick Tap to start actions.</string>
-    <string name="guide_gesture_step2">Turn on Quick Tap and choose Open app.</string>
-    <string name="guide_gesture_step3">Tap the settings icon next to %1$s and pick the \"%2$s\" shortcut.</string>
-    <string name="guide_gesture_step4">Double-tap the back of your phone to snooze or unsnooze.</string>
-    <string name="guide_gesture_other">On other phones, look for a back-tap or gesture feature that can open an app shortcut, such as RegiStar in Samsung\'s Good Lock.</string>
 
     <!-- Guide: Tasker -->
     <string name="guide_tasker_title">Tasker plugin</string>

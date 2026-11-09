@@ -47,7 +47,6 @@
     <string name="bedtime_step3">Verbinde dein Smartphone mit einem Computer mit den Android-Plattformtools (adb) und erlaube USB-Debugging, wenn dein Smartphone fragt.</string>
     <string name="bedtime_step4">Tippe auf Befehle kopieren, schick die Befehle an den Computer und führe sie dort in einem Befehlsfenster aus.</string>
     <string name="bedtime_step5">Komm hierher zurück und tippe auf Jetzt prüfen.</string>
-    <string name="guide_gesture_pixel_only">Nur auf Pixel-Smartphones verfügbar.</string>
     <string name="mode_trigger_description">Während Snoozer Benachrichtigungen schlummern lässt</string>
     <string name="setting_indicator_title">Dauerhafte Benachrichtigung anzeigen</string>
     <string name="setting_indicator_summary">Eine lautlose Benachrichtigung mit Aufwecken-Button, solange Benachrichtigungen schlummern</string>
@@ -94,7 +93,7 @@
 
     <string name="guide_tile_title">Schnelleinstellungs-Kachel</string>
     <string name="guide_shortcuts_title">Verknüpfungen</string>
-    <string name="guide_shortcuts_intro">Schlummern oder aufwecken, ohne die App zu öffnen: über die Schnelleinstellungen, den Startbildschirm oder eine Geste.</string>
+    <string name="guide_shortcuts_intro">Schlummern oder aufwecken, ohne die App zu öffnen: über die Schnelleinstellungen oder den Startbildschirm.</string>
     <string name="guide_tile_quick_add_body">Dein Smartphone kann die Kachel für dich hinzufügen. Tippe auf den Button und bestätige.</string>
     <string name="guide_tile_quick_add_button">Kachel hinzufügen</string>
     <string name="guide_tile_result_added">Kachel hinzugefügt. Wische nach unten, um sie zu finden.</string>
@@ -109,12 +108,6 @@
     <string name="guide_shortcut_step1">Halte das App-Symbol von %1$s gedrückt.</string>
     <string name="guide_shortcut_step2">Tippe auf „%1$s“, um das Schlummern sofort ein- oder auszuschalten.</string>
     <string name="guide_shortcut_step3">Optional: Ziehe die Verknüpfung auf den Startbildschirm, um sie mit einem Tippen zu erreichen.</string>
-    <string name="guide_gesture_title">Geste: auf die Rückseite tippen</string>
-    <string name="guide_gesture_step1">Öffne Einstellungen › System › Bewegungen › Quick Tap zum Starten von Aktionen.</string>
-    <string name="guide_gesture_step2">Aktiviere Quick Tap und wähle App öffnen.</string>
-    <string name="guide_gesture_step3">Tippe auf das Einstellungssymbol neben %1$s und wähle die Verknüpfung „%2$s“.</string>
-    <string name="guide_gesture_step4">Tippe zweimal auf die Rückseite deines Smartphones, um Benachrichtigungen schlummern zu lassen oder aufzuwecken.</string>
-    <string name="guide_gesture_other">Suche auf anderen Geräten nach einer Rückseiten-Tipp- oder Gestenfunktion, die eine App-Verknüpfung öffnen kann, z. B. RegiStar in Samsungs Good Lock.</string>
 
     <string name="guide_tasker_title">Tasker-Plug-in</string>
     <string name="guide_tasker_intro">%1$s ist ein Tasker-Plug-in. Lass Tasker deine Benachrichtigungen automatisch schlummern, zum Beispiel zur Schlafenszeit, in Besprechungen oder beim Autofahren.</string>

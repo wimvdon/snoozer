@@ -47,7 +47,6 @@
     <string name="bedtime_step3">Verbind je telefoon met een computer met de platformtools van Android (adb) en sta USB-foutopsporing toe als je telefoon erom vraagt.</string>
     <string name="bedtime_step4">Tik op Opdrachten kopiëren, stuur de opdrachten naar de computer en voer ze daar uit in een opdrachtvenster.</string>
     <string name="bedtime_step5">Kom hier terug en tik op Nu controleren.</string>
-    <string name="guide_gesture_pixel_only">Alleen beschikbaar op Pixel-telefoons.</string>
     <string name="mode_trigger_description">Terwijl Snoozer meldingen snoozet</string>
     <string name="setting_indicator_title">Permanente melding tonen</string>
     <string name="setting_indicator_summary">Een stille melding met een knop Stop snoozen zolang je snoozet</string>
@@ -94,7 +93,7 @@
 
     <string name="guide_tile_title">Snelle instellingen-tegel</string>
     <string name="guide_shortcuts_title">Snelkoppelingen</string>
-    <string name="guide_shortcuts_intro">Snooze of stop snoozen zonder de app te openen: via snelle instellingen, je startscherm of een gebaar.</string>
+    <string name="guide_shortcuts_intro">Snooze of stop snoozen zonder de app te openen: via snelle instellingen of je startscherm.</string>
     <string name="guide_tile_quick_add_body">Je telefoon kan de tegel voor je toevoegen. Tik op de knop en bevestig.</string>
     <string name="guide_tile_quick_add_button">Tegel toevoegen</string>
     <string name="guide_tile_result_added">Tegel toegevoegd. Veeg omlaag om hem te vinden.</string>
@@ -109,12 +108,6 @@
     <string name="guide_shortcut_step1">Houd het app-icoon van %1$s ingedrukt.</string>
     <string name="guide_shortcut_step2">Tik op \"%1$s\" om snoozen direct aan of uit te zetten.</string>
     <string name="guide_shortcut_step3">Optioneel: sleep de snelkoppeling naar je startscherm voor toegang met één tik.</string>
-    <string name="guide_gesture_title">Gebaar: tik op de achterkant van je telefoon</string>
-    <string name="guide_gesture_step1">Open Instellingen › Systeem › Gebaren › Quick Tap om acties te starten.</string>
-    <string name="guide_gesture_step2">Zet Quick Tap aan en kies App openen.</string>
-    <string name="guide_gesture_step3">Tik op het instellingenicoon naast %1$s en kies de snelkoppeling \"%2$s\".</string>
-    <string name="guide_gesture_step4">Tik twee keer op de achterkant van je telefoon om te snoozen of te stoppen.</string>
-    <string name="guide_gesture_other">Zoek op andere telefoons naar een functie voor tikken op de achterkant of gebaren die een app-snelkoppeling kan openen, zoals RegiStar in Good Lock van Samsung.</string>
 
     <string name="guide_tasker_title">Tasker-plug-in</string>
     <string name="guide_tasker_intro">%1$s is een Tasker-plug-in. Laat Tasker je meldingen automatisch snoozen, bijvoorbeeld bij het slapengaan, tijdens vergaderingen of onder het rijden.</string>
