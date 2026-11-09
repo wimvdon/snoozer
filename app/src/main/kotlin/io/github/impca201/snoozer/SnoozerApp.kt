@@ -4,6 +4,7 @@ import android.app.Application
 import android.app.NotificationManager
 import android.content.ComponentName
 import android.content.Context
+import android.content.pm.ShortcutManager
 import android.service.notification.NotificationListenerService
 import android.service.quicksettings.TileService
 import android.util.Log
@@ -12,7 +13,6 @@ import io.github.impca201.snoozer.service.NotificationAccess
 import io.github.impca201.snoozer.service.SnoozeIndicator
 import io.github.impca201.snoozer.service.SnoozeListenerService
 import io.github.impca201.snoozer.service.SnoozeMode
-import io.github.impca201.snoozer.shortcut.Shortcuts
 import io.github.impca201.snoozer.tile.SnoozeTileService
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
@@ -32,7 +32,8 @@ class SnoozerApp : Application() {
     override fun onCreate() {
         super.onCreate()
         SnoozeIndicator.createChannel(this)
-        Shortcuts.publish(this)
+        // 1.5.7 published its shortcut from code; without this it would show twice.
+        getSystemService(ShortcutManager::class.java)?.removeAllDynamicShortcuts()
         removeDoLaterLeftovers()
         appScope.launch {
             repository.snoozeEnabled.filterNotNull().collect { onSnoozeStateChanged() }
