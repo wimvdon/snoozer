@@ -7,7 +7,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.mutableStateOf
-import io.github.impca201.snoozer.shortcut.Shortcuts
 import io.github.impca201.snoozer.ui.theme.SnoozerAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -18,8 +17,6 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) requestedDestination.value = destinationFrom(intent)
-        // In the foreground Android doesn't limit this; it also picks up a changed language.
-        Shortcuts.publish(this, force = true)
 
         setContent {
             SnoozerAppTheme {
