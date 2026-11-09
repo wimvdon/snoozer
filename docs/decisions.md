@@ -1,5 +1,22 @@
 # Technical decisions
 
+## 2026-11-09: The launcher shortcut is published from code, so Quick Tap returns to the open app
+
+With the shortcut set as Pixel Quick Tap, the app the owner was in disappeared and the launcher
+showed. Android adds `FLAG_ACTIVITY_NEW_TASK | FLAG_ACTIVITY_CLEAR_TASK | FLAG_ACTIVITY_TASK_ON_HOME`
+to the first intent of every manifest (`res/xml/shortcuts.xml`) shortcut (AOSP `ShortcutParser`),
+and `TASK_ON_HOME` puts the home screen behind the shortcut's task. The shortcut is now a dynamic
+shortcut (`Shortcuts.publish`, at app start when it is missing and every time Snoozer opens) whose
+intent carries only `FLAG_ACTIVITY_NEW_TASK`, so closing the invisible `ShortcutActivity` returns
+to the app the user was in. Quick Tap lists dynamic shortcuts too. The action
+`io.github.impca201.snoozer.action.TOGGLE` is unchanged; the id is new (`snooze_toggle` instead of
+`toggle_snooze`), because Android keeps a pinned manifest shortcut locked under its id and
+publishing that id again would fail. Cost: a copy of the old shortcut pinned to a home screen is
+greyed out, and Quick Tap has to be pointed at the shortcut again once. The debug copy of
+`shortcuts.xml` is gone: the intent names the installed package itself. Rejected: keeping the
+manifest shortcut and bringing the previous app back afterwards (an app can't see other apps'
+tasks).
+
 ## 2026-11-06: "Do later" removed
 
 The "Do later" feature of versions 1.5.1 to 1.5.3 (a widget and quiet notifications for single notifications put aside) is removed at the owner's request; the code is back to how it was before. One cleanup stays, because those versions stored notification titles and texts on the phone: `RemoveKeysMigration` deletes their keys from the device-state file, and `SnoozerApp` deletes the `later` notification channel (and with it any of its notifications) and the stored icons. It can be dropped once no phone runs 1.5.1 to 1.5.3 any more. A widget or "Do later" shortcut already on a home screen is removed or greyed out by the launcher, because its target no longer exists.
@@ -76,7 +93,7 @@ Snoozer now follows the same rules, layout and workflows as the private `wimvdon
 - **Rules for Claude Code sessions** in `CLAUDE.md`; a plain-language pull request template; weekly Dependabot updates for Gradle and GitHub Actions.
 - **CI** now also runs lint (errors fail the build) and the release-script tests, cancels outdated runs, and uploads `snoozer-<version>-debug.apk` unzipped so it installs straight from the download.
 - **Release workflow** from the template: version maths in `scripts/release_version.py` (unit tested), the signing key checked before the build (`scripts/VerifySigningKey.java`), tests and lint before a signed build, and the R8 mapping file attached to each release. It publishes with `gh release create` instead of a third-party action, one fewer dependency with write access. The old secret names without `ANDROID_` keep working.
-- **Debug builds get `applicationIdSuffix = ".debug"` and the name "Snoozer Dev"** (`src/debug/res/values/strings.xml`), so a pull request's APK installs next to the released app and can be told apart in the launcher and the notification access list. Two things name the package and follow it: the static launcher shortcut (a copy in `src/debug/res/xml/`, because `shortcuts.xml` cannot use placeholders) and the Follow Bedtime adb commands (now built from the installed package name).
+- **Debug builds get `applicationIdSuffix = ".debug"` and the name "Snoozer Dev"** (`src/debug/res/values/strings.xml`), so a pull request's APK installs next to the released app and can be told apart in the launcher and the notification access list. Two things name the package and follow it: the launcher shortcut (until 2026-11-09 a copy in `src/debug/res/xml/`; it is now published from code with the installed package) and the Follow Bedtime adb commands (now built from the installed package name).
 - **Sources moved from `src/*/java/` to `src/*/kotlin/`**, the template's layout. No code changed.
 - **Kept on purpose, unlike the template:** `minSdk` 26 (Android 8.0) instead of 31. Snoozer is released and supports Android 8.0+; raising it would stop updates for users on older phones. Also kept: the ktlint settings in `.editorconfig` (140 columns), `build.bat`, six languages instead of two, and the existing `docs/` set.
 

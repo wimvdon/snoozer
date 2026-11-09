@@ -54,8 +54,9 @@ Secrets, keystores (`*.jks`, `*.keystore`), `keystore.properties`, passwords or 
   file (never backed up). See `docs/architecture.md`, "Backup".
 - Dependency versions live only in `gradle/libs.versions.toml`.
 - Versions are automatic (git tags / release workflow). Don't edit `versionName`/`versionCode`.
-- A change to `app/src/main/res/xml/shortcuts.xml` must also be made in
-  `app/src/debug/res/xml/shortcuts.xml` (the debug build's copy with the `.debug` package).
+- The launcher shortcut is published from code (`shortcut/Shortcuts.kt`), not declared in
+  `res/xml`: Android adds FLAG_ACTIVITY_TASK_ON_HOME to manifest shortcuts, which sends Quick Tap
+  users to the home screen. Don't move it back to a `shortcuts.xml`.
 
 ## Keep docs in sync
 - Behaviour change → update `docs/` and, if it touches data or permissions, `PRIVACY.md`.
