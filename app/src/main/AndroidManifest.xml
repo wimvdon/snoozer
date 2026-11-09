@@ -50,9 +50,6 @@
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
             </intent-filter>
-            <meta-data
-                android:name="android.app.shortcuts"
-                android:resource="@xml/shortcuts" />
         </activity>
 
         <!-- Invisible trampoline used by the launcher shortcut. Not exported: shortcuts
@@ -63,16 +60,6 @@
             android:exported="false"
             android:noHistory="true"
             android:taskAffinity=""
-            android:theme="@android:style/Theme.NoDisplay" />
-
-        <!-- Second step of the shortcut: toggles in a task of its own, started without
-             FLAG_ACTIVITY_TASK_ON_HOME, so closing it returns to the app the user was in. -->
-        <activity
-            android:name=".shortcut.ShortcutActionActivity"
-            android:excludeFromRecents="true"
-            android:exported="false"
-            android:noHistory="true"
-            android:taskAffinity="io.github.impca201.snoozer.shortcut"
             android:theme="@android:style/Theme.NoDisplay" />
 
         <!-- Tasker / Locale plug-in: action configuration screen. -->

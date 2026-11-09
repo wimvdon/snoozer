@@ -1,5 +1,17 @@
 # Technical decisions
 
+## 2026-11-09: The shortcut is published from code again; the relay is gone
+
+The relay below did not help: Quick Tap still showed the home screen. AOSP `Task.moveToFront`
+moves the home screen behind any task whose first intent has `FLAG_ACTIVITY_NEW_TASK |
+FLAG_ACTIVITY_TASK_ON_HOME` the moment that task starts, so the relay's own task already put home
+in between. Only a shortcut that never gets `TASK_ON_HOME` avoids this: a dynamic shortcut
+published with `ShortcutManager` (`Shortcuts.publish`, id `snooze_toggle`, same action
+`io.github.impca201.snoozer.action.TOGGLE`). `ShortcutActionActivity` and both copies of
+`res/xml/shortcuts.xml` are removed. Open question: the first try (PR #47) could not be chosen in
+Quick Tap; the app now has to be opened once after installing so the shortcut exists before
+picking it. Rejected: a usage-access permission to bring the previous app back.
+
 ## 2026-11-09: The launcher shortcut goes through a relay, so Quick Tap returns to the open app
 
 With the shortcut set as Pixel Quick Tap, the app the owner was in disappeared and the launcher
