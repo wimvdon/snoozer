@@ -12,7 +12,6 @@ import io.github.impca201.snoozer.service.NotificationAccess
 import io.github.impca201.snoozer.service.SnoozeIndicator
 import io.github.impca201.snoozer.service.SnoozeListenerService
 import io.github.impca201.snoozer.service.SnoozeMode
-import io.github.impca201.snoozer.shortcut.Shortcuts
 import io.github.impca201.snoozer.tile.SnoozeTileService
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
@@ -32,7 +31,6 @@ class SnoozerApp : Application() {
     override fun onCreate() {
         super.onCreate()
         SnoozeIndicator.createChannel(this)
-        Shortcuts.publish(this)
         removeDoLaterLeftovers()
         appScope.launch {
             repository.snoozeEnabled.filterNotNull().collect { onSnoozeStateChanged() }

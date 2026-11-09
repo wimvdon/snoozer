@@ -56,14 +56,14 @@ There is no authentication: any app can fire the receiver, as with every Locale 
 
 ## Launcher shortcut
 
-Dynamic shortcut `snooze_toggle`, published from code (`shortcut/Shortcuts.kt`) when the app starts and whenever Snoozer opens. It used to be the static shortcut `toggle_snooze` in `res/xml/shortcuts.xml`; a copy of that one pinned to a home screen is now greyed out by the launcher.
+Static shortcut `toggle_snooze` (`res/xml/shortcuts.xml`):
 
 | | |
 |---|---|
 | Target | `io.github.impca201.snoozer.shortcut.ShortcutActivity` |
 | Action | `io.github.impca201.snoozer.action.TOGGLE` |
 | Exported | no; only the launcher (with Snoozer's identity) or gesture features such as Pixel Quick Tap can start it |
-| Effect | `toggleSnooze()`, then a toast "snoozed" / "unsnoozed". Without notification access it opens the access guide instead. |
+| Effect | Relays to `ShortcutActionActivity` in its own task (so Quick Tap returns to the open app), which runs `toggleSnooze()`, then a toast "snoozed" / "unsnoozed". Without notification access it opens the access guide instead. |
 
 ## Quick Settings tile
 

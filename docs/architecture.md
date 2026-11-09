@@ -34,7 +34,8 @@ No component calls another to "snooze now". They change state, and the listener 
 | `NotificationAccess` | `service/NotificationAccess.kt` | Checks the notification-listener grant and deep-links to the most specific settings screen available. |
 | `BedtimeMonitor` / `BedtimeParser` / `ProtoReader` | `bedtime/` | Experimental: runs `dumpsys notification --proto` and checks whether Pixel's Bedtime ("winddown") rule is among the active zen rules. |
 | `SnoozeTileService` | `tile/` | Toggleable Quick Settings tile; opens the access guide when access is missing. |
-| `ShortcutActivity` | `shortcut/` | Invisible trampoline behind the launcher shortcut: toggles and shows a toast. |
+| `ShortcutActivity` | `shortcut/` | Invisible relay behind the launcher shortcut: hands the action to `ShortcutActionActivity` in its own task, so Quick Tap returns to the open app. |
+| `ShortcutActionActivity` | `shortcut/` | Invisible second step: toggles and shows a toast. |
 | `TaskerEditActivity` / `TaskerFireReceiver` / `TaskerContract` | `tasker/` | Locale plug-in: configure and execute Snooze, Unsnooze or Toggle. |
 | `MainActivity` + `SnoozerNavigation` | `ui/` | Compose UI with an enum back stack (`Home`, `AccessGuide`, `Settings`). |
 
