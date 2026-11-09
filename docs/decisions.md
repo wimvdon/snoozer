@@ -1,5 +1,17 @@
 # Technical decisions
 
+## 2026-11-09: The launcher shortcut goes through a relay, so Quick Tap returns to the open app
+
+With the shortcut set as Pixel Quick Tap, the app the owner was in disappeared and the launcher
+showed. Android adds `FLAG_ACTIVITY_NEW_TASK | FLAG_ACTIVITY_CLEAR_TASK | FLAG_ACTIVITY_TASK_ON_HOME`
+to every manifest shortcut (AOSP `ShortcutParser`). That flag is only stored on the task at launch
+(`ActivityStarter`) and read when the task finishes (`Task.returnsToHomeRootTask`). So the shortcut
+still targets `ShortcutActivity` (same id `toggle_snooze`, same action), which is now an invisible
+relay: it starts `ShortcutActionActivity` in a task of its own (its own `taskAffinity`) with only
+`FLAG_ACTIVITY_NEW_TASK`, and closes; the action toggles and closes, and Android returns to the app
+the user was in. A first attempt (a dynamic shortcut published from code, PR #47) was reverted:
+Pixel Quick Tap only offers manifest shortcuts.
+
 ## 2026-11-06: "Do later" removed
 
 The "Do later" feature of versions 1.5.1 to 1.5.3 (a widget and quiet notifications for single notifications put aside) is removed at the owner's request; the code is back to how it was before. One cleanup stays, because those versions stored notification titles and texts on the phone: `RemoveKeysMigration` deletes their keys from the device-state file, and `SnoozerApp` deletes the `later` notification channel (and with it any of its notifications) and the stored icons. It can be dropped once no phone runs 1.5.1 to 1.5.3 any more. A widget or "Do later" shortcut already on a home screen is removed or greyed out by the launcher, because its target no longer exists.

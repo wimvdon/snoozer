@@ -63,7 +63,7 @@ Static shortcut `toggle_snooze` (`res/xml/shortcuts.xml`):
 | Target | `io.github.impca201.snoozer.shortcut.ShortcutActivity` |
 | Action | `io.github.impca201.snoozer.action.TOGGLE` |
 | Exported | no; only the launcher (with Snoozer's identity) or gesture features such as Pixel Quick Tap can start it |
-| Effect | `toggleSnooze()`, then a toast "snoozed" / "unsnoozed". Without notification access it opens the access guide instead. |
+| Effect | Relays to `ShortcutActionActivity` in its own task (so Quick Tap returns to the open app), which runs `toggleSnooze()`, then a toast "snoozed" / "unsnoozed". Without notification access it opens the access guide instead. |
 
 ## Quick Settings tile
 
