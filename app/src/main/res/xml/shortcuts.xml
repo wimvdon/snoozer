@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_toggle"
+        android:shortcutId="toggle_snooze"
+        android:shortcutLongLabel="@string/shortcut_toggle_long"
+        android:shortcutShortLabel="@string/shortcut_toggle_short">
+        <intent
+            android:action="io.github.impca201.snoozer.action.TOGGLE"
+            android:targetClass="io.github.impca201.snoozer.shortcut.ShortcutActivity"
+            android:targetPackage="io.github.impca201.snoozer" />
+    </shortcut>
+</shortcuts>

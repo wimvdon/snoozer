@@ -1,5 +1,16 @@
 # Technical decisions
 
+## 2026-11-09: The shortcut is back in the manifest, no relay
+
+Pixel Quick Tap shows no settings gear for an app without manifest shortcuts: the dynamic
+shortcut of 1.5.7 could not be chosen at all. The owner chose the gear over staying in the open
+app, so the shortcut is back in `res/xml/shortcuts.xml` (and the debug copy) with its original id
+`toggle_snooze` and the same action, pointing straight at `ShortcutActivity`. After a Quick Tap
+the home screen shows, because Android adds `FLAG_ACTIVITY_TASK_ON_HOME` to manifest shortcuts.
+The relay is not brought back: it made no difference. `SnoozerApp` removes the dynamic shortcut
+1.5.7 published. Rejected: a separate app-list entry for the action (Quick Tap would open it
+without the home screen, but it adds an icon to the app drawer).
+
 ## 2026-11-09: The shortcut is published from code again; the relay is gone
 
 The relay below did not help: Quick Tap still showed the home screen. AOSP `Task.moveToFront`
