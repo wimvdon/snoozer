@@ -361,18 +361,6 @@ private fun ShortcutsSection() {
                 ),
             )
         }
-        ExpandableSetting(key = "shortcuts-gesture", title = stringResource(R.string.guide_gesture_title)) {
-            InfoBanner(stringResource(R.string.guide_gesture_pixel_only))
-            NumberedSteps(
-                listOf(
-                    stringResource(R.string.guide_gesture_step1),
-                    stringResource(R.string.guide_gesture_step2),
-                    stringResource(R.string.guide_gesture_step3, appName, shortcutName),
-                    stringResource(R.string.guide_gesture_step4),
-                ),
-            )
-            SectionText(stringResource(R.string.guide_gesture_other))
-        }
     }
 }
 

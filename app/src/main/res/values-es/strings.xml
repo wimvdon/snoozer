@@ -47,7 +47,6 @@
     <string name="bedtime_step3">Conecta el teléfono a un ordenador con las herramientas de la plataforma Android (adb) y permite la depuración por USB cuando el teléfono lo pida.</string>
     <string name="bedtime_step4">Toca Copiar comandos, envía los comandos al ordenador y ejecútalos allí en una ventana de comandos.</string>
     <string name="bedtime_step5">Vuelve aquí y toca Comprobar ahora.</string>
-    <string name="guide_gesture_pixel_only">Solo disponible en teléfonos Pixel.</string>
     <string name="mode_trigger_description">Mientras Snoozer pospone las notificaciones</string>
     <string name="setting_indicator_title">Mostrar notificación persistente</string>
     <string name="setting_indicator_summary">Una notificación silenciosa con un botón Reanudar mientras se pospone</string>
@@ -95,7 +94,7 @@
 
     <string name="guide_tile_title">Icono de Ajustes rápidos</string>
     <string name="guide_shortcuts_title">Accesos directos</string>
-    <string name="guide_shortcuts_intro">Pospón o reanuda sin abrir la app: desde Ajustes rápidos, la pantalla de inicio o un gesto.</string>
+    <string name="guide_shortcuts_intro">Pospón o reanuda sin abrir la app: desde Ajustes rápidos o la pantalla de inicio.</string>
     <string name="guide_tile_quick_add_body">Tu teléfono puede añadir el icono por ti. Toca el botón y confirma.</string>
     <string name="guide_tile_quick_add_button">Añadir icono</string>
     <string name="guide_tile_result_added">Icono añadido. Desliza hacia abajo para encontrarlo.</string>
@@ -110,12 +109,6 @@
     <string name="guide_shortcut_step1">Mantén pulsado el icono de la app %1$s.</string>
     <string name="guide_shortcut_step2">Toca «%1$s» para activar o desactivar la función al instante.</string>
     <string name="guide_shortcut_step3">Opcional: arrastra el acceso directo a la pantalla de inicio para usarlo con un toque.</string>
-    <string name="guide_gesture_title">Gesto: toca la parte trasera del teléfono</string>
-    <string name="guide_gesture_step1">Abre Ajustes › Sistema › Gestos › Quick Tap para iniciar acciones.</string>
-    <string name="guide_gesture_step2">Activa Quick Tap y elige Abrir aplicación.</string>
-    <string name="guide_gesture_step3">Toca el icono de ajustes junto a %1$s y elige el acceso directo «%2$s».</string>
-    <string name="guide_gesture_step4">Toca dos veces la parte trasera del teléfono para posponer o reanudar.</string>
-    <string name="guide_gesture_other">En otros teléfonos, busca una función de toque trasero o de gestos que pueda abrir un acceso directo de app, como RegiStar en Good Lock de Samsung.</string>
 
     <string name="guide_tasker_title">Plugin de Tasker</string>
     <string name="guide_tasker_intro">%1$s es un plugin de Tasker. Deja que Tasker posponga tus notificaciones automáticamente, por ejemplo al acostarte, en reuniones o mientras conduces.</string>

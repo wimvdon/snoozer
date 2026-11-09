@@ -39,7 +39,7 @@ Open the cogwheel on the home screen.
 | **Persistent notification** | Off | Silent ongoing notification with status-bar icon and **Unsnooze** while snoozing. Asks for notification permission on Android 13+. If swiped away, it comes back. |
 | **Mode** (Android 15+) | Off | Turns on a system mode named "Snoozer" (or a custom name) while snoozing. Needs Do Not Disturb access. Configure its effects under Android **Settings › Modes**. Switching it off deletes the mode. |
 | **Follow Bedtime** (experimental) | Off | Snoozes when Pixel Bedtime starts and unsnoozes when it ends. Needs the one-time adb setup below. |
-| **Shortcuts** | — | Add the tile, and guides for the launcher shortcut and gestures |
+| **Shortcuts** | — | Add the tile, and a guide for the launcher shortcut |
 | **Tasker plugin** | — | Setup steps and links |
 
 ### Follow Bedtime setup
