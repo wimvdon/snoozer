@@ -2,6 +2,7 @@ package io.github.impca201.snoozer.shortcut
 
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.ShortcutManager
 import android.os.Bundle
 import android.widget.Toast
 import io.github.impca201.snoozer.R
@@ -21,6 +22,7 @@ class ShortcutActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (intent?.action == ACTION_TOGGLE) {
+            getSystemService(ShortcutManager::class.java)?.reportShortcutUsed(ToggleShortcut.ID)
             if (NotificationAccess.isGranted(this)) {
                 toggle()
             } else {

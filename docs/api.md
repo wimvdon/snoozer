@@ -56,7 +56,7 @@ There is no authentication: any app can fire the receiver, as with every Locale 
 
 ## Launcher shortcut
 
-Static shortcut `toggle_snooze` (`res/xml/shortcuts.xml`):
+Dynamic shortcut `snooze_toggle`, published from code (`shortcut/Shortcuts.kt`) when the app starts and whenever Snoozer opens. It used to be the static shortcut `toggle_snooze` in `res/xml/shortcuts.xml`; a copy of that one pinned to a home screen is now greyed out by the launcher.
 
 | | |
 |---|---|
