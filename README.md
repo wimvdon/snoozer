@@ -1,15 +1,15 @@
 # Snoozer
 
-## 📚 Documentation
+## Documentation
 | | |
 |---|---|
-| [⚙️ Architecture](docs/architecture.md) | System design, components and flow |
-| [📁 Structure](docs/structure.md) | Project organization and responsibilities |
-| [🚀 Installation](docs/installation.md) | Requirements and steps to run the project |
-| [🧠 Technical decisions](docs/decisions.md) | Trade-offs and design justifications |
-| [📖 Usage guide](docs/usage.md) | How to use the app, settings and automation |
-| [🔌 API](docs/api.md) | Tasker plug-in, launcher shortcut and other entry points |
-| [🧪 Testing](docs/testing.md) | How to run tests and what they cover |
+| [Architecture](docs/architecture.md) | System design, components and flow |
+| [Structure](docs/structure.md) | Project organization and responsibilities |
+| [Installation](docs/installation.md) | Requirements and steps to run the project |
+| [Technical decisions](docs/decisions.md) | Trade-offs and design justifications |
+| [Usage guide](docs/usage.md) | How to use the app, settings and automation |
+| [API](docs/api.md) | Tasker plug-in, launcher shortcut and other entry points |
+| [Testing](docs/testing.md) | How to run tests and what they cover |
 
 ---
 
