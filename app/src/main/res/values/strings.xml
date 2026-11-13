@@ -111,7 +111,7 @@
     <string name="guide_tile_result_added">Tile added. Swipe down to find it.</string>
     <string name="guide_tile_result_already">The tile is already in your Quick Settings.</string>
     <string name="guide_tile_result_not_added">The tile was not added.</string>
-    <string name="guide_tile_result_error">Your phone couldn\'t add the tile automatically. Please follow the steps below.</string>
+    <string name="guide_tile_result_error">Your phone couldn\'t add the tile automatically. Follow the steps below.</string>
     <string name="guide_tile_step1">Swipe down twice from the top of the screen to open Quick Settings.</string>
     <string name="guide_tile_step2">Tap the button to edit your tiles.</string>
     <string name="guide_tile_step3">Find the \"%1$s\" tile and drag it to your active tiles.</string>
