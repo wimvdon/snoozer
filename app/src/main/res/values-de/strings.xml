@@ -99,7 +99,7 @@
     <string name="guide_tile_result_added">Kachel hinzugefügt. Wische nach unten, um sie zu finden.</string>
     <string name="guide_tile_result_already">Die Kachel ist bereits in deinen Schnelleinstellungen.</string>
     <string name="guide_tile_result_not_added">Die Kachel wurde nicht hinzugefügt.</string>
-    <string name="guide_tile_result_error">Dein Smartphone konnte die Kachel nicht automatisch hinzufügen. Folge bitte den Schritten unten.</string>
+    <string name="guide_tile_result_error">Dein Smartphone konnte die Kachel nicht automatisch hinzufügen. Folge den Schritten unten.</string>
     <string name="guide_tile_step1">Wische zweimal vom oberen Bildschirmrand nach unten, um die Schnelleinstellungen zu öffnen.</string>
     <string name="guide_tile_step2">Tippe auf die Schaltfläche zum Bearbeiten der Kacheln.</string>
     <string name="guide_tile_step3">Suche die Kachel „%1$s“ und ziehe sie zu deinen aktiven Kacheln.</string>
