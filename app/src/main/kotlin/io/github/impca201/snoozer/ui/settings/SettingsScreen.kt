@@ -240,7 +240,7 @@ private fun BedtimeSection(
         SettingsBlock { InfoBanner(stringResource(R.string.bedtime_experimental)) }
         SwitchSetting(
             title = stringResource(R.string.setting_bedtime_title),
-            summary = stringResource(R.string.setting_bedtime_summary),
+            summary = null,
             checked = state.followBedtime,
             onCheckedChange = actions.onFollowBedtimeChange,
             // Needs the adb permissions first; switching off always stays possible.

@@ -31,7 +31,6 @@
     <string name="setting_mode_name_label">Name des Modus</string>
     <string name="section_bedtime">Schlafenszeit folgen</string>
     <string name="setting_bedtime_title">Während der Schlafenszeit schlummern</string>
-    <string name="setting_bedtime_summary">Lässt Benachrichtigungen schlummern, wenn der Schlafenszeitmodus beginnt, und weckt sie, wenn er endet</string>
     <string name="bedtime_setup_title">Einmalige Einrichtung</string>
     <string name="bedtime_setup">Wiederhole das nach einer Neuinstallation von Snoozer. Bei Updates bleiben die Berechtigungen erhalten.</string>
     <string name="bedtime_copy">Befehle kopieren</string>
@@ -103,14 +102,14 @@
     <string name="guide_tile_step1">Wische zweimal vom oberen Bildschirmrand nach unten, um die Schnelleinstellungen zu öffnen.</string>
     <string name="guide_tile_step2">Tippe auf die Schaltfläche zum Bearbeiten der Kacheln.</string>
     <string name="guide_tile_step3">Suche die Kachel „%1$s“ und ziehe sie zu deinen aktiven Kacheln.</string>
-    <string name="guide_tile_step4">Tippe auf die Kachel, um das Schlummern ein- oder auszuschalten. Halte sie gedrückt, um Snoozer zu öffnen.</string>
+    <string name="guide_tile_step4">Halte die Kachel gedrückt, um Snoozer zu öffnen.</string>
     <string name="guide_shortcut_title">Verknüpfung auf dem Startbildschirm</string>
     <string name="guide_shortcut_step1">Halte das App-Symbol von %1$s gedrückt.</string>
     <string name="guide_shortcut_step2">Tippe auf „%1$s“, um das Schlummern sofort ein- oder auszuschalten.</string>
     <string name="guide_shortcut_step3">Optional: Ziehe die Verknüpfung auf den Startbildschirm, um sie mit einem Tippen zu erreichen.</string>
 
     <string name="guide_tasker_title">Tasker-Plug-in</string>
-    <string name="guide_tasker_intro">%1$s ist ein Tasker-Plug-in. Lass Tasker deine Benachrichtigungen automatisch schlummern, zum Beispiel zur Schlafenszeit, in Besprechungen oder beim Autofahren.</string>
+    <string name="guide_tasker_intro">%1$s ist ein Tasker-Plug-in: Tasker kann deine Benachrichtigungen automatisch schlummern lassen, zum Beispiel zur Schlafenszeit.</string>
     <string name="guide_tasker_open">Tasker öffnen</string>
     <string name="guide_tasker_get">Tasker herunterladen</string>
     <string name="guide_tasker_steps_title">Snoozer-Aktion hinzufügen</string>

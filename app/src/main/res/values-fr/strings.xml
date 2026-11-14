@@ -31,7 +31,6 @@
     <string name="setting_mode_name_label">Nom du mode</string>
     <string name="section_bedtime">Suivre le Coucher</string>
     <string name="setting_bedtime_title">Mettre en pause pendant le Coucher</string>
-    <string name="setting_bedtime_summary">Met en pause quand le mode Coucher commence et reprend quand il se termine</string>
     <string name="bedtime_setup_title">Configuration unique</string>
     <string name="bedtime_setup">Recommencez après avoir réinstallé Snoozer. Les mises à jour conservent les autorisations.</string>
     <string name="bedtime_copy">Copier les commandes</string>
@@ -104,14 +103,14 @@
     <string name="guide_tile_step1">Balayez deux fois vers le bas depuis le haut de l\'écran pour ouvrir les Réglages rapides.</string>
     <string name="guide_tile_step2">Appuyez sur le bouton de modification des blocs.</string>
     <string name="guide_tile_step3">Trouvez le bloc « %1$s » et faites-le glisser vers vos blocs actifs.</string>
-    <string name="guide_tile_step4">Appuyez sur le bloc pour activer ou désactiver la pause. Appuyez de manière prolongée pour ouvrir Snoozer.</string>
+    <string name="guide_tile_step4">Appuyez de manière prolongée sur le bloc pour ouvrir Snoozer.</string>
     <string name="guide_shortcut_title">Raccourci sur l\'écran d\'accueil</string>
     <string name="guide_shortcut_step1">Appuyez de manière prolongée sur l\'icône de %1$s.</string>
     <string name="guide_shortcut_step2">Appuyez sur « %1$s » pour activer ou désactiver la pause instantanément.</string>
     <string name="guide_shortcut_step3">Facultatif : faites glisser le raccourci sur l\'écran d\'accueil pour y accéder d\'un geste.</string>
 
     <string name="guide_tasker_title">Plug-in Tasker</string>
-    <string name="guide_tasker_intro">%1$s est un plug-in Tasker. Laissez Tasker mettre vos notifications en pause automatiquement, par exemple au coucher, en réunion ou au volant.</string>
+    <string name="guide_tasker_intro">%1$s est un plug-in Tasker : Tasker peut mettre vos notifications en pause automatiquement, par exemple au coucher.</string>
     <string name="guide_tasker_open">Ouvrir Tasker</string>
     <string name="guide_tasker_get">Obtenir Tasker</string>
     <string name="guide_tasker_steps_title">Ajouter l\'action Snoozer</string>

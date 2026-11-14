@@ -31,7 +31,6 @@
     <string name="setting_mode_name_label">Nombre del modo</string>
     <string name="section_bedtime">Seguir Hora de dormir</string>
     <string name="setting_bedtime_title">Posponer durante Hora de dormir</string>
-    <string name="setting_bedtime_summary">Pospone cuando empieza el modo Hora de dormir y reanuda cuando termina</string>
     <string name="bedtime_setup_title">Configuración única</string>
     <string name="bedtime_setup">Repítelo después de reinstalar Snoozer. Las actualizaciones conservan los permisos.</string>
     <string name="bedtime_copy">Copiar comandos</string>
@@ -104,14 +103,14 @@
     <string name="guide_tile_step1">Desliza dos veces hacia abajo desde la parte superior de la pantalla para abrir los Ajustes rápidos.</string>
     <string name="guide_tile_step2">Toca el botón para editar los iconos.</string>
     <string name="guide_tile_step3">Busca el icono «%1$s» y arrástralo a tus iconos activos.</string>
-    <string name="guide_tile_step4">Toca el icono para activar o desactivar la función. Mantenlo pulsado para abrir Snoozer.</string>
+    <string name="guide_tile_step4">Mantén pulsado el icono para abrir Snoozer.</string>
     <string name="guide_shortcut_title">Acceso directo en la pantalla de inicio</string>
     <string name="guide_shortcut_step1">Mantén pulsado el icono de la app %1$s.</string>
     <string name="guide_shortcut_step2">Toca «%1$s» para activar o desactivar la función al instante.</string>
     <string name="guide_shortcut_step3">Opcional: arrastra el acceso directo a la pantalla de inicio para usarlo con un toque.</string>
 
     <string name="guide_tasker_title">Plugin de Tasker</string>
-    <string name="guide_tasker_intro">%1$s es un plugin de Tasker. Deja que Tasker posponga tus notificaciones automáticamente, por ejemplo al acostarte, en reuniones o mientras conduces.</string>
+    <string name="guide_tasker_intro">%1$s es un plugin de Tasker: Tasker puede posponer tus notificaciones automáticamente, por ejemplo al acostarte.</string>
     <string name="guide_tasker_open">Abrir Tasker</string>
     <string name="guide_tasker_get">Conseguir Tasker</string>
     <string name="guide_tasker_steps_title">Añadir la acción de Snoozer</string>
