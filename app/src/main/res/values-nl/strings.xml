@@ -31,7 +31,6 @@
     <string name="setting_mode_name_label">Naam van modus</string>
     <string name="section_bedtime">Bedtijd volgen</string>
     <string name="setting_bedtime_title">Snoozen tijdens Bedtijd</string>
-    <string name="setting_bedtime_summary">Snoozet als de Bedtijdmodus begint en stopt als hij eindigt</string>
     <string name="bedtime_setup_title">Eenmalige instelling</string>
     <string name="bedtime_setup">Doe dit opnieuw na het herinstalleren van Snoozer. Bij updates blijven de rechten behouden.</string>
     <string name="bedtime_copy">Opdrachten kopiëren</string>
@@ -103,14 +102,14 @@
     <string name="guide_tile_step1">Veeg twee keer omlaag vanaf de bovenkant van het scherm om de snelle instellingen te openen.</string>
     <string name="guide_tile_step2">Tik op de knop om je tegels te bewerken.</string>
     <string name="guide_tile_step3">Zoek de tegel \"%1$s\" en sleep hem naar je actieve tegels.</string>
-    <string name="guide_tile_step4">Tik op de tegel om snoozen aan of uit te zetten. Houd hem ingedrukt om Snoozer te openen.</string>
+    <string name="guide_tile_step4">Houd de tegel ingedrukt om Snoozer te openen.</string>
     <string name="guide_shortcut_title">Snelkoppeling op het startscherm</string>
     <string name="guide_shortcut_step1">Houd het app-icoon van %1$s ingedrukt.</string>
     <string name="guide_shortcut_step2">Tik op \"%1$s\" om snoozen direct aan of uit te zetten.</string>
     <string name="guide_shortcut_step3">Optioneel: sleep de snelkoppeling naar je startscherm voor toegang met één tik.</string>
 
     <string name="guide_tasker_title">Tasker-plug-in</string>
-    <string name="guide_tasker_intro">%1$s is een Tasker-plug-in. Laat Tasker je meldingen automatisch snoozen, bijvoorbeeld bij het slapengaan, tijdens vergaderingen of onder het rijden.</string>
+    <string name="guide_tasker_intro">%1$s is een Tasker-plug-in: Tasker kan je meldingen automatisch snoozen, bijvoorbeeld bij het slapengaan.</string>
     <string name="guide_tasker_open">Tasker openen</string>
     <string name="guide_tasker_get">Tasker downloaden</string>
     <string name="guide_tasker_steps_title">De Snoozer-actie toevoegen</string>

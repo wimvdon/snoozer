@@ -31,7 +31,6 @@
     <string name="setting_mode_name_label">Nome della modalità</string>
     <string name="section_bedtime">Segui Ora di andare a letto</string>
     <string name="setting_bedtime_title">Posticipa durante Ora di andare a letto</string>
-    <string name="setting_bedtime_summary">Posticipa quando inizia la modalità Ora di andare a letto e riprende quando finisce</string>
     <string name="bedtime_setup_title">Configurazione iniziale</string>
     <string name="bedtime_setup">Ripeti dopo aver reinstallato Snoozer. Con gli aggiornamenti le autorizzazioni restano.</string>
     <string name="bedtime_copy">Copia comandi</string>
@@ -104,14 +103,14 @@
     <string name="guide_tile_step1">Scorri due volte verso il basso dalla parte superiore dello schermo per aprire le Impostazioni rapide.</string>
     <string name="guide_tile_step2">Tocca il pulsante per modificare i riquadri.</string>
     <string name="guide_tile_step3">Trova il riquadro \"%1$s\" e trascinalo tra i riquadri attivi.</string>
-    <string name="guide_tile_step4">Tocca il riquadro per attivare o disattivare la funzione. Tienilo premuto per aprire Snoozer.</string>
+    <string name="guide_tile_step4">Tieni premuto il riquadro per aprire Snoozer.</string>
     <string name="guide_shortcut_title">Scorciatoia nella schermata Home</string>
     <string name="guide_shortcut_step1">Tieni premuta l\'icona dell\'app %1$s.</string>
     <string name="guide_shortcut_step2">Tocca \"%1$s\" per attivare o disattivare subito la funzione.</string>
     <string name="guide_shortcut_step3">Facoltativo: trascina la scorciatoia nella schermata Home per un accesso con un tocco.</string>
 
     <string name="guide_tasker_title">Plug-in di Tasker</string>
-    <string name="guide_tasker_intro">%1$s è un plug-in di Tasker. Lascia che Tasker posticipi le notifiche automaticamente, ad esempio quando vai a dormire, durante le riunioni o alla guida.</string>
+    <string name="guide_tasker_intro">%1$s è un plug-in di Tasker: Tasker può posticipare le notifiche automaticamente, ad esempio quando vai a dormire.</string>
     <string name="guide_tasker_open">Apri Tasker</string>
     <string name="guide_tasker_get">Scarica Tasker</string>
     <string name="guide_tasker_steps_title">Aggiungi l\'azione Snoozer</string>
