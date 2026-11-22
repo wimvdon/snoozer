@@ -1,5 +1,15 @@
 # Technical decisions
 
+## 2026-11-22: New icon: a bell with a Z
+
+Part of the owner's icon family for all apps: one meaningful shape with one gradient on a soft
+plate tinted with the app colour, never white. Snoozer's icon is now the bell itself (teal →
+blue → indigo) with one fat Z on it in the plate's colour, instead of a white bell on the
+toggle's cookie shape. The plate is `drawable/ic_launcher_background.xml` (`#ECF2FB` →
+`#D8E5F8`). The status bar icon, Quick Settings tile and Do Not Disturb mode icon
+(`ic_tile`) are the same bell, and the home-screen shortcut shows the app icon on its plate.
+Chosen by the owner from four mockups (round 20).
+
 ## 2026-11-09: No Quick Tap guide in the app
 
 The Shortcuts section no longer has the "Gesture: tap the back of your phone" guide, at the
