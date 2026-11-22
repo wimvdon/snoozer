@@ -18,9 +18,12 @@ unchanged to every app. Only the "This app" section belongs to this repository.
 - A detail inside the shape (a check, a play button) is solid in the plate's colour, not a
   hole and not white, so the icon also reads without its plate.
 - A themed (monochrome) layer: the same shape, with the detail cut out or half transparent.
-- Every other icon of the app follows the same shape: the status bar (notification) icon, Quick
-  Settings tiles, home-screen shortcuts (on the same plate), TV banners, in-app logos, and web
-  favicons, PWA and extension icons.
+- Every other icon of the app follows the same shape. Only icons the system shows as a tile
+  carry the plate: the launcher icon, home-screen shortcuts, TV banners and the icons of an
+  installed web app on a phone (maskable and Apple touch icons). Everywhere else the shape
+  stands on its own, without a plate: in-app logos, the TV home row logo, the status bar
+  (notification) icon, Quick Settings tiles, web favicons, desktop web app icons and extension
+  icons.
 
 | App | Shape | Gradient | Plate |
 | --- | --- | --- | --- |
