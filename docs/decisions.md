@@ -1,5 +1,18 @@
 # Technical decisions
 
+## 2026-11-22: Icons: same padding in every app, white background, white details; colour scheme follows the icon
+
+Part of the owner's icon family for all apps. Snoozer goes back to the icon from before the
+"bell with a Z" change: the nine-lobed cookie (teal → blue → indigo) with a white bell, now with
+a Z cut into the bell and the bell 22% larger. Launcher foreground and themed layer sit in one
+padding group (pivot 54, 53.375, scale 0.8903, translate 0, 0.625) so the shape's furthest
+point is 26.3 units from the middle of the canvas. The adaptive-icon background is plain white
+and the home-screen shortcut shows the launcher icon on it (`src/main/res/xml/shortcuts.xml` and
+the debug copy needed no change). The status bar, Quick Settings tile and Do Not Disturb icon
+(`ic_tile`) are the bare bell with the Z, the same shape as `ic_notifications_paused`. The app
+has no plate behind its logo, and the colour scheme already used the icon's middle stop
+`#3E7BDA` as seed, so it did not change.
+
 ## 2026-11-22: New icon: a bell with a Z
 
 Part of the owner's icon family for all apps: one meaningful shape with one gradient on a soft
